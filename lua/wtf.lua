@@ -42,7 +42,17 @@ function wtf.ai()
   local diagnostic = get_diagnostic()
   if diagnostic then
     print("Generating explanation...")
-    vim.cmd.Chat("question Explain this " .. diagnostic.filetype .. " error:" .. diagnostic.message)
+
+    vim.g["codegpt_popup_type"] = wtf.options.popup_type
+
+    vim.g["codegpt_commands"] = {
+      ["wtf"] = {
+        system_message_template = "You are {{language}} expert.",
+        callback_type = "code_popup",
+      },
+    }
+
+    vim.cmd.Chat("wtf Explain this error:" .. diagnostic.message)
   end
 end
 
