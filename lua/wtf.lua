@@ -40,6 +40,7 @@ end
 function wtf.ai()
   local diagnostic = get_diagnostic()
   if diagnostic then
+    print("Generating explanation...")
     vim.cmd.Chat("Explain this " .. diagnostic.filetype .. " error:" .. diagnostic.message)
   end
 end
