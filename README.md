@@ -1,6 +1,6 @@
 # wtf.nvim
 
-Work out WTF that diagnostic is all about. Helps debug and explain what errors or warnings mean with the context of the surrounding code.
+Work out WTF that diagnostic means! wtf.nvim helps you debug and explain what LSP errors and warnings by sending the diagnostic to ChatGPT or searching the web for answers. wtf.nvim uses your code and context to provide more accurate solutions leading to quicker fixes. Works with any language that has LSP support in Neovim.
 
 ## Functionality
 
@@ -27,7 +27,7 @@ Install the plugin with your preferred package manager:
 	},
 	keys = {
 		{
-			"gW",
+			"gw",
 			mode = { "n" },
 			function()
 				require("wtf").ai()
@@ -36,7 +36,7 @@ Install the plugin with your preferred package manager:
 		},
 		{
 			mode = { "n" },
-			"<leader>A",
+			"gW",
 			function()
 				require("wtf").search()
 			end,
@@ -49,4 +49,3 @@ Install the plugin with your preferred package manager:
 ## Using
 
 Whenever you have an error in an LSP enabled environment, invoke your keymap on that line.
-
