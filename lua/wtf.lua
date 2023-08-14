@@ -47,12 +47,12 @@ function wtf.ai()
 
     vim.g["codegpt_commands"] = {
       ["wtf"] = {
-        system_message_template = "You are {{language}} expert.",
+        system_message_template = "You are a {{language}} expert.",
         callback_type = "code_popup",
       },
     }
 
-    vim.cmd.Chat("wtf Explain this error:" .. diagnostic.message)
+    vim.cmd.Chat("wtf Explain this error: {{filetype}}"  .. diagnostic.message)
   end
 end
 
