@@ -8,10 +8,14 @@ Work out WTF that diagnostic means! wtf.nvim helps you debug and explain what LS
 
 <table>
   <tr>
-    <th>Python Before</th>
-    <th>Python After</th>
+    <th></th>
+    <th>Before</th>
+    <th>After</th>
   </tr>
   <tr>
+    <td valign="middle">
+     Python
+    </td>
     <td>
       <img src="./screenshots/python-before.png" />
     </td>
@@ -20,10 +24,14 @@ Work out WTF that diagnostic means! wtf.nvim helps you debug and explain what LS
     </td>
   </tr>
   <tr>
-    <th>Typescript Before</th>
-    <th>Typescript After</th>
+    <th></th>
+    <th>Before</th>
+    <th>After</th>
   </tr>
   <tr>
+    <td valign="middle">
+     Typescript
+    </td>
     <td>
       <img src="./screenshots/typescript-before.png" />
     </td>
