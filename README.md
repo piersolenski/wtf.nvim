@@ -45,3 +45,4 @@ Install the plugin with your preferred package manager:
 ## Using
 
 Whenever you have an error in an LSP enabled environment, invoke your keymap on that line.
+
