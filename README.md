@@ -7,7 +7,7 @@ Work out WTF that diagnostic is all about. Helps debug and explain what errors o
 * Use AI to get answers in popup window
 * Search the web for answers 
 
-## Using
+## Installation
 
 If you want to use AI functionality, set the environment variable `OPENAI_API_KEY` to your [openai api key](https://platform.openai.com/account/api-keys).
 
@@ -41,3 +41,7 @@ Install the plugin with your preferred package manager:
 	},
 }
 ```
+
+## Using
+
+Whenever you have an error in an LSP enabled environment, invoke your keymap on that line.
