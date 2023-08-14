@@ -14,6 +14,9 @@ function wtf.setup(options)
 	-- mutations are hard to debug and test, so having them in a single
 	-- function/module makes it easier to reason about all possible changes
 	wtf.options = with_defaults(options)
+
+  vim.g["codegpt_horizontal_popup_size"] = "38%"
+  vim.g["codegpt_vertical_popup_size"] = "38%"
 end
 
 function wtf.is_configured()
