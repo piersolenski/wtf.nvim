@@ -24,11 +24,6 @@ Work out WTF that diagnostic means! wtf.nvim helps you debug and explain what LS
     </td>
   </tr>
   <tr>
-    <th></th>
-    <th>Before</th>
-    <th>After</th>
-  </tr>
-  <tr>
     <td valign="middle">
      Typescript
     </td>
