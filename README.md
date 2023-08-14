@@ -21,6 +21,10 @@ Install the plugin with your preferred package manager:
 	dependencies = {
 		"dpayne/CodeGPT.nvim", -- Optional, if you want to use AI
 	},
+  	opts = {
+        -- Default AI popup type
+		popup_type = "popup" | "horizontal" | "vertical",
+	},
 	keys = {
 		{
 			"gW",

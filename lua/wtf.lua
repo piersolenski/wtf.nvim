@@ -3,6 +3,7 @@ local wtf = {}
 local function with_defaults(options)
 	return {
 		search_engine = options.search_engine or "Google",
+    popup_type = options.popup_type or "popup"
 	}
 end
 
