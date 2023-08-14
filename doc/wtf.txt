@@ -1,0 +1,41 @@
+*wtf.txt*  Diagnostic debugging on crack
+
+==============================================================================
+CONTENTS                                          *my-awesome-plugin-contents*
+
+    1. Introduction ......................... |my-awesome-plugin-introduction|
+    2. Setup ................................ |my-awesome-plugin-setup|
+    3. Commands ............................. |my-awesome-plugin-commands|
+    4. API .................................. |my-awesome-plugin-api|
+
+==============================================================================
+1. INTRODUCTION                               *my-awesome-plugin-introduction*
+
+Debug your LSP diagnostic with ease, via AI or searching the web.
+
+==============================================================================
+2. SETUP                                             *my-awesome-plugin-setup*
+
+Make sure to add to call the setup function with the proper configuration on
+your `init` file.
+
+If you use `init.vim`: >
+
+    lua require('my_awesome_plugin').setup {}
+
+
+Or, if you use `init.lua`: >
+
+    require('my_awesome_plugin').setup {}
+
+==============================================================================
+3. COMMANDS                                       *my-awesome-plugin-commands*
+
+require("wtf").ai()
+
+Explain diagnostic with AI
+
+require("wtf").search()
+
+Search diagnostic on the web
+
