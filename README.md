@@ -4,8 +4,38 @@ Work out WTF that diagnostic means! wtf.nvim helps you debug and explain what LS
 
 ## Functionality
 
-* Use AI to get answers in popup window
-* Search the web for answers 
+## AI Diagnostic Debugging
+
+<table>
+  <tr>
+    <th>Python Before</th>
+    <th>Python After</th>
+  </tr>
+  <tr>
+    <td>
+      <img src="./screenshots/python-before.png" />
+    </td>
+    <td>
+      <img src="./screenshots/python-after.png" />
+    </td>
+  </tr>
+  <tr>
+    <th>Typescript Before</th>
+    <th>Typescript After</th>
+  </tr>
+  <tr>
+    <td>
+      <img src="./screenshots/typescript-before.png" />
+    </td>
+    <td>
+      <img src="./screenshots/typescript-after.png" />
+    </td>
+  </tr>
+</table>
+
+## Search the web for answers 
+
+![Google](./screenshots/google-search.png)
 
 ## Installation
 
@@ -49,3 +79,7 @@ Install the plugin with your preferred package manager:
 ## Using
 
 Whenever you have an error in an LSP enabled environment, invoke your keymap on that line.
+
+## Inspiration
+
+- [Pretty TypeScript Errors](https://github.com/yoavbls/pretty-ts-errors)
