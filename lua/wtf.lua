@@ -59,7 +59,6 @@ function wtf.ai()
   end
 end
 
-
 function wtf.search()
   local diagnostic = get_diagnostic()
   if diagnostic then
@@ -75,8 +74,7 @@ function wtf.search()
         opener_command = "xdg-open"
     end
 
-    local command = opener_command .. " " .. "'" .. google_search_url .. "'"
-    print(command)
+    local command = opener_command .. " " .. '"' .. google_search_url .. '"'
 
     -- Open the URL using the appropriate command
     vim.fn.system(command)
