@@ -4,7 +4,7 @@ Work out WTF that diagnostic means! wtf.nvim helps you debug and explain what LS
 
 ## Functionality
 
-## AI Diagnostic Debugging
+## AI powered diagnostic debugging
 
 <table>
   <tr>
