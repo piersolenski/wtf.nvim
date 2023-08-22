@@ -1,3 +1,38 @@
+local M = {}
+local status_index = 0
+local progress_bar_dots = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+
+WTF_CALLBACK_COUNTER = 0
+
+function M.get_status()
+  if WTF_CALLBACK_COUNTER > 0 then
+    status_index = status_index + 1
+    if status_index > #progress_bar_dots then
+      status_index = 1
+    end
+    return progress_bar_dots[status_index]
+  else
+    return ""
+  end
+end
+
+local function run_started_hook()
+  if vim.g["wtf_hooks"]["request_started"] ~= nil then
+    vim.g["wtf_hooks"]["request_started"]()
+  end
+
+  WTF_CALLBACK_COUNTER = WTF_CALLBACK_COUNTER + 1
+end
+
+local function run_finished_hook()
+  WTF_CALLBACK_COUNTER = WTF_CALLBACK_COUNTER - 1
+  if WTF_CALLBACK_COUNTER <= 0 then
+    if vim.g["wtf_hooks"]["request_finished"] ~= nil then
+      vim.g["wtf_hooks"]["request_finished"]()
+    end
+  end
+end
+
 local function get_model_id()
   local model = vim.g.wtf_openai_model_id
   if model == nil then
@@ -27,7 +62,7 @@ local function get_api_key()
   return api_key
 end
 
-local function gpt_request(messages, callback, callbackTable)
+function M.request(messages, callback, callbackTable)
   local api_key = get_api_key()
 
   if api_key == nil then
@@ -64,6 +99,8 @@ local function gpt_request(messages, callback, callbackTable)
   -- Check if the user is on windows
   local isWindows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
 
+  run_started_hook()
+
   if isWindows ~= true then
     -- Linux
     curlRequest = string.format(
@@ -99,15 +136,18 @@ local function gpt_request(messages, callback, callbackTable)
           response = "nil"
         end
         print("Bad or no response: " .. response)
+        run_finished_hook()
         return nil
       end
 
       if responseTable.error ~= nil then
         print("OpenAI Error: " .. responseTable.error.message)
+        run_finished_hook()
         return nil
       end
 
       callback(responseTable, callbackTable)
+      run_finished_hook()
     end,
     on_stderr = function(_, data, _)
       return data
@@ -118,4 +158,4 @@ local function gpt_request(messages, callback, callbackTable)
   })
 end
 
-return gpt_request
+return M

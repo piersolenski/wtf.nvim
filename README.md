@@ -2,7 +2,7 @@
 
 A Neovim plugin to help you work out WTF that diagnostic means! 
 
-wtf.nvim provides faster and more efficient ways of working with the buffer line's diagnostic messages by redirecting them to tools straight from Neovim. 
+`wtf.nvim` provides faster and more efficient ways of working with the buffer line's diagnostic messages by redirecting them to tools straight from Neovim. 
 
 Works with any language that has LSP support in Neovim.
 
@@ -142,18 +142,35 @@ use({
 
 ## 🚀 Usage
 
-wtf.nvim works by sending the line's diagnostic messages along with contextual information (such as the code, filetype and severity level) to various differing sources you can configure.
+`wtf.nvim` works by sending the line's diagnostic messages along with contextual information (such as the code, filetype and severity level) to various differing sources you can configure.
 
-Whenever you have an error in an LSP enabled environment, invoke a wtf.nvim command on that line:
+Whenever you have an error in an LSP enabled environment, invoke a command on that line:
 
 | User Command | Purpose |
 | -- | -- |
 | `:Wtf <additional_instructions>` | Sends the current line along with all diagnostic messages to ChatGPT.
 | `:WtfSearch <search_engine>` | Uses the specified search engine (or defaults to the one in the setup) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
 
+### Lualine Status Component
+
+There is a helper function `get_status` so that you can add a status component to [lualine](https://github.com/nvim-lualine/lualine.nvim).
+
+```lua
+local wtf = require("wtf")
+
+require('lualine').setup({
+    sections = {
+        -- ...
+        lualine_x = { wtf.get_status, "encoding", "fileformat" },
+        -- ...
+    }
+})
+```
+
 ## 💡 Inspiration
 
 - [Pretty TypeScript Errors](https://github.com/yoavbls/pretty-ts-errors)
 - [backseat.nvim](https://github.com/james1236/backseat.nvim/) 
+- [CodeGPT.nvim](https://github.com/dpayne/CodeGPT.nvim) 
 - [folke](https://github.com/folke/) 
 

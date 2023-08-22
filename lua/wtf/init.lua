@@ -1,5 +1,6 @@
 local ai = require("wtf.ai")
 local search = require("wtf.search")
+local gpt = require("wtf.gpt")
 
 local M = {}
 
@@ -29,6 +30,10 @@ end
 
 function M.search(opts)
   search(opts)
+end
+
+function M.get_status()
+  gpt.status()
 end
 
 return M
