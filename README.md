@@ -160,9 +160,7 @@ local wtf = require("wtf")
 
 require('lualine').setup({
     sections = {
-        -- ...
-        lualine_x = { wtf.get_status, "encoding", "fileformat" },
-        -- ...
+        lualine_x = { wtf.get_status },
     }
 })
 ```
