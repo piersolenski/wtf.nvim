@@ -1,6 +1,6 @@
 # 🤯 wtf.nvim
 
-A Neovim plugin to help you work out WTF that diagnostic means! 
+A Neovim plugin to help you work out *what the fudge* that diagnostic means! 
 
 `wtf.nvim` provides faster and more efficient ways of working with the buffer line's diagnostic messages by redirecting them to tools straight from Neovim. 
 
@@ -10,7 +10,8 @@ Works with any language that has LSP support in Neovim.
 
 ### AI powered diagnostic debugging
 
-Use the power of ChatGPT to provide you with explanations *and* solutions of how to fix hints, warnings and errors, custom tailored to the code responsible for them.
+
+Use the power of ChatGPT to provide you with explanations *and* solutions of how to fix diagnostics, custom tailored to the code responsible for them.
 
 <table>
   <tr>
@@ -44,7 +45,7 @@ Use the power of ChatGPT to provide you with explanations *and* solutions of how
 
 ### Search the web for answers 
 
-Why spend time typing out error messages when you can open them in Google, Stack Overflow and more, directly from Neovim?
+Why spend time typing out diagnostic messages when you can search for them in Google, Stack Overflow and more, directly from Neovim?
 
 <table>
   <tr>
@@ -144,12 +145,27 @@ use({
 
 `wtf.nvim` works by sending the line's diagnostic messages along with contextual information (such as the code, filetype and severity level) to various differing sources you can configure.
 
-Whenever you have an error in an LSP enabled environment, invoke a command on that line:
+Whenever you have an hint, warning or error in an LSP enabled environment, invoke a command on that line:
 
 | User Command | Purpose |
 | -- | -- |
 | `:Wtf <additional_instructions>` | Sends the current line along with all diagnostic messages to ChatGPT.
 | `:WtfSearch <search_engine>` | Uses the specified search engine (or defaults to the one in the setup) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
+
+### Custom status hooks
+
+You can add custom hooks to update your status line or other ui elements, for example, this code updates the status line colour to yellow whilst the request is in progress.
+
+```lua
+vim.g["wtf_hooks"] = {
+	request_started = function()
+		vim.cmd("hi StatusLine ctermbg=NONE ctermfg=yellow")
+	end,
+  request_finished = vim.schedule_wrap(function()
+		vim.cmd("hi StatusLine ctermbg=NONE ctermfg=NONE")
+	end)
+}
+```
 
 ### Lualine Status Component
 
