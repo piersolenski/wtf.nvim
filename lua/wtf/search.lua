@@ -18,8 +18,12 @@ local function get_open_command()
 	return open_command
 end
 
+local function remove_file_paths(inputString)
+	local cleanedString = inputString:gsub("[A-Za-z0-9:/\\._%-]+[.][A-Za-z0-9]+", "")
+	return cleanedString
+end
+
 local function get_search_engine(search_engine)
-	print(search_engine)
 	local engines = {
 		google = "https://www.google.com/search?q=",
 		duck_duck_go = "https://duckduckgo.com/?q=",
@@ -53,7 +57,9 @@ local search = function(search_engine)
 
 	local filetype = get_filetype()
 
-	local search_string = filetype .. " " .. diagnostics[1]
+	local clean_first_diagnostic = remove_file_paths(diagnostics[1])
+
+	local search_string = filetype .. " " .. clean_first_diagnostic
 
 	local search_url = selected_search_engine .. search_string
 

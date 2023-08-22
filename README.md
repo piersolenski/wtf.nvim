@@ -66,13 +66,13 @@ Install the plugin with your preferred package manager:
         -- An alternative way to set your OpenAI api key
         openai_api_key = "sk-xxxxxxxxxxxxxx",
         --gpt-4 (If you do not have access to a model, it says "The model does not exist")
-        openai_model_id = "gpt-3.5-turbo", 
+        openai_model_id = "gpt-3.5-turbo",
         -- Set your preferred language for the response
-        language = "english", 
+        language = "english",
         -- Any additional instructions
         additional_instructions = "Start the reply with 'OH HAI THERE'",
         -- Default search engine
-        default_search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github", 
+        default_search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github",
 
 	},
 	keys = {
@@ -102,8 +102,8 @@ Whenever you have an error in an LSP enabled environment, invoke a wtf.nvim comm
 
 | User Command | Purpose |
 | -- | -- |
-| `:Wtf`  | Sends the current line along with all diagnostic messages to ChatGPT
-| `:WtfSearch <search_engine>` | Sends the **first** diagnostic message to the web. Attempts to filter out specifics related to your local environment, such as filepaths, for more accurate results. 
+| `:Wtf <additional_instructions>` | Sends the current line along with all diagnostic messages to ChatGPT
+| `:WtfSearch <search_engine>` | Uses the specified search engine (or defaults to the one in the setup) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
 
 ## Inspiration
 
