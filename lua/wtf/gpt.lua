@@ -1,20 +1,9 @@
 local M = {}
-local status_index = 0
-local progress_bar_dots = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
 
 WTF_CALLBACK_COUNTER = 0
 
-function M.get_status()
-  if WTF_CALLBACK_COUNTER > 0 then
-    status_index = status_index + 1
-    if status_index > #progress_bar_dots then
-      status_index = 1
-    end
-    return progress_bar_dots[status_index]
-  else
-    return ""
-  end
-end
+local status_index = 0
+local progress_bar_dots = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
 
 local function run_started_hook()
   if vim.g["wtf_hooks"]["request_started"] ~= nil then
@@ -30,6 +19,18 @@ local function run_finished_hook()
     if vim.g["wtf_hooks"]["request_finished"] ~= nil then
       vim.g["wtf_hooks"]["request_finished"]()
     end
+  end
+end
+
+function M.get_status()
+  if WTF_CALLBACK_COUNTER > 0 then
+    status_index = status_index + 1
+    if status_index > #progress_bar_dots then
+      status_index = 1
+    end
+    return progress_bar_dots[status_index]
+  else
+    return ""
   end
 end
 

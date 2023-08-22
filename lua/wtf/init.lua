@@ -22,18 +22,22 @@ function M.setup(opts)
   vim.g.wtf_default_search_engine = opts.default_search_engine
   vim.g.wtf_default_additional_instructions = opts.additional_instructions
   vim.g.wtf_popup_type = opts.popup_type
+  vim.g["wtf_hooks"] = {
+    request_started = nil,
+    request_finished = nil,
+  }
 end
 
 function M.ai(additional_instructions)
-  ai(additional_instructions)
+  return ai(additional_instructions)
 end
 
 function M.search(opts)
-  search(opts)
+  return search(opts)
 end
 
 function M.get_status()
-  gpt.status()
+  return gpt.get_status()
 end
 
 return M
