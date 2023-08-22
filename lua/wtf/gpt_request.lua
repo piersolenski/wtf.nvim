@@ -29,6 +29,7 @@ end
 
 local function gpt_request(messages, callback, callbackTable)
   local api_key = get_api_key()
+
   if api_key == nil then
     return nil
   end

@@ -19,15 +19,18 @@ local ai = function(additional_instructions)
     return print("No diagnostics found!")
   end
 
-  local concatenatedDiagnostics = table.concat(diagnostics, "\n")
+  local concatenatedDiagnostics = ""
+  for _, diagnostic in ipairs(diagnostics) do
+    concatenatedDiagnostics = concatenatedDiagnostics .. diagnostic.severity .. ": " .. diagnostic.message .. "\n"
+  end
 
   local line = vim.fn.getline(".")
 
   local payload = "The coding language is "
     .. filetype
-    .. ".\n This is a list of the errors: \n"
+    .. ".\nThis is a list of the diagnostic messages: \n"
     .. concatenatedDiagnostics
-    .. ". This is the line of code for context: \n"
+    .. "This is the line of code for context: \n"
     .. line
 
   if get_default_additional_instructions() ~= "" then
@@ -46,13 +49,9 @@ local ai = function(additional_instructions)
 
   local messages = {
     {
-      {
-        role = "system",
-        content = [[
-        You are an expert coder and helpful assistant who can help debug code diagnostics, such as warning and error messages. 
-        When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting.
-        ]],
-      },
+      role = "system",
+      content = [[You are an expert coder and helpful assistant who can help debug code diagnostics, such as warning and error messages.
+      When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting."]],
     },
     {
       role = "user",

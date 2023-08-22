@@ -10,13 +10,16 @@ local function get_diagnostics()
     return nil
   end
 
-  local messages = {}
+  local obj = {}
 
   for _, diagnostic in ipairs(diagnostics) do
-    table.insert(messages, diagnostic["message"])
+    table.insert(obj, {
+      message = diagnostic.message,
+      severity = vim.diagnostic.severity[diagnostic.severity],
+    })
   end
 
-  return messages
+  return obj
 end
 
 return get_diagnostics
