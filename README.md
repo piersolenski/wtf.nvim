@@ -44,7 +44,7 @@ Use the power of ChatGPT to provide you with explanations *and* solutions of how
 
 ### Search the web for answers 
 
-Why spend time typing out error messages when you can open them directly in Google, Stack Overflow and more, directly from Neovim?
+Why spend time typing out error messages when you can open them in Google, Stack Overflow and more, directly from Neovim?
 
 <table>
   <tr>
