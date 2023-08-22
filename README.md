@@ -10,7 +10,7 @@ Works with any language that has LSP support in Neovim.
 
 ### AI powered diagnostic debugging
 
-Use the power of AI to provide you with explanations *and* solutions of how to fix LSP hints, warnings and errors, custom tailored to the code responsible for them.
+Use the power of ChatGPT to provide you with explanations *and* solutions of how to fix hints, warnings and errors, custom tailored to the code responsible for them.
 
 <table>
   <tr>
