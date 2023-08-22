@@ -1,7 +1,7 @@
 local get_diagnostics = require("wtf.get_diagnostics")
 local get_filetype = require("wtf.get_filetype")
 local gpt_request = require("wtf.gpt_request")
-local display_response = require("wtf.display_response")
+local display_popup = require("wtf.display_popup")
 
 local function get_default_additional_instructions()
 	return vim.g.wtf_default_additional_instructions or ""
@@ -55,7 +55,7 @@ local ai = function(additional_instructions)
 		},
 	}
 
-	gpt_request(messages, display_response)
+	gpt_request(messages, display_popup)
 end
 
 return ai

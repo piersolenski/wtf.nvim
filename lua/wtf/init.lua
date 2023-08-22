@@ -9,6 +9,7 @@ local default_opts = {
 	language = "english",
 	default_search_engine = "google",
 	additional_instructions = nil,
+	popup_type = "popup",
 }
 
 function M.setup(opts)
@@ -19,6 +20,7 @@ function M.setup(opts)
 	vim.g.wtf_language = opts.language
 	vim.g.wtf_default_search_engine = opts.default_search_engine
 	vim.g.wtf_default_additional_instructions = opts.additional_instructions
+	vim.g.wtf_popup_type = opts.popup_type
 end
 
 function M.ai(additional_instructions)
