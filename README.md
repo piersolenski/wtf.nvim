@@ -100,7 +100,7 @@ Install the plugin with your preferred package manager:
 		},
 		{
 			mode = { "n" },
-			"gs",
+			"gW",
 			function()
 				require("wtf").search()
 			end,
