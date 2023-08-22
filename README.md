@@ -2,7 +2,7 @@
 
 A Neovim plugin to help you work out WTF that diagnostic means! 
 
-wtf.nvim provides faster and more efficient ways of working with the buffer line's diagnostic messages, redirecting them to the sources you already use, straight from Neovim. 
+wtf.nvim provides faster and more efficient ways of working with the buffer line's diagnostic messages by redirecting them to tools straight from Neovim. 
 
 Works with any language that has LSP support in Neovim.
 
