@@ -87,6 +87,7 @@ Install the plugin with your preferred package manager:
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 	},
+ 	event = "BufEnter",
   	opts = {},
 	keys = {
 		{
