@@ -131,7 +131,7 @@ Install the plugin with your preferred package manager:
 
 ## 🚀 Usage
 
-wtf.nvim works by sending the line's diagnostic messages along with some contextual information (such as the code and filetype) to various differing sources you can configure.
+wtf.nvim works by sending the line's diagnostic messages along with contextual information (such as the code and filetype) to various differing sources you can configure.
 
 Whenever you have an error in an LSP enabled environment, invoke a wtf.nvim command on that line:
 
