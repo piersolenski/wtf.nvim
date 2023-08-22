@@ -79,15 +79,25 @@ In order to use the AI functionality, set the environment variable `OPENAI_API_K
 
 Install the plugin with your preferred package manager:
 
-[lazy.nvim](https://github.com/folke/lazy.nvim):
-
 ```lua
+-- Packer
+use({
+  "piersolenski/wtf.nvim",
+    config = function()
+      require("wtf").setup()
+    end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+    }
+})
+
+-- Lazy
 {
 	"piersolenski/wtf.nvim",
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 	},
- 	event = "BufEnter",
+	event = "VeryLazy",
   	opts = {},
 	keys = {
 		{
