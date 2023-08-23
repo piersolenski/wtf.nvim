@@ -145,12 +145,12 @@ use({
 
 `wtf.nvim` works by sending the line's diagnostic messages along with contextual information (such as the offending code, file type and severity level) to various sources you can configure.
 
-To use it, whenever you have an hint, warning or error in an LSP enabled environment, invoke a command anywhere on that line:
+To use it, whenever you have an hint, warning or error in an LSP enabled environment, invoke a command anywhere on that line in Normal mode:
 
-| User Command | Purpose |
+| Command | Description |
 | -- | -- |
 | `:Wtf <additional_instructions>` | Sends the current line along with all diagnostic messages to ChatGPT. Additional instructions can also be specified, which might be useful if you want to refine the response further.
-| `:WtfSearch <search_engine>` | Uses a specific search engine (defaults to the one provided in the setup if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
+| `:WtfSearch <search_engine>` | Uses a search engine (defaults to the one in the setup or Google if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
 
 ### Custom status hooks
 
