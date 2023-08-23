@@ -1,6 +1,6 @@
 # 🤯 wtf.nvim
 
-A Neovim plugin to help you work out *what the fudge* that diagnostic means! 
+A Neovim plugin to help you work out *what the fudge* that diagnostic means and how to fix it!
 
 `wtf.nvim` provides faster and more efficient ways of working with the buffer line's diagnostic messages by redirecting them to tools straight from Neovim. 
 
@@ -45,7 +45,7 @@ Use the power of ChatGPT to provide you with explanations *and* solutions for ho
 
 ### Search the web for answers 
 
-Why spend time typing out diagnostic messages when you can search for them in Google, Stack Overflow and more, directly from Neovim?
+Why spend time copying and pasting, or worse yet, typing out diagnostic messages, when you can search for them in Google, Stack Overflow and more, directly from Neovim?
 
 <table>
   <tr>
@@ -149,12 +149,12 @@ To use it, whenever you have an hint, warning or error in an LSP enabled environ
 
 | User Command | Purpose |
 | -- | -- |
-| `:Wtf <additional_instructions>` | Sends the current line along with all diagnostic messages to ChatGPT.
-| `:WtfSearch <search_engine>` | Uses the specified search engine (or defaults to the one in the setup) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
+| `:Wtf <additional_instructions>` | Sends the current line along with all diagnostic messages to ChatGPT. Additional instructions can also be specified, which might be useful if you want to refine the response further.
+| `:WtfSearch <search_engine>` | Uses a specific search engine (defaults to the one provided in the setup if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
 
 ### Custom status hooks
 
-You can add custom hooks to update your status line or other ui elements, for example, this code updates the status line colour to yellow whilst the request is in progress.
+You can add custom hooks to update your status line or other UI elements, for example, this code updates the status line colour to yellow whilst the request is in progress.
 
 ```lua
 vim.g["wtf_hooks"] = {
