@@ -11,7 +11,7 @@ Works with any language that has LSP support in Neovim.
 ### AI powered diagnostic debugging
 
 
-Use the power of ChatGPT to provide you with explanations *and* solutions of how to fix diagnostics, custom tailored to the code responsible for them.
+Use the power of ChatGPT to provide you with explanations *and* solutions for how to fix diagnostics, custom tailored to the code responsible for them.
 
 <table>
   <tr>
@@ -74,7 +74,7 @@ Why spend time typing out diagnostic messages when you can search for them in Go
   </tr>
 </table>
 
-## 📦 Installation
+## 🔩 Installation
 
 In order to use the AI functionality, set the environment variable `OPENAI_API_KEY` to your [openai api key](https://platform.openai.com/account/api-keys) (the search functionality will still work without it).
 
@@ -143,9 +143,9 @@ use({
 
 ## 🚀 Usage
 
-`wtf.nvim` works by sending the line's diagnostic messages along with contextual information (such as the code, filetype and severity level) to various differing sources you can configure.
+`wtf.nvim` works by sending the line's diagnostic messages along with contextual information (such as the offending code, file type and severity level) to various sources you can configure.
 
-Whenever you have an hint, warning or error in an LSP enabled environment, invoke a command on that line:
+To use it, whenever you have an hint, warning or error in an LSP enabled environment, invoke a command anywhere on that line:
 
 | User Command | Purpose |
 | -- | -- |
@@ -186,5 +186,4 @@ require('lualine').setup({
 - [Pretty TypeScript Errors](https://github.com/yoavbls/pretty-ts-errors)
 - [backseat.nvim](https://github.com/james1236/backseat.nvim/) 
 - [CodeGPT.nvim](https://github.com/dpayne/CodeGPT.nvim) 
-- [folke](https://github.com/folke/) 
 
