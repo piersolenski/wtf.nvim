@@ -4,14 +4,13 @@ A Neovim plugin to help you work out *what the fudge* that diagnostic means and 
 
 `wtf.nvim` provides faster and more efficient ways of working with the buffer line's diagnostic messages by redirecting them to tools straight from Neovim. 
 
-Works with any language that has LSP support in Neovim.
+Works with any language that has [LSP](https://microsoft.github.io/language-server-protocol/) support in Neovim.
 
 ## ✨ Features
 
 ### AI powered diagnostic debugging
 
-
-Use the power of ChatGPT to provide you with explanations *and* solutions for how to fix diagnostics, custom tailored to the code responsible for them.
+Use the power of [ChatGPT](https://openai.com/blog/chatgpt) to provide you with explanations *and* solutions for how to fix diagnostics, custom tailored to the code responsible for them.
 
 <table>
   <tr>
