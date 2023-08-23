@@ -1,5 +1,6 @@
 local get_diagnostics = require("wtf.get_diagnostics")
 local get_filetype = require("wtf.get_filetype")
+local search_engines = require("wtf.search_engines")
 
 local function get_default_search_engine()
   return vim.g.wtf_default_search_engine
@@ -24,15 +25,8 @@ local function remove_file_paths(inputString)
 end
 
 local function get_search_engine(search_engine)
-  local engines = {
-    google = "https://www.google.com/search?q=",
-    duck_duck_go = "https://duckduckgo.com/?q=",
-    stack_overflow = "https://stackoverflow.com/search?q=",
-    github = "https://github.com/search?type=issues&q=",
-  }
-
   local target_engine = search_engine or get_default_search_engine()
-  local selected_engine = engines[target_engine]
+  local selected_engine = search_engines.sources[target_engine]
 
   if not selected_engine then
     print("Invalid search engine specified")

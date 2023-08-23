@@ -9,12 +9,21 @@ if vim.g.loaded_wtf then
 end
 vim.g.loaded_wtf = true
 
-require("wtf").setup()
+local wtf = require("wtf")
+local search_engines = require("wtf.search_engines")
+
+wtf.setup()
 
 vim.api.nvim_create_user_command("Wtf", function(opts)
-  require("wtf").ai(opts.args)
+  wtf.ai(opts.args)
 end, { nargs = "*" })
 
 vim.api.nvim_create_user_command("WtfSearch", function(opts)
-  require("wtf").search(opts.args)
-end, { nargs = "?" })
+  wtf.search(opts.args)
+end, {
+  nargs = "?",
+  complete = function(_, _, _)
+    local completeions = search_engines.get_completions()
+    return completeions
+  end,
+})
