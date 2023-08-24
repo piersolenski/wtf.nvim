@@ -3,15 +3,15 @@
 ==============================================================================
 Table of Contents                                 *wtf.nvim-table-of-contents*
 
-1. 🤯 wtf.nvim                                      |wtf.nvim-🤯-wtf.nvim|
-  - ✨ Features                         |wtf.nvim-🤯-wtf.nvim-✨-features|
-  - 🔩 Installation               |wtf.nvim-🤯-wtf.nvim-🔩-installation|
-  - ⚙️ Configuration         |wtf.nvim-🤯-wtf.nvim-⚙️-configuration|
-  - 🚀 Usage                             |wtf.nvim-🤯-wtf.nvim-🚀-usage|
-  - 💡 Inspiration                 |wtf.nvim-🤯-wtf.nvim-💡-inspiration|
+1. wtf.nvim                                                |wtf.nvim-wtf.nvim|
+  - Features                                      |wtf.nvim-wtf.nvim-features|
+  - Installation                              |wtf.nvim-wtf.nvim-installation|
+  - Configuration                            |wtf.nvim-wtf.nvim-configuration|
+  - Usage                                            |wtf.nvim-wtf.nvim-usage|
+  - Inspiration                                |wtf.nvim-wtf.nvim-inspiration|
 
 ==============================================================================
-1. 🤯 wtf.nvim                                      *wtf.nvim-🤯-wtf.nvim*
+1. wtf.nvim                                                *wtf.nvim-wtf.nvim*
 
 A Neovim plugin to help you work out _what the fudge_ that diagnostic means
 **and** how to fix it!
@@ -24,7 +24,7 @@ Works with any language that has LSP
 <https://microsoft.github.io/language-server-protocol/> support in Neovim.
 
 
-✨ FEATURES                             *wtf.nvim-🤯-wtf.nvim-✨-features*
+FEATURES                                          *wtf.nvim-wtf.nvim-features*
 
 
 AI POWERED DIAGNOSTIC DEBUGGING ~
@@ -47,7 +47,7 @@ more, directly from Neovim?
 https://github.com/piersolenski/wtf.nvim/assets/1285419/6697d9a5-c81c-4e54-b375-bbe900724077
 
 
-🔩 INSTALLATION                   *wtf.nvim-🤯-wtf.nvim-🔩-installation*
+INSTALLATION                                  *wtf.nvim-wtf.nvim-installation*
 
 In order to use the AI functionality, set the environment variable
 `OPENAI_API_KEY` to your openai api key
@@ -98,7 +98,7 @@ Install the plugin with your preferred package manager:
 <
 
 
-⚙️ CONFIGURATION             *wtf.nvim-🤯-wtf.nvim-⚙️-configuration*
+CONFIGURATION                                *wtf.nvim-wtf.nvim-configuration*
 
 >lua
     {
@@ -118,7 +118,7 @@ Install the plugin with your preferred package manager:
 <
 
 
-🚀 USAGE                                 *wtf.nvim-🤯-wtf.nvim-🚀-usage*
+USAGE                                                *wtf.nvim-wtf.nvim-usage*
 
 `wtf.nvim` works by sending the line’s diagnostic messages along with
 contextual information (such as the offending code, file type and severity
@@ -181,7 +181,7 @@ to lualine <https://github.com/nvim-lualine/lualine.nvim>.
 <
 
 
-💡 INSPIRATION                     *wtf.nvim-🤯-wtf.nvim-💡-inspiration*
+INSPIRATION                                    *wtf.nvim-wtf.nvim-inspiration*
 
 - Pretty TypeScript Errors <https://github.com/yoavbls/pretty-ts-errors>
 - backseat.nvim <https://github.com/james1236/backseat.nvim/>
