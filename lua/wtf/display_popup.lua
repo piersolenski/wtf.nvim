@@ -14,6 +14,9 @@ local function split_string_by_line(text)
 end
 
 local function display_popup(responseTable)
+  -- Clear last command
+  print(" ")
+
   if responseTable == nil then
     return nil
   end
@@ -71,6 +74,13 @@ local function display_popup(responseTable)
   vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, message)
 
   popup:mount()
+
+  vim.api.nvim_create_autocmd("WinResized", {
+    group = vim.api.nvim_create_augroup("refresh_wtf_popup_layout", { clear = true }),
+    callback = function()
+      popup:update_layout()
+    end,
+  })
 
   -- unmount component when cursor leaves buffer
   popup:on(event.BufLeave, function()
