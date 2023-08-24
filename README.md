@@ -18,7 +18,7 @@ https://github.com/piersolenski/wtf.nvim/assets/1285419/9b7ab8b1-2dc4-4a18-8051-
 
 Why spend time copying and pasting, or worse yet, typing out diagnostic messages, when you can search for them in Google, Stack Overflow and more, directly from Neovim?
 
-![Google](./screenshots/google-search.png)
+https://github.com/piersolenski/wtf.nvim/assets/1285419/6697d9a5-c81c-4e54-b375-bbe900724077
 
 ## 🔩 Installation
 
