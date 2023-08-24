@@ -46,32 +46,7 @@ Use the power of [ChatGPT](https://openai.com/blog/chatgpt) to provide you with 
 
 Why spend time copying and pasting, or worse yet, typing out diagnostic messages, when you can search for them in Google, Stack Overflow and more, directly from Neovim?
 
-<table>
-  <tr>
-    <th>Google</th>
-    <th>Duck Duck Go</th>
-  </tr>
-  <tr>
-    <td>
-      <img src="./screenshots/google-search.png" />
-    </td>
-    <td>
-      <img src="./screenshots/google-search.png" />
-    </td>
-  </tr>
-  <tr>
-    <th>Stack Overflow</th>
-    <th>Github Issues</th>
-  </tr>
-  <tr>
-    <td>
-      <img src="./screenshots/google-search.png" />
-    </td>
-    <td>
-      <img src="./screenshots/google-search.png" />
-    </td>
-  </tr>
-</table>
+![Google](./screenshots/google-search.png)
 
 ## 🔩 Installation
 
