@@ -1,6 +1,6 @@
 # 🤯 wtf.nvim
 
-A Neovim plugin to help you work out *what the fudge* that diagnostic means and how to fix it!
+A Neovim plugin to help you work out *what the fudge* that diagnostic means **and** how to fix it!
 
 `wtf.nvim` provides faster and more efficient ways of working with the buffer line's diagnostic messages by redirecting them to tools straight from Neovim. 
 
@@ -16,7 +16,7 @@ https://github.com/piersolenski/wtf.nvim/assets/1285419/9b7ab8b1-2dc4-4a18-8051-
 
 ### Search the web for answers 
 
-Why spend time copying and pasting, or worse yet, typing out diagnostic messages, when you can search for them in Google, Stack Overflow and more, directly from Neovim?
+Why spend time copying and pasting, or worse yet, typing out diagnostic messages, when you can open a search for them in Google, Stack Overflow and more, directly from Neovim?
 
 https://github.com/piersolenski/wtf.nvim/assets/1285419/6697d9a5-c81c-4e54-b375-bbe900724077
 
@@ -91,7 +91,7 @@ use({
 
 `wtf.nvim` works by sending the line's diagnostic messages along with contextual information (such as the offending code, file type and severity level) to various sources you can configure.
 
-To use it, whenever you have an hint, warning or error in an LSP enabled environment, invoke a command anywhere on that line in Normal mode:
+To use it, whenever you have an hint, warning or error in an LSP enabled environment, invoke one of the commands anywhere on that line in Normal mode:
 
 | Command | Description |
 | -- | -- |
