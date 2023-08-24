@@ -12,35 +12,7 @@ Works with any language that has [LSP](https://microsoft.github.io/language-serv
 
 Use the power of [ChatGPT](https://openai.com/blog/chatgpt) to provide you with explanations *and* solutions for how to fix diagnostics, custom tailored to the code responsible for them.
 
-<table>
-  <tr>
-    <th></th>
-    <th>Before</th>
-    <th>After</th>
-  </tr>
-  <tr>
-    <td valign="middle">
-     Python
-    </td>
-    <td>
-      <img src="./screenshots/python-before.png" />
-    </td>
-    <td>
-      <img src="./screenshots/python-after.png" />
-    </td>
-  </tr>
-  <tr>
-    <td valign="middle">
-     Typescript
-    </td>
-    <td>
-      <img src="./screenshots/typescript-before.png" />
-    </td>
-    <td>
-      <img src="./screenshots/typescript-after.png" />
-    </td>
-  </tr>
-</table>
+https://github.com/piersolenski/wtf.nvim/assets/1285419/9b7ab8b1-2dc4-4a18-8051-68745305198a
 
 ### Search the web for answers 
 
