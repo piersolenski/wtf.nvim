@@ -14,6 +14,9 @@ local function split_string_by_line(text)
 end
 
 local function display_popup(responseTable)
+  -- Clear last command
+  print(" ")
+
   if responseTable == nil then
     return nil
   end
