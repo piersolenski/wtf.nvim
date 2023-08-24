@@ -75,6 +75,13 @@ local function display_popup(responseTable)
 
   popup:mount()
 
+  vim.api.nvim_create_autocmd("WinResized", {
+    group = vim.api.nvim_create_augroup("refresh_wtf_popup_layout", { clear = true }),
+    callback = function()
+      popup:update_layout()
+    end,
+  })
+
   -- unmount component when cursor leaves buffer
   popup:on(event.BufLeave, function()
     popup:unmount()
