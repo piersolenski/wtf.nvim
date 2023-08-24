@@ -12,7 +12,7 @@ jobs:
       - uses: kdheepak/panvimdoc@main
         with:
           vimdoc: wtf.nvim
-          demojify: false
+          demojify: true
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "Auto generate docs"
