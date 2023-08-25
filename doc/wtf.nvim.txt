@@ -1,4 +1,4 @@
-*wtf.nvim.txt*           For NVIM v0.8.0           Last change: 2023 August 24
+*wtf.nvim.txt*           For NVIM v0.8.0           Last change: 2023 August 25
 
 ==============================================================================
 Table of Contents                                 *wtf.nvim-table-of-contents*
@@ -130,7 +130,7 @@ environment, invoke one of the commands anywhere on that line in Normal mode:
   -----------------------------------------------------------------------
   Command                             Description
   ----------------------------------- -----------------------------------
-  :Wtf <additional_instructions>      Sends the current line along with
+  :Wtf [additional_instructions]      Sends the current line along with
                                       all diagnostic messages to ChatGPT.
                                       Additional instructions can also be
                                       specified, which might be useful if
