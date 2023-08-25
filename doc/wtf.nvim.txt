@@ -137,7 +137,7 @@ environment, invoke one of the commands anywhere on that line in Normal mode:
                                       you want to refine the response
                                       further.
 
-  :WtfSearch <search_engine>          Uses a search engine (defaults to
+  :WtfSearch [search_engine]          Uses a search engine (defaults to
                                       the one in the setup or Google if
                                       not provided) to search for the
                                       first diagnostic. It will attempt
