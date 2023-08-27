@@ -3,7 +3,7 @@ local get_filetype = require("wtf.get_filetype")
 local search_engines = require("wtf.search_engines")
 
 local function get_default_search_engine()
-  return vim.g.wtf_default_search_engine
+  return vim.g.wtf_search_engine
 end
 
 local function get_open_command()

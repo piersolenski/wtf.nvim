@@ -82,7 +82,7 @@ use({
     -- Any additional instructions
     additional_instructions = "Start the reply with 'OH HAI THERE'",
     -- Default search engine, can be overridden by passing an option to WtfSeatch 
-    default_search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github",
+    search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github",
 }
 ```
 
