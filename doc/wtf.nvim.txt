@@ -1,4 +1,4 @@
-*wtf.nvim.txt*           For NVIM v0.8.0           Last change: 2023 August 25
+*wtf.nvim.txt*           For NVIM v0.8.0           Last change: 2023 August 27
 
 ==============================================================================
 Table of Contents                                 *wtf.nvim-table-of-contents*
@@ -113,7 +113,7 @@ CONFIGURATION                                *wtf.nvim-wtf.nvim-configuration*
         -- Any additional instructions
         additional_instructions = "Start the reply with 'OH HAI THERE'",
         -- Default search engine, can be overridden by passing an option to WtfSeatch 
-        default_search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github",
+        search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github",
     }
 <
 
