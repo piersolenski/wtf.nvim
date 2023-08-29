@@ -25,7 +25,7 @@ local function remove_file_paths(inputString)
 end
 
 local function get_search_engine(search_engine)
-  local target_engine = search_engine or get_default_search_engine()
+  local target_engine = search_engine ~= "" and search_engine or get_default_search_engine()
   local selected_engine = search_engines.sources[target_engine]
 
   if not selected_engine then
