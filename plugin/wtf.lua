@@ -15,8 +15,15 @@ local search_engines = require("wtf.search_engines")
 wtf.setup()
 
 vim.api.nvim_create_user_command("Wtf", function(opts)
-  wtf.ai(opts.args)
-end, { nargs = "*" })
+  wtf.ai({
+    line1 = opts.line1,
+    line2 = opts.line2,
+    instructions = opts.args,
+  })
+end, {
+  range = true,
+  nargs = "*",
+})
 
 vim.api.nvim_create_user_command("WtfSearch", function(opts)
   wtf.search(opts.args)
