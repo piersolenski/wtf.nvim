@@ -24,7 +24,7 @@ local ai = function(additional_instructions)
     concatenatedDiagnostics = concatenatedDiagnostics .. diagnostic.severity .. ": " .. diagnostic.message .. "\n"
   end
 
-  local line = vim.fn.getline(".")
+  local line = vim.fn.line(".")
 
   local payload = "The coding language is "
     .. filetype
