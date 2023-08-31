@@ -44,12 +44,11 @@ use({
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 	},
-	event = "VeryLazy",
   	opts = {},
 	keys = {
 		{
 			"gw",
-			mode = { "n" },
+			mode = { "n", "x" },
 			function()
 				require("wtf").ai()
 			end,
@@ -77,6 +76,8 @@ use({
     openai_api_key = "sk-xxxxxxxxxxxxxx",
     -- ChatGPT Model
     openai_model_id = "gpt-3.5-turbo",
+    -- Send code as well as diagnostics
+    context = true,
     -- Set your preferred language for the response
     language = "english",
     -- Any additional instructions
@@ -132,4 +133,3 @@ require('lualine').setup({
 - [Pretty TypeScript Errors](https://github.com/yoavbls/pretty-ts-errors)
 - [backseat.nvim](https://github.com/james1236/backseat.nvim/) 
 - [CodeGPT.nvim](https://github.com/dpayne/CodeGPT.nvim) 
-
