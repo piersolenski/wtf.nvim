@@ -9,7 +9,7 @@ local M = {}
 local function get_content_between_lines(start_line, end_line)
   local lines = {}
   for line_num = start_line, end_line do
-    local line = string.format("%d: %s", line_num, vim.fn.getline(line_num))
+    local line = string.format("%d: %s", line_num, vim.fn.line(line_num))
     table.insert(lines, line)
   end
   return table.concat(lines, "\n")
