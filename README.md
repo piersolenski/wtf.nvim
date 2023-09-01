@@ -12,7 +12,7 @@ Works with any language that has [LSP](https://microsoft.github.io/language-serv
 
 Use the power of [ChatGPT](https://openai.com/blog/chatgpt) to provide you with explanations *and* solutions for how to fix diagnostics, custom tailored to the code responsible for them.
 
-https://github.com/piersolenski/wtf.nvim/assets/1285419/9b7ab8b1-2dc4-4a18-8051-68745305198a
+https://github.com/piersolenski/wtf.nvim/assets/1285419/7572b101-664c-4069-aa45-84adc2678e25
 
 ### Search the web for answers 
 
