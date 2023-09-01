@@ -1,29 +1,33 @@
+local config = require("wtf.config")
+
 local M = {}
 
-WTF_CALLBACK_COUNTER = 0
+local callback_counter = 0
 
 local status_index = 0
 local progress_bar_dots = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
 
 local function run_started_hook()
-  if vim.g["wtf_hooks"]["request_started"] ~= nil then
-    vim.g["wtf_hooks"]["request_started"]()
+  local request_started = config.options.hooks and config.options.hooks.request_started
+  if request_started ~= nil then
+    request_started()
   end
 
-  WTF_CALLBACK_COUNTER = WTF_CALLBACK_COUNTER + 1
+  callback_counter = callback_counter + 1
 end
 
 local function run_finished_hook()
-  WTF_CALLBACK_COUNTER = WTF_CALLBACK_COUNTER - 1
-  if WTF_CALLBACK_COUNTER <= 0 then
-    if vim.g["wtf_hooks"]["request_finished"] ~= nil then
-      vim.g["wtf_hooks"]["request_finished"]()
+  callback_counter = callback_counter - 1
+  if callback_counter <= 0 then
+    local request_finished = config.options.hooks and config.options.hooks.request_finished
+    if request_finished ~= nil then
+      request_finished()
     end
   end
 end
 
 function M.get_status()
-  if WTF_CALLBACK_COUNTER > 0 then
+  if callback_counter > 0 then
     status_index = status_index + 1
     if status_index > #progress_bar_dots then
       status_index = 1
@@ -35,7 +39,7 @@ function M.get_status()
 end
 
 local function get_model_id()
-  local model = vim.g.wtf_openai_model_id
+  local model = config.options.openai_model_id
   if model == nil then
     if vim.g.wtf_model_id_complained == nil then
       local message =
@@ -49,7 +53,7 @@ local function get_model_id()
 end
 
 local function get_api_key()
-  local api_key = vim.g.wtf_openai_api_key
+  local api_key = config.options.openai_api_key
   if api_key == nil then
     local key = os.getenv("OPENAI_API_KEY")
     if key ~= nil then
@@ -73,6 +77,7 @@ function M.request(messages, callback, callbackTable)
   -- Check if curl is installed
   if vim.fn.executable("curl") == 0 then
     vim.fn.confirm("curl installation not found. Please install curl to use Wtf", "&OK", 1, "Warning")
+
     return nil
   end
 
@@ -82,7 +87,7 @@ function M.request(messages, callback, callbackTable)
   local tempFilePath = vim.fn.tempname()
   local tempFile = io.open(tempFilePath, "w")
   if tempFile == nil then
-    print("Error creating temp file")
+    vim.notify("Error creating temp file", vim.log.levels.ERROR)
     return nil
   end
 
@@ -126,7 +131,7 @@ function M.request(messages, callback, callbackTable)
     )
   end
 
-  vim.fn.jobstart(curlRequest, {
+  return vim.fn.jobstart(curlRequest, {
     stdout_buffered = true,
     on_stdout = function(_, data, _)
       local response = table.concat(data, "\n")
@@ -136,13 +141,15 @@ function M.request(messages, callback, callbackTable)
         if response == nil then
           response = "nil"
         end
-        print("Bad or no response: " .. response)
+        vim.notify("Bad or no response: ", vim.log.levels.ERROR)
+
         run_finished_hook()
         return nil
       end
 
       if responseTable.error ~= nil then
-        print("OpenAI Error: " .. responseTable.error.message)
+        vim.notify("OpenAI Error: " .. responseTable.error.message, vim.log.levels.ERROR)
+
         run_finished_hook()
         return nil
       end

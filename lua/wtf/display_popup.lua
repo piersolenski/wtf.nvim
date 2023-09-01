@@ -1,9 +1,6 @@
 local Split = require("nui.split")
 local Popup = require("nui.popup")
-
-local function get_popup_type()
-  return vim.g.wtf_popup_type
-end
+local config = require("wtf.config")
 
 local function split_string_by_line(text)
   local lines = {}
@@ -40,7 +37,7 @@ local function display_popup(responseTable)
     },
   }
 
-  local popup_type = get_popup_type()
+  local popup_type = config.options.popup_type
 
   if popup_type == "vertical" then
     popup = Split(vim.tbl_deep_extend("keep", popup_opts, {
@@ -67,8 +64,12 @@ local function display_popup(responseTable)
         style = "rounded",
       },
     }))
+    -- unmount component when cursor leaves buffer
+    popup:on(event.BufLeave, function()
+      popup:unmount()
+    end)
   else
-    return print("Invalid popup_type.")
+    return vim.notify("Invalid popup type", vim.log.levels.ERROR)
   end
 
   vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, message)
@@ -81,11 +82,6 @@ local function display_popup(responseTable)
       popup:update_layout()
     end,
   })
-
-  -- unmount component when cursor leaves buffer
-  popup:on(event.BufLeave, function()
-    popup:unmount()
-  end)
 end
 
 return display_popup

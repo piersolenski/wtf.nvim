@@ -1,10 +1,8 @@
 local get_diagnostics = require("wtf.get_diagnostics")
-local get_filetype = require("wtf.get_filetype")
+local get_programming_language = require("wtf.utils.get_programming_language")
 local search_engines = require("wtf.search_engines")
-
-local function get_default_search_engine()
-  return vim.g.wtf_search_engine
-end
+local remove_file_paths = require("wtf.utils.remove_file_paths")
+local config = require("wtf.config")
 
 local function get_open_command()
   local open_command
@@ -19,17 +17,11 @@ local function get_open_command()
   return open_command
 end
 
-local function remove_file_paths(inputString)
-  local cleanedString = inputString:gsub("[A-Za-z0-9:/\\._%-]+[.][A-Za-z0-9]+", "")
-  return cleanedString
-end
-
 local function get_search_engine(search_engine)
-  local target_engine = search_engine ~= "" and search_engine or get_default_search_engine()
+  local target_engine = search_engine ~= "" and search_engine or config.options.search_engine
   local selected_engine = search_engines.sources[target_engine]
 
   if not selected_engine then
-    print("Invalid search engine specified")
     return nil
   else
     return selected_engine
@@ -37,25 +29,30 @@ local function get_search_engine(search_engine)
 end
 
 local search = function(search_engine)
-  local diagnostics = get_diagnostics()
+  local line = vim.fn.line(".")
+  local diagnostics = get_diagnostics(line)
 
-  if diagnostics == nil then
-    return print("No diagnostics found!")
+  if next(diagnostics) == nil then
+    local message = "No diagnostics found!"
+    vim.notify(message, vim.log.levels.WARN)
+    return message
   end
 
   local selected_search_engine = get_search_engine(search_engine)
 
   if selected_search_engine == nil then
-    return nil
+    local message = "Invalid search engine"
+    vim.notify(message, vim.log.levels.WARN)
+    return message
   end
 
-  local filetype = get_filetype()
+  local programming_language = get_programming_language()
 
   local first_diagnostic = diagnostics[1]
 
   local clean_message = remove_file_paths(first_diagnostic.message)
 
-  local search_string = filetype .. " " .. first_diagnostic.severity .. " " .. clean_message
+  local search_string = programming_language .. " " .. first_diagnostic.severity .. " " .. clean_message
 
   local search_url = selected_search_engine .. search_string
 
@@ -64,7 +61,6 @@ local search = function(search_engine)
   local command = open_command .. " " .. '"' .. search_url .. '"'
 
   -- Open the URL using the appropriate command
-  vim.fn.system(command)
+  return vim.fn.system(command)
 end
-
 return search

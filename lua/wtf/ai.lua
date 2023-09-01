@@ -1,57 +1,77 @@
 local get_diagnostics = require("wtf.get_diagnostics")
-local get_filetype = require("wtf.get_filetype")
+local get_programming_language = require("wtf.utils.get_programming_language")
 local gpt = require("wtf.gpt")
 local display_popup = require("wtf.display_popup")
+local config = require("wtf.config")
 
-local function get_default_additional_instructions()
-  return vim.g.wtf_default_additional_instructions or ""
+local M = {}
+
+local function get_content_between_lines(start_line, end_line)
+  local lines = {}
+  for line_num = start_line, end_line do
+    local line = string.format("%d: %s", line_num, vim.fn.getline(line_num))
+    table.insert(lines, line)
+  end
+  return table.concat(lines, "\n")
 end
 
-local function get_language()
-  return vim.g.wtf_language
-end
+M.diagnose = function(line1, line2, instructions)
+  local diagnostics = get_diagnostics(line1, line2)
+  local programming_language = get_programming_language()
+  local should_send_code = config.options.context
 
-local ai = function(additional_instructions)
-  local diagnostics = get_diagnostics()
-  local filetype = get_filetype()
-
-  if diagnostics == nil then
-    return print("No diagnostics found!")
+  if next(diagnostics) == nil then
+    local message = "No diagnostics found!"
+    vim.notify(message, vim.log.levels.WARN)
+    return message
   end
 
   local concatenatedDiagnostics = ""
-  for _, diagnostic in ipairs(diagnostics) do
-    concatenatedDiagnostics = concatenatedDiagnostics .. diagnostic.severity .. ": " .. diagnostic.message .. "\n"
+  for i, diagnostic in ipairs(diagnostics) do
+    concatenatedDiagnostics = concatenatedDiagnostics
+      .. i
+      .. ". Issue "
+      .. i
+      .. "\n\t- Location: Line "
+      .. diagnostic.line_number
+      .. "\n\t- Severity: "
+      .. diagnostic.severity
+      .. "\n\t- Message: "
+      .. diagnostic.message
+      .. "\n"
   end
 
-  local line = vim.fn.getline(".")
+  local code = get_content_between_lines(line1, line2)
 
-  local payload = "The coding language is "
-    .. filetype
+  local payload = "The programming language is "
+    .. programming_language
     .. ".\nThis is a list of the diagnostic messages: \n"
     .. concatenatedDiagnostics
-    .. "This is the line of code for context: \n"
-    .. line
 
-  if get_default_additional_instructions() ~= "" then
-    payload = payload .. "\n" .. get_default_additional_instructions()
+  if should_send_code then
+    payload = payload .. "This is the code for context: \n" .. "```\n" .. code .. "\n```"
   end
 
-  if additional_instructions then
-    payload = payload .. "\n" .. additional_instructions
+  if config.options.additional_instructions then
+    payload = payload .. "\n" .. config.options.additional_instructions
   end
 
-  if get_language() ~= "" and get_language() ~= "english" then
-    payload = payload .. "\nRespond only in " .. get_language()
+  if instructions then
+    payload = payload .. "\n" .. instructions
   end
 
-  print("Generating explanation...")
+  local language = config.options.language
+  if language and language ~= "english" then
+    payload = payload .. "\nRespond only in " .. language
+  end
+
+  vim.notify("Generating explanation...", vim.log.levels.INFO)
 
   local messages = {
     {
       role = "system",
       content = [[You are an expert coder and helpful assistant who can help debug code diagnostics, such as warning and error messages.
-      When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting."]],
+      When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting.]],
     },
     {
       role = "user",
@@ -59,7 +79,9 @@ local ai = function(additional_instructions)
     },
   }
 
-  gpt.request(messages, display_popup)
+  return gpt.request(messages, display_popup)
 end
 
-return ai
+M.get_status = gpt.get_status
+
+return M
