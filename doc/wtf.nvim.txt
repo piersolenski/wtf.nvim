@@ -1,4 +1,4 @@
-*wtf.nvim.txt*          For NVIM v0.8.0         Last change: 2023 September 01
+*wtf.nvim.txt*          For NVIM v0.8.0         Last change: 2023 September 07
 
 ==============================================================================
 Table of Contents                                 *wtf.nvim-table-of-contents*
