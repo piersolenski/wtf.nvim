@@ -16,6 +16,9 @@ local function get_content_between_lines(start_line, end_line)
 end
 
 M.diagnose = function(line1, line2, instructions)
+  -- Return the user to normal mode
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true)
+
   local diagnostics = get_diagnostics(line1, line2)
   local programming_language = get_programming_language()
   local should_send_code = config.options.context
