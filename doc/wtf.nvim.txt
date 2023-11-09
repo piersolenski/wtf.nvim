@@ -1,4 +1,4 @@
-*wtf.nvim.txt*          For NVIM v0.8.0          Last change: 2023 November 04
+*wtf.nvim.txt*          For NVIM v0.8.0          Last change: 2023 November 09
 
 ==============================================================================
 Table of Contents                                 *wtf.nvim-table-of-contents*
@@ -120,6 +120,7 @@ CONFIGURATION                                *wtf.nvim-wtf.nvim-configuration*
             request_started = nil,
             request_finished = nil,
         },
+        winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
     }
 <
 
