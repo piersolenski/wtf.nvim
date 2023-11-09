@@ -33,7 +33,7 @@ local function display_popup(responseTable)
     win_options = {
       wrap = true,
       linebreak = true,
-      winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+      winhighlight = config.options.winhighlight
     },
   }
 
