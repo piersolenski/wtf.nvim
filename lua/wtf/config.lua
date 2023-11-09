@@ -17,12 +17,14 @@ function M.setup(opts)
       request_started = nil,
       request_finished = nil,
     },
+    winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
   }
 
   -- Merge default_opts with opts
   opts = vim.tbl_deep_extend("force", default_opts, opts or {})
 
   vim.validate({
+    winhighlight = { opts.winhighlight, "string" },
     openai_api_key = { opts.openai_api_key, { "string", "nil" } },
     openai_model_id = { opts.openai_model_id, "string" },
     language = { opts.language, "string" },

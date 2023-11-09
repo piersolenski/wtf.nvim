@@ -89,6 +89,7 @@ use({
         request_started = nil,
         request_finished = nil,
     },
+    winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
 }
 ```
 
