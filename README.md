@@ -89,6 +89,7 @@ use({
         request_started = nil,
         request_finished = nil,
     },
+    -- Add custom colours
     winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
 }
 ```
