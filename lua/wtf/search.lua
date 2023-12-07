@@ -7,7 +7,7 @@ local config = require("wtf.config")
 local function get_open_command()
   local open_command
   if vim.fn.has("win32") == 1 then
-    open_command = "start"
+    open_command = 'cmd /c start ""'
   elseif vim.fn.has("macunix") == 1 then
     open_command = "open"
   else
