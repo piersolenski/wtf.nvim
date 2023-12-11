@@ -30,7 +30,7 @@ vim.api.nvim_create_user_command("WtfSearch", function(opts)
 end, {
   nargs = "?",
   complete = function(_, _, _)
-    local completeions = search_engines.get_completions()
-    return completeions
+    local completions = search_engines.get_completions()
+    return completions
   end,
 })
