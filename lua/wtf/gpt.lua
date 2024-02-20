@@ -67,12 +67,28 @@ local function get_api_key()
   return api_key
 end
 
+local function get_base_url()
+  local url = config.options.openai_base_url
+  if url == nil then
+    if vim.g.wtf_base_url_complained == nil then
+      local message =
+        "No OpenAI Base URL foun. Please set openai_base_url in the setup table. Defaulting to https://api.openai.com for now"
+      vim.fn.confirm(message, "&OK", 1, "Warning")
+      vim.g.wtf_base_url_complained = 1
+    end
+    return "https://api.openai.com"
+  end
+  return url
+end
+
 function M.request(messages, callback, callbackTable)
   local api_key = get_api_key()
 
   if api_key == nil then
     return nil
   end
+
+  local base_url = get_base_url()
 
   -- Check if curl is installed
   if vim.fn.executable("curl") == 0 then
@@ -110,7 +126,10 @@ function M.request(messages, callback, callbackTable)
   if isWindows ~= true then
     -- Linux
     curlRequest = string.format(
-      'curl -s https://api.openai.com/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer '
+      --'curl -s https://api.openai.com/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer '
+        'curl -s ' 
+        .. base_url
+        .. '/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer '
         .. api_key
         .. '" --data-binary "@'
         .. tempFilePathEscaped
@@ -121,7 +140,9 @@ function M.request(messages, callback, callbackTable)
   else
     -- Windows
     curlRequest = string.format(
-      'curl -s https://api.openai.com/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer '
+        'curl -s '
+        .. base_url
+        .. '/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer '
         .. api_key
         .. '" --data-binary "@'
         .. tempFilePathEscaped
