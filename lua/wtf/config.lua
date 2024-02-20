@@ -12,6 +12,7 @@ function M.setup(opts)
     language = "english",
     openai_api_key = nil,
     openai_model_id = "gpt-3.5-turbo",
+    openai_base_url = "https://api.openai.com",
     popup_type = "popup",
     search_engine = "google",
     hooks = {
@@ -28,6 +29,7 @@ function M.setup(opts)
     winhighlight = { opts.winhighlight, "string" },
     openai_api_key = { opts.openai_api_key, { "string", "nil" } },
     openai_model_id = { opts.openai_model_id, "string" },
+    openai_base_url = { opts.openai_base_url, { "string", "nil" } },
     language = { opts.language, "string" },
     search_engine = {
       opts.search_engine,
