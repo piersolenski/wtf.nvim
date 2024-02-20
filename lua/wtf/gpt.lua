@@ -126,8 +126,7 @@ function M.request(messages, callback, callbackTable)
   if isWindows ~= true then
     -- Linux
     curlRequest = string.format(
-      --'curl -s https://api.openai.com/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer '
-        'curl -s ' 
+        'curl -s '
         .. base_url
         .. '/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer '
         .. api_key
