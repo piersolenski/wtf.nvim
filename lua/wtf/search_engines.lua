@@ -5,6 +5,8 @@ M.sources = {
   github = "https://github.com/search?type=issues&q=",
   google = "https://www.google.com/search?q=",
   stack_overflow = "https://stackoverflow.com/search?q=",
+  phind = "https://www.phind.com/search?q=",
+  perplexity = "https://www.perplexity.ai/search?q=",
 }
 
 function M.get_completions()
