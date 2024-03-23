@@ -76,6 +76,8 @@ use({
     openai_api_key = "sk-xxxxxxxxxxxxxx",
     -- ChatGPT Model
     openai_model_id = "gpt-3.5-turbo",
+    -- Configure base url to work over proxy or with other api-compatable services
+    openai_base_url = "https://api.openai.com",
     -- Send code as well as diagnostics
     context = true,
     -- Set your preferred language for the response
