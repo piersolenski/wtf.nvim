@@ -7,6 +7,7 @@ M.options = {}
 function M.setup(opts)
   local default_opts = {
     openai_api_key = nil,
+    openai_api_key_cmd = nil,
     openai_model_id = "gpt-3.5-turbo",
     language = "english",
     search_engine = "google",
@@ -26,6 +27,7 @@ function M.setup(opts)
   vim.validate({
     winhighlight = { opts.winhighlight, "string" },
     openai_api_key = { opts.openai_api_key, { "string", "nil" } },
+    openai_api_key_cmd = { opts.openai_api_key_cmd, { "string", "nil" } },
     openai_model_id = { opts.openai_model_id, "string" },
     language = { opts.language, "string" },
     search_engine = {

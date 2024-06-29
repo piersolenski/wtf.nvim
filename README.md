@@ -22,7 +22,7 @@ https://github.com/piersolenski/wtf.nvim/assets/1285419/6697d9a5-c81c-4e54-b375-
 
 ## 🔩 Installation
 
-In order to use the AI functionality, set the environment variable `OPENAI_API_KEY` to your [openai api key](https://platform.openai.com/account/api-keys) (the search functionality will still work without it).
+In order to use the AI functionality, set the environment variable `OPENAI_API_KEY` to your [openai api key](https://platform.openai.com/account/api-keys), or set a command that returns it (the search functionality will still work without it).
 
 Install the plugin with your preferred package manager:
 
@@ -74,6 +74,8 @@ use({
     popup_type = "popup" | "horizontal" | "vertical",
     -- An alternative way to set your API key
     openai_api_key = "sk-xxxxxxxxxxxxxx",
+    -- Set the API key more securely, using a command that returns it. i.e 'pass show api/tokens/openai'
+    openai_api_key_cmd = "your command here", 
     -- ChatGPT Model
     openai_model_id = "gpt-3.5-turbo",
     -- Send code as well as diagnostics
