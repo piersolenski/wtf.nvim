@@ -40,7 +40,7 @@ describe("Plugin", function()
       {
         bufnr = buffer_number,
         lnum = line_with_error - 1,
-        end_lnum = 1,
+        end_lnum = line_with_error - 1,
         col = 0,
         end_col = 5,
         severity = vim.diagnostic.severity.ERROR,
