@@ -2,6 +2,7 @@ local plugin = require("wtf")
 
 local buffer_number = 0
 local line_with_error = 3
+local namespace
 
 local set_lines = function(lines)
   vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
@@ -34,7 +35,7 @@ describe("Plugin", function()
     })
 
     -- Create an error
-    local namespace = vim.api.nvim_create_namespace("wtf")
+    namespace = vim.api.nvim_create_namespace("wtf")
     vim.diagnostic.set(namespace, buffer_number, {
       {
         bufnr = buffer_number,
