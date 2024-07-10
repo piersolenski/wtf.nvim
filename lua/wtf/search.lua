@@ -31,17 +31,16 @@ end
 local search = function(search_engine)
   local line = vim.fn.line(".")
   local diagnostics = get_diagnostics(line)
-
-  if next(diagnostics) == nil then
-    local message = "No diagnostics found!"
-    vim.notify(message, vim.log.levels.WARN)
-    return message
-  end
-
   local selected_search_engine = get_search_engine(search_engine)
 
   if selected_search_engine == nil then
     local message = "Invalid search engine"
+    vim.notify(message, vim.log.levels.WARN)
+    return message
+  end
+
+  if next(diagnostics) == nil then
+    local message = "No diagnostics found!"
     vim.notify(message, vim.log.levels.WARN)
     return message
   end
