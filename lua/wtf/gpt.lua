@@ -53,7 +53,21 @@ local function get_model_id()
 end
 
 local function get_api_key()
-  local api_key = config.options.openai_api_key
+  local api_key_cmd = config.options.openai_api_key_cmd -- Check for command in config
+  if api_key_cmd ~= nil then
+    local handle = io.popen(api_key_cmd) -- Use user command to securely retrieve API key
+    if handle ~= nil then
+      local result = handle:read("*a")
+      handle:close()
+      if result ~= nil and result ~= "" then
+        return result:gsub("%s+", "") -- Remove any trailing whitespace
+      end
+    else
+      vim.notify("Failed to execute command to retrieve API key", vim.log.levels.ERROR)
+    end
+  end
+
+  local api_key = config.options.openai_api_key -- Use default behavior if no command or API key is set
   if api_key == nil then
     local key = os.getenv("OPENAI_API_KEY")
     if key ~= nil then
