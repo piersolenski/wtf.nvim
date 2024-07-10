@@ -2,6 +2,7 @@ local plugin = require("wtf")
 
 local buffer_number = 0
 local line_with_error = 3
+local namespace
 
 local set_lines = function(lines)
   vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
@@ -34,12 +35,12 @@ describe("Plugin", function()
     })
 
     -- Create an error
-    local namespace = vim.api.nvim_create_namespace("wtf")
+    namespace = vim.api.nvim_create_namespace("wtf")
     vim.diagnostic.set(namespace, buffer_number, {
       {
         bufnr = buffer_number,
         lnum = line_with_error - 1,
-        end_lnum = 1,
+        end_lnum = line_with_error - 1,
         col = 0,
         end_col = 5,
         severity = vim.diagnostic.severity.ERROR,
@@ -84,17 +85,17 @@ describe("Plugin", function()
       assert.are.equal("No diagnostics found!", result)
     end)
 
-    -- it("works when line diagnostics are found", function()
-    --   local result = plugin.ai()
-    --   local valid_job_identifier = 3
-    --   assert.are.equal(valid_job_identifier, result)
-    -- end)
-    --
-    -- it("ai works when range diagnostics are found", function()
-    --   local result = plugin.ai({ line1 = line_with_error - 1, line2 = line_with_error + 2 })
-    --   local valid_job_identifier = 4
-    --   assert.are.equal(valid_job_identifier, result)
-    -- end)
+    it("works when line diagnostics are found", function()
+      local result = plugin.ai()
+      local valid_job_identifier = 3
+      assert.are.equal(valid_job_identifier, result)
+    end)
+
+    it("ai works when range diagnostics are found", function()
+      local result = plugin.ai({ line1 = line_with_error - 1, line2 = line_with_error + 2 })
+      local valid_job_identifier = 4
+      assert.are.equal(valid_job_identifier, result)
+    end)
   end)
 end)
 

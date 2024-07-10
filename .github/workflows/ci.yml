@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: kdheepak/panvimdoc@main
         with:
           vimdoc: wtf.nvim
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        nvim-versions: ['stable', 'nightly']
+        nvim-versions: ["stable", "nightly"]
     name: test
     steps:
       - name: checkout
@@ -31,4 +31,6 @@ jobs:
           neovim: true
           version: ${{ matrix.nvim-versions }}
       - name: run tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: make test
