@@ -85,17 +85,17 @@ describe("Plugin", function()
       assert.are.equal("No diagnostics found!", result)
     end)
 
-    -- it("works when line diagnostics are found", function()
-    --   local result = plugin.ai()
-    --   local valid_job_identifier = 3
-    --   assert.are.equal(valid_job_identifier, result)
-    -- end)
-    --
-    -- it("ai works when range diagnostics are found", function()
-    --   local result = plugin.ai({ line1 = line_with_error - 1, line2 = line_with_error + 2 })
-    --   local valid_job_identifier = 4
-    --   assert.are.equal(valid_job_identifier, result)
-    -- end)
+    it("works when line diagnostics are found", function()
+      local result = plugin.ai()
+      local valid_job_identifier = 3
+      assert.are.equal(valid_job_identifier, result)
+    end)
+
+    it("ai works when range diagnostics are found", function()
+      local result = plugin.ai({ line1 = line_with_error - 1, line2 = line_with_error + 2 })
+      local valid_job_identifier = 4
+      assert.are.equal(valid_job_identifier, result)
+    end)
   end)
 end)
 
