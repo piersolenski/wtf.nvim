@@ -33,7 +33,7 @@ local function display_popup(responseTable)
     win_options = {
       wrap = true,
       linebreak = true,
-      winhighlight = config.options.winhighlight
+      winhighlight = config.options.winhighlight,
     },
   }
 
@@ -64,7 +64,7 @@ local function display_popup(responseTable)
         style = "rounded",
       },
     }))
-    -- unmount component when cursor leaves buffer
+    -- Unmount component when cursor leaves buffer
     popup:on(event.BufLeave, function()
       popup:unmount()
     end)
