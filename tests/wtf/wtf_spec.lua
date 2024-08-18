@@ -8,6 +8,28 @@ local set_lines = function(lines)
   vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
 end
 
+local create_errors = function(diagnostics)
+  local diag_table = {}
+  namespace = vim.api.nvim_create_namespace("wtf")
+
+  for _, d in ipairs(diagnostics) do
+    table.insert(diag_table, {
+      bufnr = buffer_number,
+      lnum = d.line - 1,
+      end_lnum = d.line - 1,
+      col = 0,
+      end_col = 5,
+      severity = vim.diagnostic.severity.ERROR,
+      message = d.message,
+    })
+    vim.api.nvim_win_set_cursor(0, { d.line, 0 })
+  end
+
+  vim.diagnostic.set(namespace, buffer_number, diag_table)
+
+  return diag_table
+end
+
 describe("Setup", function()
   it("accepts valid config", function()
     plugin.setup({
@@ -33,27 +55,15 @@ describe("Plugin", function()
       "Line 4",
       "Line 5",
     })
-
-    -- Create an error
-    namespace = vim.api.nvim_create_namespace("wtf")
-    vim.diagnostic.set(namespace, buffer_number, {
-      {
-        bufnr = buffer_number,
-        lnum = line_with_error - 1,
-        end_lnum = line_with_error - 1,
-        col = 0,
-        end_col = 5,
-        severity = vim.diagnostic.severity.ERROR,
-        message = "Oh my god all the things are broken!",
-      },
-    })
-    vim.api.nvim_win_set_cursor(0, { line_with_error, 0 })
+    create_errors({ {
+      line = line_with_error,
+      message = "Oh my god all the things are broken!",
+    } })
+    plugin.setup()
   end)
 
   describe("Search", function()
     it("works with the default search engine", function()
-      plugin.setup()
-
       -- Mock the vim.fn.system function
       local original_fn = vim.fn.system
       vim.fn.system = function(_)
@@ -63,6 +73,47 @@ describe("Plugin", function()
       local result = plugin.search()
       assert.is.equal(result, "Test output")
       vim.fn.system = original_fn
+    end)
+
+    it("handles multiple errors on the same line", function()
+      local errors = create_errors({
+        {
+          line = line_with_error,
+          message = "First diagnostic",
+        },
+        {
+          line = line_with_error,
+          message = "Second diagnostic",
+        },
+      })
+
+      local second_error = errors[2]
+
+      -- Mock vim.ui.select
+      local original_select = vim.ui.select
+      vim.ui.select = function(_, _, on_choice)
+        -- Simulate selecting the second option
+        on_choice(second_error)
+      end
+
+      -- Mock the vim.fn.system function
+      local original_fn = vim.fn.system
+      vim.fn.system = function(_)
+        return second_error.message
+      end
+
+      -- Use a coroutine to handle the asynchronous behavior of vim.ui.select
+      local co = coroutine.create(function()
+        local result = plugin.search()
+        assert.is.equal(result, second_error.message)
+      end)
+
+      -- Run the coroutine
+      coroutine.resume(co)
+
+      -- Restore original functions
+      vim.fn.system = original_fn
+      vim.ui.select = original_select
     end)
 
     it("breaks with an unsupported engine", function()
