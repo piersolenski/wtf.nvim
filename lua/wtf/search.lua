@@ -28,7 +28,7 @@ local function get_search_engine(search_engine)
   end
 end
 
-local send = function(search_engine, programming_language, severity, message)
+local open_search_url = function(search_engine, programming_language, severity, message)
   local search_string = programming_language .. " " .. severity .. " " .. message
 
   local search_url = search_engine .. search_string
@@ -60,6 +60,7 @@ local search = function(search_engine)
 
   local programming_language = get_programming_language()
 
+  -- Let user select a diagnostic to search if multiple are present
   if #diagnostics > 1 then
     local opts = {
       prompt = "Choose a diagnostic:",
@@ -69,13 +70,18 @@ local search = function(search_engine)
     }
     vim.ui.select(diagnostics, opts, function(chosen_diagnostic)
       if chosen_diagnostic then
-        return send(selected_search_engine, programming_language, chosen_diagnostic.severity, chosen_diagnostic.message)
+        return open_search_url(
+          selected_search_engine,
+          programming_language,
+          chosen_diagnostic.severity,
+          chosen_diagnostic.message
+        )
       end
     end)
   else
     local diagnostic = diagnostics[1]
     local message = remove_file_paths(diagnostic.message)
-    return send(selected_search_engine, programming_language, diagnostic.severity, message)
+    return open_search_url(selected_search_engine, programming_language, diagnostic.severity, message)
   end
 end
 return search
