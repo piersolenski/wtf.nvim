@@ -84,4 +84,5 @@ local search = function(search_engine)
     return open_search_url(selected_search_engine, programming_language, diagnostic.severity, message)
   end
 end
+
 return search
