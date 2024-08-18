@@ -1,8 +1,15 @@
--- Remove file paths that are more than one directory deep
-local function remove_file_paths(inputString)
-  local cleanedString = inputString:gsub("[A-Za-z0-9:/\\._%-]+[.][A-Za-z0-9]+", "")
-  cleanedString = cleanedString:gsub("[A-Za-z0-9:/\\._%-]+[/\\][A-Za-z0-9:/\\._%-]+[.][A-Za-z0-9]+", "")
-  return cleanedString
+-- Remove data that is either sensitive or irrelevant to the search
+local function remove_user_data(inputString)
+  return inputString
+  -- local username = vim.fn.system("whoami"):gsub("%s+", "")
+  --
+  -- -- Replace the username in the input string with '<user>'
+  -- local path_pattern = "[/\\]Users[/\\]" .. username
+  --
+  -- -- Replace the username in the input string only if it follows the /Users/ or \Users\ pattern
+  -- local cleanedString = inputString:gsub(path_pattern, "/Users/<user>")
+  --
+  -- return cleanedString
 end
 
-return remove_file_paths
+return remove_user_data

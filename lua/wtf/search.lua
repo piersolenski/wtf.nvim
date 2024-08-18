@@ -28,6 +28,19 @@ local function get_search_engine(search_engine)
   end
 end
 
+local open_search_url = function(search_engine, programming_language, severity, message)
+  local search_string = programming_language .. " " .. severity .. " " .. message
+
+  local search_url = search_engine .. search_string
+
+  local open_command = get_open_command()
+
+  local command = open_command .. " " .. '"' .. search_url .. '"'
+
+  -- Open the URL using the appropriate command
+  return vim.fn.system(command)
+end
+
 local search = function(search_engine)
   local line = vim.fn.line(".")
   local diagnostics = get_diagnostics(line)
@@ -47,19 +60,28 @@ local search = function(search_engine)
 
   local programming_language = get_programming_language()
 
-  local first_diagnostic = diagnostics[1]
-
-  local clean_message = remove_file_paths(first_diagnostic.message)
-
-  local search_string = programming_language .. " " .. first_diagnostic.severity .. " " .. clean_message
-
-  local search_url = selected_search_engine .. search_string
-
-  local open_command = get_open_command()
-
-  local command = open_command .. " " .. '"' .. search_url .. '"'
-
-  -- Open the URL using the appropriate command
-  return vim.fn.system(command)
+  -- Let user select a diagnostic to search if multiple are present
+  if #diagnostics > 1 then
+    local opts = {
+      prompt = "Choose a diagnostic:",
+      format_item = function(item)
+        return remove_file_paths(item.message)
+      end,
+    }
+    vim.ui.select(diagnostics, opts, function(chosen_diagnostic)
+      if chosen_diagnostic then
+        return open_search_url(
+          selected_search_engine,
+          programming_language,
+          chosen_diagnostic.severity,
+          chosen_diagnostic.message
+        )
+      end
+    end)
+  else
+    local diagnostic = diagnostics[1]
+    local message = remove_file_paths(diagnostic.message)
+    return open_search_url(selected_search_engine, programming_language, diagnostic.severity, message)
+  end
 end
 return search
