@@ -4,6 +4,7 @@ if not has_telescope then
   error("This plugin requires nvim-telescope/telescope.nvim")
 end
 
+local create_summary = require("wtf.utils.create_summary")
 local Path = require("plenary.path")
 local telescope_config = require("telescope.config").values
 local wtf_config = require("wtf.config")
@@ -21,14 +22,12 @@ local function get_chat_summaries(dir)
     local file = io.open(path, "r")
     if file then
       local first_line = file:read("*l")
+      local summary_length = 50
 
       if first_line then
-        -- Trim starting '# ' from the first line if present, in the case the
-        -- text contains a markdown header
-        first_line = first_line:match("^#%s*(.*)") or first_line
-
-        table.insert(lines, first_line)
-        table.insert(files_with_first_line, { first_line = first_line, path = path })
+        local summary = create_summary(first_line, summary_length)
+        table.insert(lines, summary)
+        table.insert(files_with_first_line, { first_line = summary, path = path })
       end
       file:close()
     end

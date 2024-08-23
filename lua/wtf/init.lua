@@ -1,6 +1,7 @@
 local ai = require("wtf.ai")
 local search = require("wtf.search")
 local config = require("wtf.config")
+local quickfix = require("wtf.quickfix")
 
 local M = {}
 
@@ -31,6 +32,10 @@ end
 
 function M.get_status()
   return ai.get_status()
+end
+
+function M.quickfix()
+  return quickfix()
 end
 
 return M

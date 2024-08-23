@@ -1,3 +1,4 @@
+local config = require("wtf.config")
 if vim.fn.has("nvim-0.7.0") == 0 then
   vim.api.nvim_err_writeln("wtf requires at least nvim-0.7.0.1")
   return
@@ -24,6 +25,16 @@ end, {
   range = true,
   nargs = "*",
 })
+
+vim.api.nvim_create_user_command("WtfQuickFix", function()
+  wtf.quickfix()
+end, {})
+
+vim.api.nvim_create_user_command("WtfHistory", function()
+  local telescope = require("telescope")
+  telescope.load_extension("wtf")
+  telescope.extensions.wtf.history()
+end, {})
 
 vim.api.nvim_create_user_command("WtfSearch", function(opts)
   wtf.search(opts.args)
