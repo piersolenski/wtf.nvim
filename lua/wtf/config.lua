@@ -6,13 +6,14 @@ M.options = {}
 
 function M.setup(opts)
   local default_opts = {
+    additional_instructions = nil,
+    chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
+    context = true,
+    language = "english",
     openai_api_key = nil,
     openai_model_id = "gpt-3.5-turbo",
-    language = "english",
-    search_engine = "google",
-    context = true,
-    additional_instructions = nil,
     popup_type = "popup",
+    search_engine = "google",
     hooks = {
       request_started = nil,
       request_finished = nil,

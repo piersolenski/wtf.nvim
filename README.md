@@ -3,7 +3,6 @@
 A Neovim plugin to help you work out *what the fudge* that diagnostic means **and** how to fix it!
 
 `wtf.nvim` provides faster and more efficient ways of working with the buffer line's diagnostic messages by redirecting them to your favourite resources straight from Neovim. 
-
 Works with any language that has [LSP](https://microsoft.github.io/language-server-protocol/) support in Neovim.
 
 ## ✨ Features
@@ -70,6 +69,8 @@ use({
 
 ```lua
 {
+   	-- Directory for storing chat files 
+    chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
     -- Default AI popup type
     popup_type = "popup" | "horizontal" | "vertical",
     -- An alternative way to set your API key
