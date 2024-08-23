@@ -43,8 +43,6 @@ local function create_quickfix_list()
 
   -- Open quickfix window
   vim.cmd("copen")
-  -- Optionally, open the preview window
-  vim.cmd("cw")
 end
 
 return create_quickfix_list
