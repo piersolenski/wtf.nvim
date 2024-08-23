@@ -1,4 +1,4 @@
-*wtf.nvim.txt*           For NVIM v0.8.0           Last change: 2024 August 18
+*wtf.nvim.txt*           For NVIM v0.8.0           Last change: 2024 August 23
 
 ==============================================================================
 Table of Contents                                 *wtf.nvim-table-of-contents*
@@ -18,9 +18,7 @@ A Neovim plugin to help you work out _what the fudge_ that diagnostic means
 
 `wtf.nvim` provides faster and more efficient ways of working with the buffer
 line’s diagnostic messages by redirecting them to your favourite resources
-straight from Neovim.
-
-Works with any language that has LSP
+straight from Neovim. Works with any language that has LSP
 <https://microsoft.github.io/language-server-protocol/> support in Neovim.
 
 
@@ -101,6 +99,8 @@ CONFIGURATION                                *wtf.nvim-wtf.nvim-configuration*
 
 >lua
     {
+        -- Directory for storing chat files 
+        chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
         -- Default AI popup type
         popup_type = "popup" | "horizontal" | "vertical",
         -- An alternative way to set your API key
