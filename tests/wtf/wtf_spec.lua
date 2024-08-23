@@ -1,4 +1,5 @@
 local plugin = require("wtf")
+local save_chat = require("wtf.save_chat")
 
 local buffer_number = 0
 local line_with_error = 3
@@ -154,5 +155,35 @@ describe("Get Status", function()
   it("returns a string", function()
     local result = plugin.get_status()
     assert.are.equal("string", type(result))
+  end)
+end)
+
+describe("Quickfix", function()
+  local chat_dir = "/tmp/wtf/chats"
+
+  before_each(function()
+    plugin.setup({
+      chat_dir = chat_dir,
+    })
+  end)
+
+  after_each(function()
+    vim.fn.system("rm -rf " .. chat_dir)
+  end)
+
+  it("is empty by default", function()
+    plugin.quickfix()
+    local quickfix_list = vim.fn.getqflist()
+
+    assert.are.equal(0, #quickfix_list)
+  end)
+
+  it("has one item after a chat has been saved", function()
+    save_chat("An example of a chat response")
+
+    plugin.quickfix()
+    local quickfix_list = vim.fn.getqflist()
+
+    assert.are.equal(1, #quickfix_list)
   end)
 end)
