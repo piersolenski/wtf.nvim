@@ -10,15 +10,11 @@ local function split_string_by_line(text)
   return lines
 end
 
-local function display_popup(responseTable)
+local function display_popup(message)
   -- Clear last command
   print(" ")
 
-  if responseTable == nil then
-    return nil
-  end
-  local message = responseTable.choices[1].message.content
-  message = split_string_by_line(message)
+  local formatted_message = split_string_by_line(message)
 
   local event = require("nui.utils.autocmd").event
 
@@ -72,7 +68,7 @@ local function display_popup(responseTable)
     return vim.notify("Invalid popup type", vim.log.levels.ERROR)
   end
 
-  vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, message)
+  vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, formatted_message)
 
   popup:mount()
 

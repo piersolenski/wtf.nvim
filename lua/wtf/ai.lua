@@ -83,7 +83,16 @@ M.diagnose = function(line1, line2, instructions)
     },
   }
 
-  return gpt.request(messages, display_popup)
+  return gpt.request(messages, function(response)
+    if response == nil then
+      return nil
+    end
+
+    local message = response.choices[1].message.content
+
+    save_chat(message)
+    display_popup(message)
+  end)
 end
 
 M.get_status = gpt.get_status
