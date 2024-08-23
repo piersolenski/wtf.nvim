@@ -2,6 +2,7 @@ local get_diagnostics = require("wtf.get_diagnostics")
 local get_programming_language = require("wtf.utils.get_programming_language")
 local gpt = require("wtf.gpt")
 local display_popup = require("wtf.display_popup")
+local save_chat = require("wtf.save_chat")
 local config = require("wtf.config")
 
 local M = {}
