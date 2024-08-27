@@ -35,7 +35,11 @@ function M.get_status()
 end
 
 function M.grep_history()
-  local telescope = require("telescope")
+  local has_telescope, telescope = pcall(require, "telescope")
+
+  if not has_telescope then
+    error("This feature requires nvim-telescope/telescope.nvim")
+  end
   telescope.load_extension("wtf")
   return telescope.extensions.wtf.grep_history()
 end
