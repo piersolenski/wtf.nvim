@@ -1,7 +1,7 @@
 local config = require("wtf.config")
 local create_summary = require("wtf.utils.create_summary")
 
-local function create_quickfix_list()
+local function populate_quickfix_with_history()
   local directory = config.options.chat_dir
   local files = {}
   local handle = vim.loop.fs_scandir(directory)
@@ -45,4 +45,4 @@ local function create_quickfix_list()
   vim.cmd("copen")
 end
 
-return create_quickfix_list
+return populate_quickfix_with_history
