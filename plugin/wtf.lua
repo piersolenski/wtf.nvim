@@ -26,14 +26,12 @@ end, {
   nargs = "*",
 })
 
-vim.api.nvim_create_user_command("WtfQuickFix", function()
-  wtf.quickfix()
+vim.api.nvim_create_user_command("WtfHistory", function()
+  wtf.history()
 end, {})
 
-vim.api.nvim_create_user_command("WtfHistory", function()
-  local telescope = require("telescope")
-  telescope.load_extension("wtf")
-  telescope.extensions.wtf.history()
+vim.api.nvim_create_user_command("WtfGrepHistory", function()
+  wtf.grep_history()
 end, {})
 
 vim.api.nvim_create_user_command("WtfSearch", function(opts)
