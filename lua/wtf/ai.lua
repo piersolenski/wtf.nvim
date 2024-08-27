@@ -2,6 +2,7 @@ local get_diagnostics = require("wtf.get_diagnostics")
 local get_programming_language = require("wtf.utils.get_programming_language")
 local gpt = require("wtf.gpt")
 local display_popup = require("wtf.display_popup")
+local save_chat = require("wtf.save_chat")
 local config = require("wtf.config")
 
 local M = {}
@@ -83,7 +84,16 @@ M.diagnose = function(line1, line2, instructions)
     },
   }
 
-  return gpt.request(messages, display_popup)
+  return gpt.request(messages, function(response)
+    if response == nil then
+      return nil
+    end
+
+    local message = response.choices[1].message.content
+
+    save_chat(message)
+    display_popup(message)
+  end)
 end
 
 M.get_status = gpt.get_status

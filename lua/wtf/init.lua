@@ -1,6 +1,7 @@
 local ai = require("wtf.ai")
 local search = require("wtf.search")
 local config = require("wtf.config")
+local quickfix = require("wtf.quickfix")
 
 local M = {}
 
@@ -31,6 +32,20 @@ end
 
 function M.get_status()
   return ai.get_status()
+end
+
+function M.grep_history()
+  local has_telescope, telescope = pcall(require, "telescope")
+
+  if not has_telescope then
+    error("This feature requires nvim-telescope/telescope.nvim")
+  end
+  telescope.load_extension("wtf")
+  return telescope.extensions.wtf.grep_history()
+end
+
+function M.history()
+  return quickfix()
 end
 
 return M
