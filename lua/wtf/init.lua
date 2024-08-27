@@ -34,7 +34,13 @@ function M.get_status()
   return ai.get_status()
 end
 
-function M.quickfix()
+function M.grep_history()
+  local telescope = require("telescope")
+  telescope.load_extension("wtf")
+  return telescope.extensions.wtf.grep_history()
+end
+
+function M.history()
   return quickfix()
 end
 
