@@ -46,7 +46,7 @@ use({
   	opts = {},
 	keys = {
 		{
-			"gw",
+			"<leader>wa",
 			mode = { "n", "x" },
 			function()
 				require("wtf").ai()
@@ -55,11 +55,27 @@ use({
 		},
 		{
 			mode = { "n" },
-			"gW",
+			"<leader>ws",
 			function()
 				require("wtf").search()
 			end,
 			desc = "Search diagnostic with Google",
+		},
+		{
+			mode = { "n" },
+			"<leader>wh",
+			function()
+				require("wtf").history()
+			end,
+			desc = "Populate the quickfix list with previous chat history",
+		},
+		{
+			mode = { "n" },
+			"<leader>wg",
+			function()
+				require("wtf").grep_history()
+			end,
+			desc = "Grep previous chat history with Telescope",
 		},
 	},
 }
@@ -105,6 +121,9 @@ To use it, whenever you have an hint, warning or error in an LSP enabled environ
 | -- | -- | -- |
 | `:Wtf [additional_instructions]` | Normal, Visual | Sends the diagnostic messages for a line or visual range to ChatGPT, along with the code if the context has been set to `true`. Additional instructions can also be specified, which might be useful if you want to refine the response further.
 | `:WtfSearch [search_engine]` | Normal | Uses a search engine (defaults to the one in the setup or Google if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
+| `:WtfHistory` | Normal | Use the quickfix list to see your previous chats. 
+| `:WtfGrepHistory` | Normal | Grep your previous chats via [Telescope](https://github.com/nvim-telescope/telescope.nvim!). 
+
 
 ### Custom status hooks
 
