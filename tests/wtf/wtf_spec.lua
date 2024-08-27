@@ -172,7 +172,7 @@ describe("Quickfix", function()
   end)
 
   it("is empty by default", function()
-    plugin.quickfix()
+    plugin.history()
     local quickfix_list = vim.fn.getqflist()
 
     assert.are.equal(0, #quickfix_list)
@@ -181,7 +181,7 @@ describe("Quickfix", function()
   it("has one item after a chat has been saved", function()
     save_chat("An example of a chat response")
 
-    plugin.quickfix()
+    plugin.history()
     local quickfix_list = vim.fn.getqflist()
 
     assert.are.equal(1, #quickfix_list)
