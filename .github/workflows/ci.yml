@@ -5,7 +5,10 @@ on: [push]
 jobs:
   docs:
     name: pandoc to vimdoc
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     if: ${{ github.ref != 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v3
