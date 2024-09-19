@@ -1,7 +1,7 @@
 local config = require("wtf.config")
 
 local function save_chat(message)
-  local timestamp = os.date("%Y-%m-%dT%H:%M:%S")
+  local timestamp = os.date("%Y-%m-%dT%H-%M-%S")
   local file = config.options.chat_dir .. "/" .. timestamp .. ".md"
 
   -- Ensure the chat directory exists
