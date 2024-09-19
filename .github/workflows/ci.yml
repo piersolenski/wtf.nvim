@@ -5,10 +5,7 @@ on: [push]
 jobs:
   docs:
     name: pandoc to vimdoc
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
+    runs-on: ubuntu-latest
     if: ${{ github.ref != 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@v3
@@ -21,9 +18,10 @@ jobs:
           commit_message: "Auto generate docs"
           branch: ${{ github.head_ref }}
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest]
         nvim-versions: ["stable", "nightly"]
     name: test
     steps:
