@@ -3,35 +3,39 @@ name: CI
 on: [push]
 
 jobs:
-  docs:
-    name: pandoc to vimdoc
-    runs-on: ubuntu-latest
-    if: ${{ github.ref != 'refs/heads/main' }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: kdheepak/panvimdoc@main
-        with:
-          vimdoc: wtf.nvim
-          demojify: true
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Auto generate docs"
-          branch: ${{ github.head_ref }}
-  test:
+  tests:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
         nvim-versions: ["stable", "nightly"]
-    name: test
+    name: Tests
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
       - uses: rhysd/action-setup-vim@v1
         with:
           neovim: true
           version: ${{ matrix.nvim-versions }}
-      - name: run tests
+      - name: Run tests
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: make test
+  docs:
+    needs: tests
+    name: Generate vimdoc
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Run panvimdoc
+        uses: kdheepak/panvimdoc@main
+        with:
+          vimdoc: wtf.nvim
+          demojify: true
+      - name: Push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Auto generate vimdoc"
+          branch: ${{ github.head_ref }}
