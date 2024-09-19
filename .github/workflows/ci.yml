@@ -18,9 +18,10 @@ jobs:
           commit_message: "Auto generate docs"
           branch: ${{ github.head_ref }}
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest]
         nvim-versions: ["stable", "nightly"]
     name: test
     steps:
