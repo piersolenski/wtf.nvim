@@ -1,4 +1,4 @@
-*wtf.nvim.txt*           For NVIM v0.8.0           Last change: 2024 August 27
+*wtf.nvim.txt*          For NVIM v0.8.0         Last change: 2024 September 19
 
 ==============================================================================
 Table of Contents                                 *wtf.nvim-table-of-contents*
@@ -75,7 +75,7 @@ Install the plugin with your preferred package manager:
         opts = {},
         keys = {
             {
-                "gw",
+                "<leader>wa",
                 mode = { "n", "x" },
                 function()
                     require("wtf").ai()
@@ -84,11 +84,27 @@ Install the plugin with your preferred package manager:
             },
             {
                 mode = { "n" },
-                "gW",
+                "<leader>ws",
                 function()
                     require("wtf").search()
                 end,
                 desc = "Search diagnostic with Google",
+            },
+            {
+                mode = { "n" },
+                "<leader>wh",
+                function()
+                    require("wtf").history()
+                end,
+                desc = "Populate the quickfix list with previous chat history",
+            },
+            {
+                mode = { "n" },
+                "<leader>wg",
+                function()
+                    require("wtf").grep_history()
+                end,
+                desc = "Grep previous chat history with Telescope",
             },
         },
     }
@@ -162,6 +178,13 @@ environment, invoke one of the commands:
                                                            environment, such as
                                                            file paths, for broader
                                                            results.
+
+  :WtfHistory                      Normal                  Use the quickfix list
+                                                           to see your previous
+                                                           chats.
+
+  :WtfGrepHistory                  Normal                  Grep your previous
+                                                           chats via Telescope.
   --------------------------------------------------------------------------------
 
 CUSTOM STATUS HOOKS ~
