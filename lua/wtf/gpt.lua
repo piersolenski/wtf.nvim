@@ -47,7 +47,7 @@ local function get_model_id()
       vim.fn.confirm(message, "&OK", 1, "Warning")
       vim.g.wtf_model_id_complained = 1
     end
-    return "qwen2:7b"
+    return "gpt-3.5-turbo"
   end
   return model
 end
