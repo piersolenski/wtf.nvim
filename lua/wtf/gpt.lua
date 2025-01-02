@@ -52,21 +52,21 @@ local function get_model_id()
   return model
 end
 
-local function get_api_url()
-  local api_url = config.options.openai_api_url
-  if api_url == nil then
-    local url = os.getenv("OPENAI_API_URL")
+local function get_api_base_url()
+  local api_base_url = config.options.openai_api_base_url
+  if api_base_url == nil then
+    local url = os.getenv("OPENAI_API_BASE_URL")
     if url ~= nil then
       return url
     else
       return "https://api.openai.com/v1/"
     end
     local message =
-      "No API url found. Please set openai_api_url in the setup table or set the $OPENAI_API_URL environment variable."
+      "No API url found. Please set openai_api_base_url in the setup table or set the $OPENAI_API_BASE_URL environment variable."
     vim.fn.confirm(message, "&OK", 1, "Warning")
     return nil
   end
-  return api_url
+  return api_base_url
 end
 
 local function get_api_key()
@@ -85,10 +85,10 @@ local function get_api_key()
 end
 
 function M.request(messages, callback, callbackTable)
-  local api_url = get_api_url()
+  local api_base_url = get_api_base_url()
   local api_key = get_api_key()
 
-  if api_url == nil then
+  if api_base_url == nil then
     return nil
   end
   if api_key == nil then
@@ -132,7 +132,7 @@ function M.request(messages, callback, callbackTable)
     -- Linux
     curlRequest = string.format(
       'curl -s "'
-        .. api_url
+        .. api_base_url
         .. 'chat/completions"'
         .. ' -H "Content-Type: application/json" -H "Authorization: Bearer '
         .. api_key
@@ -146,7 +146,7 @@ function M.request(messages, callback, callbackTable)
     -- Windows
     curlRequest = string.format(
       'curl -s "'
-        .. api_url
+        .. api_base_url
         .. 'chat/completions"'
         .. ' -H "Content-Type: application/json" -H "Authorization: Bearer '
         .. api_key

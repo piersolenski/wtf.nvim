@@ -23,6 +23,8 @@ https://github.com/piersolenski/wtf.nvim/assets/1285419/6697d9a5-c81c-4e54-b375-
 
 In order to use the AI functionality, set the environment variable `OPENAI_API_KEY` to your [openai api key](https://platform.openai.com/account/api-keys) (the search functionality will still work without it).
 
+In order to use the AI functionality, the environment variable `OPENAI_API_BASE_URL` can be defined to override target api url.
+
 Install the plugin with your preferred package manager:
 
 ```lua
@@ -84,14 +86,14 @@ use({
 ## ⚙️ Configuration
 
 ```lua
-{
+opts = {
    	-- Directory for storing chat files 
     chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
     -- Default AI popup type
     popup_type = "popup" | "horizontal" | "vertical",
     -- Set custom OpenAI compatible API url  (Ollama example: "http://ollama.example.com:11434/v1/")
-    openai_api_url = nil,
-    -- An alternative way to set your API key
+    openai_api_base_url = "https://api.openai.com/v1/",
+    -- An alternative way to set your API key  (Ollama expects some value...any value)
     openai_api_key = "sk-xxxxxxxxxxxxxx",
     -- ChatGPT Model  (Ollama example: "qwen2:7b")
     openai_model_id = "gpt-3.5-turbo",
