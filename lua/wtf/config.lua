@@ -10,6 +10,7 @@ function M.setup(opts)
     chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
     context = true,
     language = "english",
+    openai_api_url = nil,
     openai_api_key = nil,
     openai_model_id = "gpt-3.5-turbo",
     popup_type = "popup",
