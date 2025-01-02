@@ -89,9 +89,11 @@ use({
     chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
     -- Default AI popup type
     popup_type = "popup" | "horizontal" | "vertical",
+    -- Set custom OpenAI compatible API url  (Ollama example: "http://ollama.example.com:11434/v1/")
+    openai_api_url = nil,
     -- An alternative way to set your API key
     openai_api_key = "sk-xxxxxxxxxxxxxx",
-    -- ChatGPT Model
+    -- ChatGPT Model  (Ollama example: "qwen2:7b")
     openai_model_id = "gpt-3.5-turbo",
     -- Send code as well as diagnostics
     context = true,
