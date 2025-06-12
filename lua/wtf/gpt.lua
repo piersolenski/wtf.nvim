@@ -39,7 +39,7 @@ function M.get_status()
 end
 
 local function get_model_id()
-  local model = config.options.openai_model_id
+  local model = config.options.providers.gpt.modelId
   if model == nil then
     if vim.g.wtf_model_id_complained == nil then
       local message =
@@ -53,7 +53,7 @@ local function get_model_id()
 end
 
 local function get_api_key()
-  local api_key = config.options.openai_api_key
+  local api_key = config.options.providers.gpt.apiKey
   if api_key == nil then
     local key = os.getenv("OPENAI_API_KEY")
     if key ~= nil then
@@ -68,7 +68,7 @@ local function get_api_key()
 end
 
 local function get_base_url()
-  return config.options.openai_base_url
+  return config.options.providers.gpt.baseUrl
 end
 
 function M.request(messages, callback, callbackTable)
