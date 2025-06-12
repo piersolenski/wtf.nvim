@@ -85,16 +85,25 @@ use({
 
 ```lua
 {
-   	-- Directory for storing chat files 
+    -- Directory for storing chat files
     chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
     -- Default AI popup type
     popup_type = "popup" | "horizontal" | "vertical",
-    -- An alternative way to set your API key
-    openai_api_key = "sk-xxxxxxxxxxxxxx",
-    -- ChatGPT Model
-    openai_model_id = "gpt-3.5-turbo",
-    -- Configure base url to work over proxy or with other api-compatable services
-    openai_base_url = "https://api.openai.com",
+    -- AI provider selection
+    provider = "gpt" | "gemini"
+    -- AI provider configuration
+    providers = {
+      gpt = {
+        apiKey = nil,
+        modelId = "gpt-3.5-turbo",
+        baseUrl = "https://api.openai.com",
+      },
+      gemini = {
+        apiKey = nil,
+        modelId = "gemini-1.5-flash",
+        baseUrl = "https://generativeai.googleapis.com",
+      },
+    },
     -- Send code as well as diagnostics
     context = true,
     -- Set your preferred language for the response
