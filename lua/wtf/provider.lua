@@ -41,12 +41,9 @@ end
 local function get_model_id()
   local model = config.options.openai_model_id
   if model == nil then
-    if vim.g.wtf_model_id_complained == nil then
-      local message =
-        "No model id specified. Please set openai_model_id in the setup table. Defaulting to gpt-3.5-turbo for now"
-      vim.fn.confirm(message, "&OK", 1, "Warning")
-      vim.g.wtf_model_id_complained = 1
-    end
+    local message =
+      "No model id specified. Please set openai_model_id in the setup table. Defaulting to gpt-3.5-turbo for now"
+    vim.fn.confirm(message, "&OK", 1, "Warning")
     return "gpt-3.5-turbo"
   end
   return model
