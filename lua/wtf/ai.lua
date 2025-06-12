@@ -71,20 +71,7 @@ M.diagnose = function(line1, line2, instructions)
 
   vim.notify("Generating explanation...", vim.log.levels.INFO)
 
-  local messages = {
-    {
-      role = "system",
-      content = [[You are an expert coder and helpful assistant who can help debug code diagnostics, such as warning and error messages.
-      When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting.
-      Never show line numbers on solutions, so they are easily copy and pastable.]],
-    },
-    {
-      role = "user",
-      content = payload,
-    },
-  }
-
-  return provider.request(messages, function(response)
+  return provider.request(payload, function(response)
     if response == nil then
       return nil
     end
