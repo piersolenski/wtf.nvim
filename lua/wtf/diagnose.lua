@@ -4,7 +4,6 @@ local provider = require("wtf.provider")
 local display_popup = require("wtf.display_popup")
 local save_chat = require("wtf.save_chat")
 local config = require("wtf.config")
-local hooks = require("wtf.hooks")
 
 local M = {}
 
@@ -71,10 +70,13 @@ M.diagnose = function(line1, line2, instructions)
   end
 
   vim.notify("Generating explanation...", vim.log.levels.INFO)
-  hooks.run_started_hook()
 
-  return provider.request(payload, function(response)
-    hooks.run_finished_hook()
+  local system =
+    [[You are an expert coder and helpful assistant who can help debug code diagnostics, such as warning and error messages.
+  When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting.
+  Never show line numbers on solutions, so they are easily copy and pastable.]]
+
+  return provider.request(system, payload, function(response)
     if response == nil then
       return nil
     end
