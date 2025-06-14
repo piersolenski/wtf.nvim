@@ -2,42 +2,6 @@ local config = require("wtf.config")
 
 local M = {}
 
-local callback_counter = 0
-
-local status_index = 0
-local progress_bar_dots = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-
-local function run_started_hook()
-  local request_started = config.options.hooks and config.options.hooks.request_started
-  if request_started ~= nil then
-    request_started()
-  end
-
-  callback_counter = callback_counter + 1
-end
-
-local function run_finished_hook()
-  callback_counter = callback_counter - 1
-  if callback_counter <= 0 then
-    local request_finished = config.options.hooks and config.options.hooks.request_finished
-    if request_finished ~= nil then
-      request_finished()
-    end
-  end
-end
-
-function M.get_status()
-  if callback_counter > 0 then
-    status_index = status_index + 1
-    if status_index > #progress_bar_dots then
-      status_index = 1
-    end
-    return progress_bar_dots[status_index]
-  else
-    return ""
-  end
-end
-
 local function get_model_id()
   local model = config.options.openai_model_id
   if model == nil then
@@ -115,8 +79,6 @@ function M.request(payload, callback, callbackTable)
   -- Check if the user is on windows
   local isWindows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
 
-  run_started_hook()
-
   if isWindows ~= true then
     -- Linux
     curlRequest = string.format(
@@ -153,19 +115,16 @@ function M.request(payload, callback, callbackTable)
         end
         vim.notify("Bad or no response: ", vim.log.levels.ERROR)
 
-        run_finished_hook()
         return nil
       end
 
       if responseTable.error ~= nil then
         vim.notify("OpenAI Error: " .. responseTable.error.message, vim.log.levels.ERROR)
 
-        run_finished_hook()
         return nil
       end
 
       callback(responseTable, callbackTable)
-      run_finished_hook()
     end,
     on_stderr = function(_, data, _)
       return data
