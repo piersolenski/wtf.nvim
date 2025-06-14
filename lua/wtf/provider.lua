@@ -1,5 +1,5 @@
 local hooks = require("wtf.hooks")
-local get_api_key() = require("wtf.utils.get_api_key")
+local get_api_key = require("wtf.utils.get_api_key")
 local config = require("wtf.config")
 local anthropic = require("wtf.providers.anthropic")
 local openai = require("wtf.providers.openai")
@@ -15,7 +15,7 @@ local function build_curl_command(url, headers, api_key, temp_file_path)
   local header_args = {}
 
   for key, value in pairs(headers) do
-    -- Replace placeholder with actual api_key value
+    -- Replace placeholder with actual API value
     local processed_value = value:gsub("${api_key}", api_key)
     table.insert(header_args, '-H "' .. key .. ": " .. processed_value .. '"')
   end
@@ -52,17 +52,6 @@ function M.request(system, payload, callback)
     error("Provider '" .. selected_provider .. "' not found in available providers")
   end
 
-  local messages = {
-    {
-      role = "system",
-      content = system,
-    },
-    {
-      role = "user",
-      content = payload,
-    },
-  }
-
   local api_key = get_api_key(selected_provider, setup_api_key, provider_config.env.api_key)
 
   if api_key == nil then
@@ -84,11 +73,16 @@ function M.request(system, payload, callback)
     return nil
   end
 
-  -- Write dataJSON to temp file
-  local dataJSON = vim.json.encode({
+  local data = provider_config.format_request_data({
     model = model_id,
-    messages = messages,
+    max_tokens = 4096,
+    system = system,
+    payload = payload,
   })
+
+  -- Write dataJSON to temp file
+  local dataJSON = vim.json.encode(data)
+
   tempFile:write(dataJSON)
   tempFile:close()
 

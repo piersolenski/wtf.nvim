@@ -10,6 +10,19 @@ return {
   env = {
     api_key = "ANTHROPIC_API_KEY",
   },
+  format_request_data = function(data)
+    return {
+      model = data.model,
+      max_tokens = data.max_tokens,
+      system = data.system,
+      messages = {
+        {
+          role = "user",
+          content = data.payload,
+        },
+      },
+    }
+  end,
   format_response = function(response)
     return response.content[1].text
   end,
