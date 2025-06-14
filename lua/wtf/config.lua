@@ -4,6 +4,12 @@ local M = {}
 
 M.options = {}
 
+-- TODO: Generate this from wtf.providers
+local providers = {
+  "openai",
+  "anthropic",
+}
+
 function M.setup(opts)
   local default_opts = {
     additional_instructions = nil,
@@ -11,6 +17,19 @@ function M.setup(opts)
     context = true,
     language = "english",
     popup_type = "popup",
+    provider = "openai",
+    providers = {
+      openai = {
+        api_key = nil,
+        model_id = "gpt-4o",
+        base_url = nil,
+      },
+      anthropic = {
+        api_key = nil,
+        model_id = "claude-3-5-sonnet-20241022",
+        base_url = nil,
+      },
+    },
     search_engine = "google",
     hooks = {
       request_started = nil,
@@ -44,8 +63,20 @@ function M.setup(opts)
       end,
     },
     winhighlight = { opts.winhighlight, "string" },
-    openai_api_key = { opts.openai_api_key, { "string", "nil" } },
-    openai_model_id = { opts.openai_model_id, "string" },
+    -- TODO: Add more stringent validation
+    provider = {
+      opts.provider,
+      function(provider)
+        for _, supported_provider in ipairs(providers) do
+          if provider == supported_provider then
+            return true
+          end
+        end
+        return false
+      end,
+      "supported provider",
+    },
+    providers = { opts.providers, { "table", "nil" } },
     language = { opts.language, "string" },
     search_engine = {
       opts.search_engine,
