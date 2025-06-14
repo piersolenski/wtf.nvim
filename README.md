@@ -89,6 +89,21 @@ use({
     chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
     -- Default AI popup type
     popup_type = "popup" | "horizontal" | "vertical",
+    -- The default provider
+    provider = "openai" | "anthropic",
+    -- Supported providers
+  	providers = {
+        anthropic = {
+	        api_key = nil,
+	        model_id = "claude-3-5-sonnet-20241022",
+	        base_url = nil,
+	    },
+	    gpt = {
+	        api_key = nil,
+	        model_id = "gpt-4o",
+	        base_url = nil,
+	    },
+    },
     -- An alternative way to set your API key
     openai_api_key = "sk-xxxxxxxxxxxxxx",
     -- ChatGPT Model
