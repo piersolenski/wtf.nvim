@@ -1,8 +1,10 @@
 local hooks = require("wtf.hooks")
 local config = require("wtf.config")
+-- local anthropic = require("wtf.providers.anthropic")
 local openai = require("wtf.providers.openai")
 
 local providers = {
+  -- anthropic = anthropic,
   openai = openai,
 }
 
