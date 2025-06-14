@@ -81,10 +81,8 @@ M.diagnose = function(line1, line2, instructions)
       return nil
     end
 
-    local message = response.choices[1].message.content
-
-    save_chat(message)
-    display_popup(message)
+    save_chat(response)
+    display_popup(response)
   end)
 end
 
