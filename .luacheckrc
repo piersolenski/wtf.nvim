@@ -4,4 +4,5 @@ globals = {
   "describe",
   "it",
   "vim",
+  "assert",
 }
