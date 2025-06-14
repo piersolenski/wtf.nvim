@@ -18,7 +18,7 @@ local function get_api_key(provider, setup_api_key, env_api_key)
     return key
   end
 
-  local message = "No API key found for"
+  local message = "No API key found for "
     .. provider
     .. ". Please set api_key in the setup table or set the $"
     .. env_api_key
