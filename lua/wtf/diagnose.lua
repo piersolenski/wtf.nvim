@@ -1,6 +1,6 @@
 local get_diagnostics = require("wtf.get_diagnostics")
 local get_programming_language = require("wtf.utils.get_programming_language")
-local provider = require("wtf.provider")
+local request_provider = require("wtf.request_provider")
 local display_popup = require("wtf.display_popup")
 local save_chat = require("wtf.save_chat")
 local config = require("wtf.config")
@@ -76,7 +76,7 @@ M.diagnose = function(line1, line2, instructions)
   When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting.
   Never show line numbers on solutions, so they are easily copy and pastable.]]
 
-  return provider.request(system, payload, function(response)
+  return request_provider(system, payload, function(response)
     if response == nil then
       return nil
     end
