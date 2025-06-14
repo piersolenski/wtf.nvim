@@ -134,7 +134,7 @@ function M.request(system, payload, callback)
       end
 
       if responseTable.error ~= nil then
-        vim.notify("OpenAI Error: " .. responseTable.error.message, vim.log.levels.ERROR)
+        vim.notify("Error: " .. responseTable.error.message, vim.log.levels.ERROR)
 
         hooks.run_finished_hook()
         return nil
