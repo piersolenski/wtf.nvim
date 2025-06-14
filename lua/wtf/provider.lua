@@ -1,4 +1,5 @@
 local hooks = require("wtf.hooks")
+local get_api_key() = require("wtf.utils.get_api_key")
 local config = require("wtf.config")
 local anthropic = require("wtf.providers.anthropic")
 local openai = require("wtf.providers.openai")
@@ -9,25 +10,6 @@ local providers = {
 }
 
 local M = {}
-
-local function get_api_key(provider, setup_api_key, env_api_key)
-  if setup_api_key ~= nil then
-    return setup_api_key
-  end
-
-  local key = os.getenv(env_api_key)
-  if key ~= nil then
-    return key
-  end
-
-  local message = "No API key found for "
-    .. provider
-    .. ". Please set api_key in the setup table or set the $"
-    .. env_api_key
-    .. " environment variable."
-  vim.fn.confirm(message, "&OK", 1, "Error")
-  return nil
-end
 
 local function build_curl_command(url, headers, api_key, temp_file_path)
   local header_args = {}
