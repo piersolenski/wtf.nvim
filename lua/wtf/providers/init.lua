@@ -1,8 +1,8 @@
 local M = {}
 
 -- Import all provider modules
-M.openai = require("wtf.providers.openai")
 M.anthropic = require("wtf.providers.anthropic")
+M.openai = require("wtf.providers.openai")
 
 -- Helper function to get just the names
 function M.get_names()
