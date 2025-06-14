@@ -10,7 +10,6 @@ return {
     api_key = "OPENAI_API_KEY",
   },
   format_request_data = function(data)
-    print(vim.inspect(data))
     return {
       model = data.model,
       messages = {
