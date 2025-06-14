@@ -36,6 +36,10 @@ function M.request(system, payload, callback)
   local setup_api_key = config.options.providers[selected_provider].api_key
   local provider_config = providers[selected_provider]
 
+  if not provider_config then
+    error("Provider '" .. selected_provider .. "' not found in available providers")
+  end
+
   local messages = {
     {
       role = "system",
@@ -112,26 +116,26 @@ function M.request(system, payload, callback)
     stdout_buffered = true,
     on_stdout = function(_, data, _)
       local response = table.concat(data, "\n")
-      local success, response = pcall(vim.json.decode, response)
+      local success, responseTable = pcall(vim.json.decode, response)
 
-      if success == false or response == nil then
-        if response == nil then
-          response = "nil"
+      if success == false or responseTable == nil then
+        if responseTable == nil then
+          responseTable = "nil"
         end
-        vim.notify("Bad or no response: ", vim.log.levels.ERROR)
+        vim.notify("Bad or no responseTable: ", vim.log.levels.ERROR)
 
         hooks.run_finished_hook()
         return nil
       end
 
-      if response.error ~= nil then
-        vim.notify("OpenAI Error: " .. response.error.message, vim.log.levels.ERROR)
+      if responseTable.error ~= nil then
+        vim.notify("OpenAI Error: " .. responseTable.error.message, vim.log.levels.ERROR)
 
         hooks.run_finished_hook()
         return nil
       end
 
-      callback(response.choices[1].message.content)
+      callback(responseTable.choices[1].message.content)
       hooks.run_finished_hook()
     end,
     on_stderr = function(_, data, _)
