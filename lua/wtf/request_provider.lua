@@ -1,13 +1,7 @@
 local hooks = require("wtf.hooks")
 local get_api_key = require("wtf.utils.get_api_key")
 local config = require("wtf.config")
-local anthropic = require("wtf.providers.anthropic")
-local openai = require("wtf.providers.openai")
-
-local providers = {
-  anthropic = anthropic,
-  openai = openai,
-}
+local providers = require("wtf.providers")
 
 -- Constants
 local DEFAULT_MAX_TOKENS = 4096

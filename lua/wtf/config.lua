@@ -1,14 +1,9 @@
 local search_engines = require("wtf.search_engines")
+local providers = require("wtf.providers")
 
 local M = {}
 
 M.options = {}
-
--- TODO: Generate this from wtf.providers
-local providers = {
-  "openai",
-  "anthropic",
-}
 
 function M.setup(opts)
   local default_opts = {
@@ -67,7 +62,7 @@ function M.setup(opts)
     provider = {
       opts.provider,
       function(provider)
-        for _, supported_provider in ipairs(providers) do
+        for _, supported_provider in ipairs(providers.get_names()) do
           if provider == supported_provider then
             return true
           end

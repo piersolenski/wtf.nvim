@@ -1,0 +1,18 @@
+local M = {}
+
+-- Import all provider modules
+M.openai = require("wtf.providers.openai")
+M.anthropic = require("wtf.providers.anthropic")
+
+-- Helper function to get just the names
+function M.get_names()
+  local names = {}
+  for _, provider in pairs(M) do
+    if type(provider) == "table" and provider.name then
+      table.insert(names, provider.name)
+    end
+  end
+  return names
+end
+
+return M
