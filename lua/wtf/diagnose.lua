@@ -4,6 +4,7 @@ local provider = require("wtf.provider")
 local display_popup = require("wtf.display_popup")
 local save_chat = require("wtf.save_chat")
 local config = require("wtf.config")
+local hooks = require("wtf.hooks")
 
 local M = {}
 
@@ -70,8 +71,10 @@ M.diagnose = function(line1, line2, instructions)
   end
 
   vim.notify("Generating explanation...", vim.log.levels.INFO)
+  hooks.run_started_hook()
 
   return provider.request(payload, function(response)
+    hooks.run_finished_hook()
     if response == nil then
       return nil
     end
@@ -82,7 +85,5 @@ M.diagnose = function(line1, line2, instructions)
     display_popup(message)
   end)
 end
-
-M.get_status = provider.get_status
 
 return M

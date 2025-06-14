@@ -16,7 +16,7 @@ local search_engines = require("wtf.search_engines")
 wtf.setup()
 
 vim.api.nvim_create_user_command("Wtf", function(opts)
-  wtf.ai({
+  wtf.diagnose({
     line1 = opts.line1,
     line2 = opts.line2,
     instructions = opts.args,
