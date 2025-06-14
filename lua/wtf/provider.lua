@@ -76,8 +76,6 @@ function M.request(system, payload, callback)
     return nil
   end
 
-  local curlRequest
-
   -- Create temp file
   local tempFilePath = vim.fn.tempname()
   local tempFile = io.open(tempFilePath, "w")
