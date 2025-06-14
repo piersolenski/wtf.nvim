@@ -162,3 +162,16 @@ require('lualine').setup({
 - [backseat.nvim](https://github.com/james1236/backseat.nvim/) 
 - [CodeGPT.nvim](https://github.com/dpayne/CodeGPT.nvim) 
 
+## 🤓 About the author
+
+As well as Vim enthusiast, I am a Front-End Developer and Technical Lead from London, UK.
+
+Whether it's to discuss a project, talk shop or just say hi, I'd love to hear from you!
+
+- [Website](https://www.piersolenski.com/)
+- [CodePen](https://codepen.io/piers)
+- [LinkedIn](https://www.linkedin.com/in/piersolenski/)
+
+<a href='https://ko-fi.com/piersolenski' target='_blank'>
+    <img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+</a>
