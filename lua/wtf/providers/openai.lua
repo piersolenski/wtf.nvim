@@ -9,4 +9,23 @@ return {
   env = {
     api_key = "OPENAI_API_KEY",
   },
+  format_request_data = function(data)
+    print(vim.inspect(data))
+    return {
+      model = data.model,
+      messages = {
+        {
+          role = "system",
+          content = data.system,
+        },
+        {
+          role = "user",
+          content = data.payload,
+        },
+      },
+    }
+  end,
+  format_response = function(response)
+    return response.choices[1].message.content
+  end,
 }
