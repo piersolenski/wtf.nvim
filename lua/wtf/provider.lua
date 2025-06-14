@@ -1,40 +1,43 @@
+local hooks = require("wtf.hooks")
 local config = require("wtf.config")
+local openai = require("wtf.providers.openai")
+
+local providers = {
+  openai = openai,
+}
 
 local M = {}
 
-local function get_model_id()
-  local model = config.options.openai_model_id
-  if model == nil then
-    local message =
-      "No model id specified. Please set openai_model_id in the setup table. Defaulting to gpt-3.5-turbo for now"
-    vim.fn.confirm(message, "&OK", 1, "Warning")
-    return "gpt-3.5-turbo"
+local function get_api_key(provider, setup_api_key, env_api_key)
+  if setup_api_key ~= nil then
+    return setup_api_key
   end
-  return model
+
+  local key = os.getenv(env_api_key)
+  if key ~= nil then
+    return key
+  end
+
+  local message = "No API key found for"
+    .. provider
+    .. ". Please set api_key in the setup table or set the $"
+    .. env_api_key
+    .. " environment variable."
+  vim.fn.confirm(message, "&OK", 1, "Error")
+  return nil
 end
 
-local function get_api_key()
-  local api_key = config.options.openai_api_key
-  if api_key == nil then
-    local key = os.getenv("OPENAI_API_KEY")
-    if key ~= nil then
-      return key
-    end
-    local message =
-      "No API key found. Please set openai_api_key in the setup table or set the $OPENAI_API_KEY environment variable."
-    vim.fn.confirm(message, "&OK", 1, "Warning")
-    return nil
-  end
-  return api_key
-end
+function M.request(system, payload, callback, callbackTable)
+  hooks.run_started_hook()
+  local selected_provider = config.options.provider
+  local model_id = config.options.providers[selected_provider].model_id
+  local setup_api_key = config.options.providers[selected_provider].api_key
+  local provider_config = providers[selected_provider]
 
-function M.request(payload, callback, callbackTable)
   local messages = {
     {
       role = "system",
-      content = [[You are an expert coder and helpful assistant who can help debug code diagnostics, such as warning and error messages.
-      When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting.
-      Never show line numbers on solutions, so they are easily copy and pastable.]],
+      content = system,
     },
     {
       role = "user",
@@ -42,7 +45,7 @@ function M.request(payload, callback, callbackTable)
     },
   }
 
-  local api_key = get_api_key()
+  local api_key = get_api_key(selected_provider, setup_api_key, provider_config.env.api_key)
 
   if api_key == nil then
     return nil
@@ -67,7 +70,7 @@ function M.request(payload, callback, callbackTable)
 
   -- Write dataJSON to temp file
   local dataJSON = vim.json.encode({
-    model = get_model_id(),
+    model = model_id,
     messages = messages,
   })
   tempFile:write(dataJSON)
@@ -115,16 +118,19 @@ function M.request(payload, callback, callbackTable)
         end
         vim.notify("Bad or no response: ", vim.log.levels.ERROR)
 
+        hooks.run_finished_hook()
         return nil
       end
 
       if responseTable.error ~= nil then
         vim.notify("OpenAI Error: " .. responseTable.error.message, vim.log.levels.ERROR)
 
+        hooks.run_finished_hook()
         return nil
       end
 
       callback(responseTable, callbackTable)
+      hooks.run_finished_hook()
     end,
     on_stderr = function(_, data, _)
       return data
