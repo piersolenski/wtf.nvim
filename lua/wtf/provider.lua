@@ -140,7 +140,14 @@ function M.request(system, payload, callback)
         return nil
       end
 
-      callback(responseTable.choices[1].message.content)
+      local text = provider_config.format_response(responseTable)
+
+      if text then
+        callback(text)
+      else
+        vim.notify("Unexpected response format", vim.log.levels.ERROR)
+      end
+
       hooks.run_finished_hook()
     end,
     on_stderr = function(_, data, _)

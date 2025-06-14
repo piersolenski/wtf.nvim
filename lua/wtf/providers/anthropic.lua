@@ -11,6 +11,6 @@ return {
     api_key = "ANTHROPIC_API_KEY",
   },
   format_response = function(response)
-    return response.content[1].ext
+    return response.content[1].text
   end,
 }
