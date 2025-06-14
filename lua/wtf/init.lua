@@ -1,6 +1,7 @@
-local ai = require("wtf.ai")
+local ai = require("wtf.diagnose")
 local search = require("wtf.search")
 local config = require("wtf.config")
+local hooks = require("wtf.hooks")
 local quickfix = require("wtf.quickfix")
 
 local M = {}
@@ -31,7 +32,7 @@ function M.search(opts)
 end
 
 function M.get_status()
-  return ai.get_status()
+  return hooks.get_status()
 end
 
 function M.grep_history()
