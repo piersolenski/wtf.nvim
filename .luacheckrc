@@ -5,4 +5,11 @@ globals = {
   "it",
   "vim",
   "assert",
+  "pending",
+  "setup",
+  "teardown",
+  "finally",
+  "spy",
+  "stub",
+  "mock",
 }
