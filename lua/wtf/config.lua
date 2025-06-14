@@ -10,8 +10,6 @@ function M.setup(opts)
     chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
     context = true,
     language = "english",
-    openai_api_key = nil,
-    openai_model_id = "gpt-3.5-turbo",
     popup_type = "popup",
     search_engine = "google",
     hooks = {
@@ -25,6 +23,26 @@ function M.setup(opts)
   opts = vim.tbl_deep_extend("force", default_opts, opts or {})
 
   vim.validate({
+    -- TODO: Remove openai_api_key in a future version
+    openai_api_key = {
+      opts.openai_api_key,
+      function(val)
+        if val ~= nil then
+          vim.notify("WTF openai_api_key should now be set via providers.openai.api_key", vim.log.levels.ERROR)
+        end
+        return true
+      end,
+    },
+    -- TODO: Remove openai_model_id in a future version
+    openai_model_id = {
+      opts.openai_model_id,
+      function(val)
+        if val ~= nil then
+          vim.notify("WTF openai_model_id should now be set via providers.openai.model_id", vim.log.levels.ERROR)
+        end
+        return true
+      end,
+    },
     winhighlight = { opts.winhighlight, "string" },
     openai_api_key = { opts.openai_api_key, { "string", "nil" } },
     openai_model_id = { opts.openai_model_id, "string" },
