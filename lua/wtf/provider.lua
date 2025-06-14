@@ -29,6 +29,36 @@ local function get_api_key(provider, setup_api_key, env_api_key)
   return nil
 end
 
+local function build_curl_command(url, headers, api_key, temp_file_path)
+  local header_args = {}
+
+  for key, value in pairs(headers) do
+    -- Replace placeholder with actual api_key value
+    local processed_value = value:gsub("${api_key}", api_key)
+    table.insert(header_args, '-H "' .. key .. ": " .. processed_value .. '"')
+  end
+
+  -- Detect operating system using Neovim's built-in functions
+  local is_windows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
+  local cleanup_cmd = is_windows and "del" or "rm"
+  local null_device = is_windows and "nul" or "/dev/null"
+
+  return "curl -s "
+    .. url
+    .. " "
+    .. table.concat(header_args, " ")
+    .. ' --data-binary "@'
+    .. temp_file_path
+    .. '"'
+    .. "; "
+    .. cleanup_cmd
+    .. " "
+    .. temp_file_path
+    .. " > "
+    .. null_device
+    .. " 2>&1"
+end
+
 function M.request(system, payload, callback)
   hooks.run_started_hook()
   local selected_provider = config.options.provider
@@ -85,34 +115,9 @@ function M.request(system, payload, callback)
   -- Escape the name of the temp file for command line
   local tempFilePathEscaped = vim.fn.fnameescape(tempFilePath)
 
-  -- Check if the user is on windows
-  local isWindows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
+  local curl_request = build_curl_command(provider_config.url, provider_config.headers, api_key, tempFilePathEscaped)
 
-  if isWindows ~= true then
-    -- Linux
-    curlRequest = string.format(
-      'curl -s https://api.openai.com/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer '
-        .. api_key
-        .. '" --data-binary "@'
-        .. tempFilePathEscaped
-        .. '"; rm '
-        .. tempFilePathEscaped
-        .. " > /dev/null 2>&1"
-    )
-  else
-    -- Windows
-    curlRequest = string.format(
-      'curl -s https://api.openai.com/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer '
-        .. api_key
-        .. '" --data-binary "@'
-        .. tempFilePathEscaped
-        .. '" & del '
-        .. tempFilePathEscaped
-        .. " > nul 2>&1"
-    )
-  end
-
-  return vim.fn.jobstart(curlRequest, {
+  return vim.fn.jobstart(curl_request, {
     stdout_buffered = true,
     on_stdout = function(_, data, _)
       local response = table.concat(data, "\n")
