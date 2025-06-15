@@ -2,6 +2,7 @@ local M = {}
 
 -- Import all provider modules
 M.anthropic = require("wtf.providers.anthropic")
+M.grok = require("wtf.providers.grok")
 M.openai = require("wtf.providers.openai")
 
 -- Helper function to get just the names
