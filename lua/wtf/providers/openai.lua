@@ -1,7 +1,8 @@
 return {
   name = "openai",
   formatted_name = "OpenAI",
-  url = "https://api.openai.com/v1/chat/completions",
+  base_url = "https://api.openai.com/v1",
+  endpoint = "/chat/completions",
   headers = {
     ["Content-Type"] = "application/json",
     Authorization = "Bearer ${api_key}",

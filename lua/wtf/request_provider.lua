@@ -28,18 +28,19 @@ local function build_headers(headers, api_key)
   return table.concat(header_args, " ")
 end
 
-local function build_curl_command(url, headers, api_key, temp_file_path)
-  local header_string = build_headers(headers, api_key)
+local function build_curl_command(data)
+  local header_string = build_headers(data.headers, data.api_key)
   local cleanup_cmd = get_cleanup_command()
   local null_device = get_null_device()
+  local url = data.base_url .. data.endpoint
 
   return string.format(
     'curl -s %s %s --data-binary "@%s"; %s %s > %s 2>&1',
     url,
     header_string,
-    temp_file_path,
+    data.temp_file,
     cleanup_cmd,
-    temp_file_path,
+    data.temp_file,
     null_device
   )
 end
@@ -119,6 +120,7 @@ local function request_provider(system, payload, callback)
   local provider_config = validate_provider(selected_provider)
   local model_id = config.options.providers[selected_provider].model_id
   local setup_api_key = config.options.providers[selected_provider].api_key
+  local base_url = config.options.providers[selected_provider].base_url
 
   local api_key = get_api_key(selected_provider, setup_api_key, provider_config.env.api_key)
 
@@ -139,7 +141,14 @@ local function request_provider(system, payload, callback)
   end
 
   local temp_file_path_escaped = vim.fn.fnameescape(temp_file_path)
-  local curl_command = build_curl_command(provider_config.url, provider_config.headers, api_key, temp_file_path_escaped)
+
+  local curl_command = build_curl_command({
+    base_url = base_url or provider_config.base_url,
+    endpoint = provider_config.endpoint,
+    headers = provider_config.headers,
+    api_key = api_key,
+    temp_file = temp_file_path_escaped,
+  })
 
   return vim.fn.jobstart(curl_command, {
     stdout_buffered = true,
