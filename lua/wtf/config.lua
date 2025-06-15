@@ -19,6 +19,11 @@ function M.setup(opts)
         model_id = "claude-3-5-sonnet-20241022",
         base_url = nil,
       },
+      grok = {
+        api_key = nil,
+        model_id = "grok-3-latest",
+        base_url = nil,
+      },
       openai = {
         api_key = nil,
         model_id = "gpt-4o",
