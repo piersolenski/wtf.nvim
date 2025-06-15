@@ -14,14 +14,14 @@ function M.setup(opts)
     popup_type = "popup",
     provider = "openai",
     providers = {
-      openai = {
-        api_key = nil,
-        model_id = "gpt-4o",
-        base_url = nil,
-      },
       anthropic = {
         api_key = nil,
         model_id = "claude-3-5-sonnet-20241022",
+        base_url = nil,
+      },
+      openai = {
+        api_key = nil,
+        model_id = "gpt-4o",
         base_url = nil,
       },
     },
