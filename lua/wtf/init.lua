@@ -10,7 +10,13 @@ function M.setup(opts)
   config.setup(opts)
 end
 
+-- TODO: Remove this in a later version
 function M.ai(opts)
+  vim.notify("M.ai() is deprecated and will be removed soon. Use M.diagnose() instead.", vim.log.levels.WARN)
+  return M.diagnose(opts)
+end
+
+function M.diagnose(opts)
   if opts and opts.line1 and opts.line2 then
     return ai.diagnose(opts.line1, opts.line2, opts.instructions)
   else

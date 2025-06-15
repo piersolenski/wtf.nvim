@@ -129,22 +129,22 @@ describe("Plugin", function()
     end)
   end)
 
-  describe("AI", function()
+  describe("diagnose", function()
     it("breaks when no diagnostics are found", function()
       vim.api.nvim_win_set_cursor(0, { line_with_error + 1, 0 })
 
-      local result = plugin.ai()
+      local result = plugin.diagnose()
       assert.are.equal("No diagnostics found!", result)
     end)
 
     it("works when line diagnostics are found", function()
-      local result = plugin.ai()
+      local result = plugin.diagnose()
       local valid_job_identifier = 3
       assert.are.equal(valid_job_identifier, result)
     end)
 
     it("ai works when range diagnostics are found", function()
-      local result = plugin.ai({ line1 = line_with_error - 1, line2 = line_with_error + 2 })
+      local result = plugin.diagnose({ line1 = line_with_error - 1, line2 = line_with_error + 2 })
       local valid_job_identifier = 4
       assert.are.equal(valid_job_identifier, result)
     end)
