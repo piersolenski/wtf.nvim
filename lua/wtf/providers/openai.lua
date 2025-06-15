@@ -28,4 +28,7 @@ return {
   format_response = function(response)
     return response.choices[1].message.content
   end,
+  format_error = function(response)
+    return response.error.message
+  end,
 }

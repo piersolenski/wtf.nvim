@@ -27,4 +27,7 @@ return {
   format_response = function(response)
     return response.content[1].text
   end,
+  format_error = function(response)
+    return response.error.message
+  end,
 }

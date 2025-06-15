@@ -76,9 +76,9 @@ local function create_temp_file(data)
   return temp_file_path
 end
 
-local function handle_response_error(response_table)
-  if response_table.error then
-    vim.notify("Error: " .. response_table.error.message, vim.log.levels.ERROR)
+local function handle_response_error(error_formatter, response)
+  if response.error then
+    vim.notify("Error: " .. error_formatter(response), vim.log.levels.ERROR)
     return true
   end
   return false
@@ -94,7 +94,7 @@ local function process_response(data, provider_config, callback)
     return
   end
 
-  if handle_response_error(response_table) then
+  if handle_response_error(provider_config.format_error, response_table) then
     hooks.run_finished_hook()
     return
   end
