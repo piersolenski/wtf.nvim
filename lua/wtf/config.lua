@@ -12,7 +12,7 @@ function M.setup(opts)
     context = true,
     language = "english",
     popup_type = "popup",
-    provider = nil,
+    provider = "openai",
     providers = {
       anthropic = {
         api_key = nil,
