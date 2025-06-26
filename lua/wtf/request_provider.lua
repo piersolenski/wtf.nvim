@@ -41,7 +41,7 @@ local function build_curl_command(data)
   local url = data.base_url .. data.endpoint
 
   return string.format(
-    'curl -s %s %s --data-binary "@%s"; %s %s > %s 2>&1',
+    'curl -s %s %s --data-binary "@%s" -w "\\nHTTP_STATUS:%%{http_code}"; %s %s > %s 2>&1',
     url,
     header_string,
     data.temp_file,
@@ -82,28 +82,38 @@ local function create_temp_file(data)
   return temp_file_path
 end
 
-local function handle_response_error(error_formatter, response)
-  if response.error then
-    vim.notify("Error: " .. error_formatter(response), vim.log.levels.ERROR)
-    return true
+local function get_http_status_code(response_text)
+  local status_line = response_text:match("HTTP_STATUS:(%d+)")
+  if status_line then
+    return tonumber(status_line)
   end
-  return false
+  return nil
+end
+
+local function get_response_body(response_text)
+  return response_text:gsub("\nHTTP_STATUS:%d+", "")
 end
 
 local function process_response(data, provider_config, callback)
   local response = table.concat(data, "\n")
-  local success, response_table = pcall(vim.json.decode, response)
+  local status_code = get_http_status_code(response)
+  local response_body = get_response_body(response)
+
+  local success, response_table = pcall(vim.json.decode, response_body)
 
   if not success or not response_table then
     vim.notify("Bad or no response from API", vim.log.levels.ERROR)
     return
   end
 
-  if handle_response_error(provider_config.format_error, response_table) then
+  if status_code and status_code >= 400 then
+    local error = provider_config.format_error(response_table)
+    vim.notify(error, vim.log.levels.ERROR)
     return
   end
 
   local text = provider_config.format_response(response_table)
+
   if text then
     callback(text)
   else
