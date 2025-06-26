@@ -11,6 +11,7 @@ local function is_windows()
   return vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
 end
 
+
 local function get_cleanup_command()
   return is_windows() and "del" or "rm"
 end
@@ -90,12 +91,10 @@ local function process_response(data, provider_config, callback)
 
   if not success or not response_table then
     vim.notify("Bad or no response from API", vim.log.levels.ERROR)
-    hooks.run_finished_hook()
     return
   end
 
   if handle_response_error(provider_config.format_error, response_table) then
-    hooks.run_finished_hook()
     return
   end
 
@@ -105,8 +104,6 @@ local function process_response(data, provider_config, callback)
   else
     vim.notify("Unexpected response format", vim.log.levels.ERROR)
   end
-
-  hooks.run_finished_hook()
 end
 
 local function request_provider(system, payload, callback)
@@ -159,6 +156,7 @@ local function request_provider(system, payload, callback)
       return data
     end,
     on_exit = function(_, data, _)
+      hooks.run_finished_hook()
       return data
     end,
   })
