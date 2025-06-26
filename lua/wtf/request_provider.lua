@@ -125,7 +125,7 @@ local function request_provider(system, payload, callback)
     return nil
   end
 
-  local request_data = provider_config.format_request_data({
+  local request_data = provider_config.format_request({
     model = model_id,
     max_tokens = DEFAULT_MAX_TOKENS,
     system = system,

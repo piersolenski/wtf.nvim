@@ -198,7 +198,7 @@ describe("Providers", function()
         payload = "What is 2+2?",
       }
       
-      local formatted = openai.format_request_data(test_data)
+      local formatted = openai.format_request(test_data)
       
       assert.are.equal("gpt-4", formatted.model)
       assert.are.equal(2, #formatted.messages)
@@ -260,7 +260,7 @@ describe("Providers", function()
         payload = "What is 2+2?",
       }
       
-      local formatted = anthropic.format_request_data(test_data)
+      local formatted = anthropic.format_request(test_data)
       
       assert.are.equal("claude-3-sonnet-20240229", formatted.model)
       assert.are.equal(1000, formatted.max_tokens)
@@ -319,7 +319,7 @@ describe("Providers", function()
         payload = "What is 2+2?",
       }
       
-      local formatted = grok.format_request_data(test_data)
+      local formatted = grok.format_request(test_data)
       
       assert.are.equal("grok-beta", formatted.model)
       assert.are.equal(1000, formatted.max_tokens)
@@ -360,7 +360,7 @@ describe("Providers", function()
   describe("Provider Functions", function()
     it("all providers have required functions", function()
       local required_functions = {
-        "format_request_data",
+        "format_request",
         "format_response", 
         "format_error"
       }

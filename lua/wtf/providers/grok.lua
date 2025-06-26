@@ -10,7 +10,7 @@ return {
   env = {
     api_key = "XAI_API_KEY",
   },
-  format_request_data = function(data)
+  format_request = function(data)
     return {
       model = data.model,
       messages = {
