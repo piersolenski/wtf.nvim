@@ -139,14 +139,12 @@ describe("Plugin", function()
 
     it("works when line diagnostics are found", function()
       local result = plugin.diagnose()
-      local valid_job_identifier = 3
-      assert.are.equal(valid_job_identifier, result)
+      assert.are.equal(true, result)
     end)
 
     it("ai works when range diagnostics are found", function()
       local result = plugin.diagnose({ line1 = line_with_error - 1, line2 = line_with_error + 2 })
-      local valid_job_identifier = 4
-      assert.are.equal(valid_job_identifier, result)
+      assert.are.equal(true, result)
     end)
   end)
 end)
