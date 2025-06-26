@@ -11,6 +11,11 @@ local function is_windows()
   return vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
 end
 
+local function cleanup_temp_file(temp_file_path)
+  if temp_file_path and vim.fn.filereadable(temp_file_path) == 1 then
+    vim.fn.delete(temp_file_path)
+  end
+end
 
 local function get_cleanup_command()
   return is_windows() and "del" or "rm"
@@ -156,6 +161,7 @@ local function request_provider(system, payload, callback)
       return data
     end,
     on_exit = function(_, data, _)
+      cleanup_temp_file(temp_file_path)
       hooks.run_finished_hook()
       return data
     end,
