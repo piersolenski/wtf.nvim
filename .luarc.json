@@ -1,0 +1,33 @@
+{
+  "runtime.version": "LuaJIT",
+  "runtime.special": {
+    "reload": "require"
+  },
+  "diagnostics.globals": [
+    "vim",
+    "describe",
+    "it",
+    "before_each",
+    "after_each",
+    "setup",
+    "teardown",
+    "assert",
+    "spy",
+    "stub",
+    "mock",
+    "pending",
+    "insulate",
+    "expose",
+    "randomize",
+    "finally",
+    "lazy_setup",
+    "lazy_teardown",
+    "strict_setup",
+    "strict_teardown"
+  ],
+  "workspace.library": [
+    "${3rd}/busted/library",
+    "${3rd}/luv/library"
+  ],
+  "workspace.checkThirdParty": false
+}
