@@ -1,3 +1,4 @@
+---@type Wtf.Adapter
 return {
   name = "openai",
   formatted_name = "OpenAI",

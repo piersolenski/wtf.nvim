@@ -1,3 +1,4 @@
+---@type Wtf.Adapter
 return {
   name = "grok",
   base_url = "https://api.x.ai/v1",

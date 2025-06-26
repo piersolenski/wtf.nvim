@@ -1,3 +1,4 @@
+---@type Wtf.Adapter
 return {
   name = "anthropic",
   formatted_name = "Anthropic",

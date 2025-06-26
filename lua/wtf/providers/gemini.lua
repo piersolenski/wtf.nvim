@@ -1,3 +1,4 @@
+---@type Wtf.Adapter
 return {
   name = "gemini",
   base_url = "https://generativelanguage.googleapis.com/v1beta/openai",
