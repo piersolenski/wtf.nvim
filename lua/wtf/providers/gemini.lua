@@ -1,8 +1,7 @@
 ---@type Wtf.Adapter
 return {
   name = "gemini",
-  base_url = "https://generativelanguage.googleapis.com/v1beta/openai",
-  endpoint = "/chat/completions",
+  url = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
   formatted_name = "Gemini",
   headers = {
     ["Content-Type"] = "application/json",

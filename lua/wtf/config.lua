@@ -17,22 +17,18 @@ function M.setup(opts)
       anthropic = {
         api_key = nil,
         model_id = "claude-3-5-sonnet-20241022",
-        base_url = nil,
       },
       gemini = {
         api_key = nil,
         model_id = "gemini-2.5-flash",
-        base_url = nil,
       },
       grok = {
         api_key = nil,
         model_id = "grok-3-latest",
-        base_url = nil,
       },
       openai = {
         api_key = nil,
         model_id = "gpt-4o",
-        base_url = nil,
       },
     },
     search_engine = "google",

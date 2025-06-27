@@ -1,8 +1,7 @@
 ---@type Wtf.Adapter
 return {
   name = "grok",
-  base_url = "https://api.x.ai/v1",
-  endpoint = "/chat/completions",
+  url = "https://api.x.ai/v1/chat/completions",
   formatted_name = "Grok",
   headers = {
     ["Content-Type"] = "application/json",

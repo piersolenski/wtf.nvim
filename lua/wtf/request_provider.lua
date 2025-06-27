@@ -51,7 +51,8 @@ local function request_provider(system, payload, callback)
   local provider_config = get_provider_config(selected_provider)
   local model_id = config.options.providers[selected_provider].model_id
   local setup_api_key = config.options.providers[selected_provider].api_key
-  local base_url = config.options.providers[selected_provider].base_url
+
+  local url = config.options.providers[selected_provider].url or provider_config.url
 
   local api_key = get_api_key(selected_provider, setup_api_key, provider_config.env.api_key)
 
@@ -67,7 +68,6 @@ local function request_provider(system, payload, callback)
   })
 
   local headers = build_headers(provider_config.headers, api_key)
-  local url = (base_url or provider_config.base_url) .. provider_config.endpoint
 
   curl.post(url, {
     headers = headers,
