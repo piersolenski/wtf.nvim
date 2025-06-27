@@ -5,7 +5,6 @@ local function get_diagnostics(range_start, range_end)
     range_end = range_start
   end
 
-  -- local bufnr = vim.api.nvim_win_get_buf(0)
   local bufnr = vim.api.nvim_get_current_buf()
 
   local diagnostics = {}
