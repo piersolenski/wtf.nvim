@@ -18,6 +18,9 @@ function M.setup(opts)
         api_key = nil,
         model_id = "claude-3-5-sonnet-20241022",
       },
+      deepseek = {
+        model_id = "deepseek-chat",
+      },
       gemini = {
         api_key = nil,
         model_id = "gemini-2.5-flash",
