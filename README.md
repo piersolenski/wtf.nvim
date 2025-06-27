@@ -149,9 +149,9 @@ hooks = {
     request_started = function()
         vim.cmd("hi StatusLine ctermbg=NONE ctermfg=yellow")
     end,
-    request_finished = vim.schedule_wrap(function()
+    request_finished = function()
         vim.cmd("hi StatusLine ctermbg=NONE ctermfg=NONE")
-    end),
+    end,
 },
 ```
 
@@ -174,4 +174,3 @@ require('lualine').setup({
 - [Pretty TypeScript Errors](https://github.com/yoavbls/pretty-ts-errors)
 - [backseat.nvim](https://github.com/james1236/backseat.nvim/) 
 - [CodeGPT.nvim](https://github.com/dpayne/CodeGPT.nvim) 
-

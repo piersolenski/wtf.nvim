@@ -4,7 +4,6 @@ local config = require("wtf.config")
 local providers = require("wtf.providers")
 local curl = require("plenary.curl")
 
--- Constants
 local DEFAULT_MAX_TOKENS = 4096
 
 local function get_provider_config(provider_name)
@@ -28,30 +27,20 @@ local function process_response(response, provider_config, callback)
   local success, response_table = pcall(vim.json.decode, response.body)
 
   if not success or not response_table then
-    vim.schedule(function()
-      vim.notify("Bad or no response from API", vim.log.levels.ERROR)
-    end)
-    return
+    return vim.notify("Bad or no response from API", vim.log.levels.ERROR)
   end
 
   if response.status >= 400 then
     local error = provider_config.format_error(response_table)
-    vim.schedule(function()
-      vim.notify(error, vim.log.levels.ERROR)
-    end)
-    return
+    return vim.notify(error, vim.log.levels.ERROR)
   end
 
   local text = provider_config.format_response(response_table)
 
   if text then
-    vim.schedule(function()
-      callback(text)
-    end)
+    return callback(text)
   else
-    vim.schedule(function()
-      vim.notify("Unexpected response format", vim.log.levels.ERROR)
-    end)
+    vim.notify("Unexpected response format", vim.log.levels.ERROR)
   end
 end
 
@@ -84,8 +73,8 @@ local function request_provider(system, payload, callback)
     headers = headers,
     body = vim.json.encode(request_data),
     callback = function(response)
-      process_response(response, provider_config, callback)
       vim.schedule(function()
+        process_response(response, provider_config, callback)
         hooks.run_finished_hook()
       end)
     end,
