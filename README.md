@@ -96,12 +96,12 @@ use({
         anthropic = {
 	        api_key = nil,
 	        model_id = "claude-3-5-sonnet-20241022",
-	        base_url = nil,
+	        url = nil,
 	    },
 	    gpt = {
 	        api_key = nil,
 	        model_id = "gpt-4o",
-	        base_url = nil,
+	        url = nil,
 	    },
     },
     -- An alternative way to set your API key
@@ -174,3 +174,4 @@ require('lualine').setup({
 - [Pretty TypeScript Errors](https://github.com/yoavbls/pretty-ts-errors)
 - [backseat.nvim](https://github.com/james1236/backseat.nvim/) 
 - [CodeGPT.nvim](https://github.com/dpayne/CodeGPT.nvim) 
+
