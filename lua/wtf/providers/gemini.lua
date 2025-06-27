@@ -29,16 +29,7 @@ return {
     }
   end,
   format_response = function(response)
-    if
-      response
-      and response.choices
-      and response.choices[1]
-      and response.choices[1].message
-      and response.choices[1].message.content
-    then
-      return response.choices[1].message.content
-    end
-    return nil
+    return response.choices[1].message.content
   end,
   format_error = function(response)
     return response[1].error.message
