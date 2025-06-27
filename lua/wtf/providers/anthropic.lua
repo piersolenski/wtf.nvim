@@ -2,8 +2,7 @@
 return {
   name = "anthropic",
   formatted_name = "Anthropic",
-  base_url = "https://api.anthropic.com/v1",
-  endpoint = "/messages",
+  url = "https://api.anthropic.com/v1/messages",
   headers = {
     ["content-type"] = "application/json",
     ["x-api-key"] = "${api_key}",
