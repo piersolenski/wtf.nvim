@@ -44,7 +44,7 @@ local function process_response(response, provider_config, callback)
   end
 end
 
-local function request_provider(system, payload, callback)
+local function request_provider(system, messages, callback)
   hooks.run_started_hook()
 
   local selected_provider = config.options.provider
@@ -64,7 +64,7 @@ local function request_provider(system, payload, callback)
     model = model_id,
     max_tokens = DEFAULT_MAX_TOKENS,
     system = system,
-    payload = payload,
+    messages = messages,
   })
 
   local headers = build_headers(provider_config.headers, api_key)

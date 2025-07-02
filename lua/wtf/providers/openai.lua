@@ -20,7 +20,7 @@ return {
         },
         {
           role = "user",
-          content = data.payload,
+          content = data.messages,
         },
       },
     }
