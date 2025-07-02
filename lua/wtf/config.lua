@@ -18,6 +18,9 @@ function M.setup(opts)
         api_key = nil,
         model_id = "claude-3-5-sonnet-20241022",
       },
+      copilot = {
+        model_id = "gpt-4o",
+      },
       deepseek = {
         model_id = "deepseek-chat",
       },
@@ -28,6 +31,9 @@ function M.setup(opts)
       grok = {
         api_key = nil,
         model_id = "grok-3-latest",
+      },
+      ollama = {
+        model_id = "deepseek-r1",
       },
       openai = {
         api_key = nil,
