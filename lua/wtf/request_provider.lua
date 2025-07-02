@@ -40,7 +40,7 @@ local function process_response(response, provider_config, callback)
   if text then
     return callback(text)
   else
-    vim.notify("Unexpected response format", vim.log.levels.ERROR)
+    return vim.notify("Unexpected response format", vim.log.levels.ERROR)
   end
 end
 
