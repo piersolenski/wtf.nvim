@@ -16,6 +16,7 @@ M.copilot = require("wtf.providers.copilot")
 M.deepseek = require("wtf.providers.deepseek")
 M.gemini = require("wtf.providers.gemini")
 M.grok = require("wtf.providers.grok")
+M.ollama = require("wtf.providers.ollama")
 M.openai = require("wtf.providers.openai")
 
 -- Helper function to get just the names
