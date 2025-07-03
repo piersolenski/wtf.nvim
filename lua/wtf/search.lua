@@ -47,9 +47,9 @@ local search = function(search_engine)
   local selected_search_engine = get_search_engine(search_engine)
 
   if selected_search_engine == nil then
-    local message = "Invalid search engine"
-    vim.notify(message, vim.log.levels.WARN)
-    return message
+    local error_message = "Invalid search engine"
+    vim.notify(error_message, vim.log.levels.ERROR)
+    return nil, error_message
   end
 
   if next(diagnostics) == nil then
