@@ -82,7 +82,11 @@ M.diagnose = function(line1, line2, instructions)
     end
 
     save_chat(response)
-    display_popup(response)
+
+    local _, err = display_popup(response)
+    if err then
+      vim.notify(err, vim.log.levels.ERROR)
+    end
   end)
 end
 

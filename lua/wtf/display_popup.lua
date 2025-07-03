@@ -65,7 +65,7 @@ local function display_popup(message)
       popup:unmount()
     end)
   else
-    return vim.notify("Invalid popup type", vim.log.levels.ERROR)
+    return nil, "Invalid popup type"
   end
 
   vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, formatted_message)
@@ -78,6 +78,8 @@ local function display_popup(message)
       popup:update_layout()
     end,
   })
+
+  return popup
 end
 
 return display_popup
