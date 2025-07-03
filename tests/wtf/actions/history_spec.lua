@@ -2,7 +2,7 @@ local plugin = require("wtf")
 local save_chat = require("wtf.util.save_chat")
 
 describe("History", function()
-  local chat_dir = "/tmp/wtf/chats"
+  local chat_dir = "/tmp/wtf-chats"
 
   before_each(function()
     vim.fn.mkdir(chat_dir, "p")
