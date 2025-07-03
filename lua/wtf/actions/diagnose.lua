@@ -74,16 +74,17 @@ local diagnose = function(line1, line2, instructions)
   When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting.
   Never show line numbers on solutions, so they are easily copy and pastable.]]
 
-  return request_provider(system, payload, function(response)
-    if response == nil then
+  return request_provider(system, payload, function(response, err)
+    if err then
+      vim.notify(err, vim.log.levels.ERROR)
       return nil
     end
 
     save_chat(response)
 
-    local _, err = popup.show(response)
-    if err then
-      vim.notify(err, vim.log.levels.ERROR)
+    local _, popup_err = popup.show(response)
+    if popup_err then
+      vim.notify(popup_err, vim.log.levels.ERROR)
     end
   end)
 end
