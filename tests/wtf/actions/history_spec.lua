@@ -29,5 +29,6 @@ describe("History", function()
     local quickfix_list = vim.fn.getqflist()
 
     assert.are.equal(1, #quickfix_list)
+    assert.are.equal("An example of a chat response\n", quickfix_list[1].text)
   end)
 end)
