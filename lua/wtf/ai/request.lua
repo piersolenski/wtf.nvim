@@ -44,6 +44,14 @@ local function process_response(response, provider_config, callback)
   end
 end
 
+local function make_http_request(url, headers, request_data, callback)
+  curl.post(url, {
+    headers = headers,
+    body = vim.json.encode(request_data),
+    callback = callback,
+  })
+end
+
 local function request_provider(system, messages, callback)
   hooks.run_started_hook()
 
@@ -69,23 +77,17 @@ local function request_provider(system, messages, callback)
 
   local headers = build_headers(provider_config.headers, api_key)
 
-  curl.post(url, {
-    headers = headers,
-    body = vim.json.encode(request_data),
-    callback = function(response)
-      vim.schedule(function()
-        local text, err = process_response(response, provider_config)
-        if err then
-          callback(nil, err)
-        else
-          callback(text)
-        end
-        hooks.run_finished_hook()
-      end)
-    end,
-  })
-
-  return true
+  make_http_request(url, headers, request_data, function(response)
+    vim.schedule(function()
+      local text, err = process_response(response, provider_config)
+      if err then
+        callback(nil, err)
+      else
+        callback(text)
+      end
+      hooks.run_finished_hook()
+    end)
+  end)
 end
 
 return request_provider
