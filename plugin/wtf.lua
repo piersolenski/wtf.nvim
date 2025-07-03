@@ -13,8 +13,6 @@ vim.g.loaded_wtf = true
 local wtf = require("wtf")
 local search_engines = require("wtf.search_engines")
 
-wtf.setup()
-
 vim.api.nvim_create_user_command("Wtf", function(opts)
   wtf.diagnose({
     line1 = opts.line1,
