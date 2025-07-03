@@ -23,7 +23,7 @@ local function build_headers(headers, api_key)
   return processed_headers
 end
 
-local function process_response(response, provider_config, callback)
+local function process_response(response, provider_config)
   local success, response_table = pcall(vim.json.decode, response.body)
 
   if not success or not response_table then
