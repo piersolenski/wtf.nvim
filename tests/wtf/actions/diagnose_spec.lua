@@ -35,7 +35,7 @@ describe("Diagnose", function()
     -- Write test
   end)
 
-  it("ai works when range diagnostics are found", function()
+  it("works when range diagnostics are found", function()
     local result = plugin.diagnose({ line1 = helpers.line_with_error - 1, line2 = helpers.line_with_error + 2 })
     -- Write test
   end)
