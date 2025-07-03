@@ -5,8 +5,8 @@ local namespace = nil
 
 M.line_with_error = 3
 
-M.set_lines = function(lines)
-  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+M.create_lines = function(lines)
+  vim.api.nvim_buf_create_lines(0, 0, -1, false, lines)
 end
 
 M.create_errors = function(diagnostics)
@@ -29,6 +29,11 @@ M.create_errors = function(diagnostics)
   vim.diagnostic.set(namespace, buffer_number, diag_table)
 
   return diag_table
+end
+
+M.disable_notifications = function()
+  -- Mock vim.notify to ignore notifications in test output
+  vim.notify = function(msg, level) end
 end
 
 return M

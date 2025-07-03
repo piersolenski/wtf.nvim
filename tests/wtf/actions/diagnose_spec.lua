@@ -3,25 +3,23 @@ local helpers = require("tests.wtf.helpers")
 
 describe("Diagnose", function()
   before_each(function()
-    -- Mock vim.notify to ignore notifications in test output
-    ---@diagnostic disable-next-line: duplicate-set-field
-    vim.notify = function(msg, level)
-      -- You can capture calls here if needed
-    end
+    helpers.disable_notifications()
 
-    helpers.set_lines({
+    helpers.create_lines({
       "Line 1",
       "Line 2",
       "Line 3",
       "Line 4",
       "Line 5",
     })
+
     helpers.create_errors({
       {
         line = helpers.line_with_error,
         message = "Oh my god all the things are broken!",
       },
     })
+
     plugin.setup()
   end)
 
