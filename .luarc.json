@@ -1,33 +1,16 @@
 {
   "runtime.version": "LuaJIT",
-  "runtime.special": {
-    "reload": "require"
-  },
+  "runtime.path": [
+    "lua/?.lua",
+    "lua/?/init.lua"
+  ],
   "diagnostics.globals": [
     "vim",
-    "describe",
-    "it",
-    "before_each",
-    "after_each",
-    "setup",
-    "teardown",
-    "assert",
-    "spy",
-    "stub",
-    "mock",
-    "pending",
-    "insulate",
-    "expose",
-    "randomize",
-    "finally",
-    "lazy_setup",
-    "lazy_teardown",
-    "strict_setup",
-    "strict_teardown"
   ],
   "workspace.library": [
-    "${3rd}/busted/library",
+    "~/.local/share/nvim/lazy/plenary.nvim/lua",
     "${3rd}/luv/library"
   ],
-  "workspace.checkThirdParty": false
+  "workspace.checkThirdParty": false,
+  "completion.callSnippet": "Replace"
 }
