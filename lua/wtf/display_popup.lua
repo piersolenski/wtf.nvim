@@ -11,9 +11,6 @@ local function split_string_by_line(text)
 end
 
 local function display_popup(message)
-  -- Clear last command
-  print(" ")
-
   local formatted_message = split_string_by_line(message)
 
   local event = require("nui.utils.autocmd").event
