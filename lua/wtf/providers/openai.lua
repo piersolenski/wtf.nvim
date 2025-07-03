@@ -7,9 +7,7 @@ return {
     ["Content-Type"] = "application/json",
     Authorization = "Bearer ${api_key}",
   },
-  env = {
-    api_key = "OPENAI_API_KEY",
-  },
+  api_key = "OPENAI_API_KEY",
   format_request = function(data)
     return {
       model = data.model,

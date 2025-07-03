@@ -54,7 +54,7 @@ local function request_provider(system, messages, callback)
 
   local url = config.options.providers[selected_provider].url or provider_config.url
 
-  local api_key = get_api_key(selected_provider, setup_api_key, provider_config.env.api_key)
+  local api_key = get_api_key(selected_provider, setup_api_key, provider_config.api_key)
 
   if not api_key then
     return nil

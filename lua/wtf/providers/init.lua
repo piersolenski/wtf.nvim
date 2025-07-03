@@ -3,7 +3,7 @@
 ---@field formatted_name string The formatted name of the adapter e.g. "OpenAI"
 ---@field url string The base URL of the LLM API
 ---@field headers table<string, string> The headers to pass to the request
----@field env table<string, string> Environment variables mapping
+---@field api_key string | fun(): string | nil | nil Retrieve API key
 ---@field format_request fun(data: table): table Function to format request data
 ---@field format_response fun(response: table): string Function to format API response
 ---@field format_error fun(response: table): string Function to format error response

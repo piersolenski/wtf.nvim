@@ -8,9 +8,7 @@ return {
     ["x-api-key"] = "${api_key}",
     ["anthropic-version"] = "2023-06-01",
   },
-  env = {
-    api_key = "ANTHROPIC_API_KEY",
-  },
+  api_key = "ANTHROPIC_API_KEY",
   format_request = function(data)
     return {
       model = data.model,
