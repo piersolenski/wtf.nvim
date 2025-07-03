@@ -13,10 +13,12 @@ local nui_repo = "https://github.com/MunifTanjim/nui.nvim"
 clone_repo(plenary_repo, plenary_dir)
 clone_repo(nui_repo, nui_dir)
 
+vim.opt.swapfile = false
+
 vim.opt.rtp:append(".")
 vim.opt.rtp:append(plenary_dir)
 vim.opt.rtp:append(nui_dir)
 
-vim.cmd("runtime plugin/plenary.vim")
-vim.cmd("runtime plugin/nui.vim")
+vim.cmd.runtime({ "plugin/plenary.vim" })
+vim.cmd.runtime({ "plugin/nui.vim" })
 require("plenary.busted")
