@@ -12,6 +12,7 @@ describe("Search", function()
       "Line 4",
       "Line 5",
     })
+
     helpers.create_errors({
       {
         line = helpers.line_with_error,
