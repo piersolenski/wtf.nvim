@@ -6,7 +6,9 @@ local namespace = nil
 M.line_with_error = 3
 
 M.create_lines = function(lines)
-  vim.api.nvim_buf_create_lines(0, 0, -1, false, lines)
+  if vim.api.nvim_buf_set_lines then
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+  end
 end
 
 M.create_errors = function(diagnostics)
