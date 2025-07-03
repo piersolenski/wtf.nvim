@@ -60,7 +60,7 @@ local function make_http_request(url, headers, request_data)
   return coroutine.yield()
 end
 
-local function request_provider(system, messages)
+local function client(system, messages)
   hooks.run_started_hook()
 
   local selected_provider = config.options.provider
@@ -93,4 +93,4 @@ local function request_provider(system, messages)
   return text, err
 end
 
-return request_provider
+return client

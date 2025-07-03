@@ -1,6 +1,6 @@
 local get_diagnostics = require("wtf.util.diagnostics")
 local get_programming_language = require("wtf.util.get_programming_language")
-local request_provider = require("wtf.ai.request")
+local client = require("wtf.ai.client")
 local popup = require("wtf.ui.popup")
 local save_chat = require("wtf.util.save_chat")
 local config = require("wtf.config")
@@ -75,7 +75,7 @@ local diagnose = function(line1, line2, instructions)
   Never show line numbers on solutions, so they are easily copy and pastable.]]
 
   local co = coroutine.create(function()
-    local response, err = request_provider(system, payload)
+    local response, err = client(system, payload)
 
     if err then
       vim.notify(err, vim.log.levels.ERROR)
