@@ -123,8 +123,9 @@ describe("Plugin", function()
     end)
 
     it("breaks with an unsupported engine", function()
-      local result = plugin.search("ask_jeeves")
-      assert.are.equal("Invalid search engine", result)
+      local result, error = plugin.search("ask_jeeves")
+      assert.is_nil(result)
+      assert.equals("Invalid search engine", error)
     end)
 
     it("breaks when no diagnostics are found", function()
