@@ -1,6 +1,5 @@
 local M = {}
 
-local buffer_number = 0
 local namespace = nil
 
 M.line_with_error = 3
@@ -15,9 +14,10 @@ M.create_errors = function(diagnostics)
   local diag_table = {}
   namespace = vim.api.nvim_create_namespace("wtf")
 
+  local current_bufnr = vim.api.nvim_get_current_buf()
   for _, d in ipairs(diagnostics) do
     table.insert(diag_table, {
-      bufnr = M.buffer_number,
+      bufnr = current_bufnr,
       lnum = d.line - 1,
       end_lnum = d.line - 1,
       col = 0,
@@ -28,7 +28,7 @@ M.create_errors = function(diagnostics)
     vim.api.nvim_win_set_cursor(0, { d.line, 0 })
   end
 
-  vim.diagnostic.set(namespace, buffer_number, diag_table)
+  vim.diagnostic.set(namespace, current_bufnr, diag_table)
 
   return diag_table
 end
