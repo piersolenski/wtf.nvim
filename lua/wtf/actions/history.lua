@@ -36,6 +36,11 @@ local function history()
     end
   end
 
+  -- Sort by filename (descending) to show newest first
+  table.sort(files, function(a, b)
+    return a.filename > b.filename
+  end)
+
   -- Add files to quickfix list
   vim.fn.setqflist({}, " ", {
     title = "WTF History",
