@@ -51,16 +51,16 @@ describe("Diagnose", function()
     assert.are.equal(true, result)
   end)
 
-  -- it("fails when an environment variable is not set", function()
-  --   -- Mock the environment variable not existing
-  --   vim.fn.setenv("OPENAI_API_KEY", nil)
-  --
-  --   plugin.setup({
-  --     provider = "openai",
-  --   })
-  --   local result = plugin.diagnose({ line1 = helpers.line_with_error - 1, line2 = helpers.line_with_error + 2 })
-  --   assert.are.equal(false, result)
-  -- end)
+  it("fails when an environment variable is not set", function()
+    -- Mock the environment variable not existing
+    vim.fn.setenv("OPENAI_API_KEY", nil)
+
+    plugin.setup({
+      provider = "openai",
+    })
+    local result = plugin.diagnose({ line1 = helpers.line_with_error - 1, line2 = helpers.line_with_error + 2 })
+    assert.are.equal(nil, result)
+  end)
 
   it("accepts a custom api key as a string", function()
     plugin.setup({
