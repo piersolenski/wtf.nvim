@@ -49,6 +49,11 @@ end)
 
 describe("Plugin", function()
   before_each(function()
+    -- Mock vim.notify to ignore notifications in test output
+    vim.notify = function(msg, level)
+      -- You can capture calls here if needed
+    end
+
     set_lines({
       "Line 1",
       "Line 2",
