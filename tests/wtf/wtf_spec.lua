@@ -1,5 +1,5 @@
 local plugin = require("wtf")
-local save_chat = require("wtf.save_chat")
+local save_chat = require("wtf.util.save_chat")
 
 local buffer_number = 0
 local line_with_error = 3

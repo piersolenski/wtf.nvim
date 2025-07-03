@@ -1,5 +1,5 @@
-local search_engines = require("wtf.search_engines")
-local providers = require("wtf.providers")
+local search_engines = require("wtf.sources.search_engines")
+local providers = require("wtf.ai.providers")
 
 local M = {}
 

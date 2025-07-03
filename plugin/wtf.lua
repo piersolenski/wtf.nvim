@@ -11,7 +11,7 @@ end
 vim.g.loaded_wtf = true
 
 local wtf = require("wtf")
-local search_engines = require("wtf.search_engines")
+local search_engines = require("wtf.sources.search_engines")
 
 vim.api.nvim_create_user_command("Wtf", function(opts)
   wtf.diagnose({

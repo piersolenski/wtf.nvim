@@ -10,7 +10,9 @@ local function split_string_by_line(text)
   return lines
 end
 
-local function display_popup(message)
+local M = {}
+
+M.show = function(message)
   local formatted_message = split_string_by_line(message)
 
   local event = require("nui.utils.autocmd").event
@@ -79,4 +81,4 @@ local function display_popup(message)
   return popup
 end
 
-return display_popup
+return M

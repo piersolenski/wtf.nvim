@@ -1,7 +1,7 @@
 local hooks = require("wtf.hooks")
-local get_api_key = require("wtf.utils.get_api_key")
+local get_api_key = require("wtf.util.get_api_key")
 local config = require("wtf.config")
-local providers = require("wtf.providers")
+local providers = require("wtf.ai.providers")
 local curl = require("plenary.curl")
 
 local DEFAULT_MAX_TOKENS = 4096

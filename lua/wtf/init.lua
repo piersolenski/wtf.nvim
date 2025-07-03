@@ -1,8 +1,8 @@
-local ai = require("wtf.diagnose")
-local search = require("wtf.search")
 local config = require("wtf.config")
+local diagnose = require("wtf.actions.diagnose")
 local hooks = require("wtf.hooks")
-local quickfix = require("wtf.quickfix")
+local history = require("wtf.actions.history")
+local search = require("wtf.actions.search")
 
 local M = {}
 
@@ -18,17 +18,17 @@ end
 
 function M.diagnose(opts)
   if opts and opts.line1 and opts.line2 then
-    return ai.diagnose(opts.line1, opts.line2, opts.instructions)
+    return diagnose(opts.line1, opts.line2, opts.instructions)
   else
     local mode = vim.api.nvim_get_mode().mode
     local is_visual = mode:match("^[vV]")
 
     if is_visual then
       local start_line, end_line = vim.fn.getpos("v")[2], vim.fn.getcurpos()[2]
-      return ai.diagnose(start_line, end_line, opts and opts.instructions)
+      return diagnose(start_line, end_line, opts and opts.instructions)
     else
       local current_line = vim.fn.line(".")
-      return ai.diagnose(current_line, current_line, opts and opts.instructions)
+      return diagnose(current_line, current_line, opts and opts.instructions)
     end
   end
 end
@@ -52,7 +52,7 @@ function M.grep_history()
 end
 
 function M.history()
-  return quickfix()
+  return history()
 end
 
 return M

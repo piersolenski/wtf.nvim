@@ -1,7 +1,7 @@
-local get_diagnostics = require("wtf.get_diagnostics")
-local get_programming_language = require("wtf.utils.get_programming_language")
-local search_engines = require("wtf.search_engines")
-local remove_file_paths = require("wtf.utils.remove_file_paths")
+local get_diagnostics = require("wtf.util.diagnostics")
+local get_programming_language = require("wtf.util.get_programming_language")
+local search_engines = require("wtf.sources.search_engines")
+local remove_file_paths = require("wtf.util.remove_file_paths")
 local config = require("wtf.config")
 
 local function get_open_command()

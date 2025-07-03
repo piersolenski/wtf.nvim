@@ -1,11 +1,9 @@
-local get_diagnostics = require("wtf.get_diagnostics")
-local get_programming_language = require("wtf.utils.get_programming_language")
-local request_provider = require("wtf.request_provider")
-local display_popup = require("wtf.display_popup")
-local save_chat = require("wtf.save_chat")
+local get_diagnostics = require("wtf.util.diagnostics")
+local get_programming_language = require("wtf.util.get_programming_language")
+local request_provider = require("wtf.ai.request")
+local popup = require("wtf.ui.popup")
+local save_chat = require("wtf.util.save_chat")
 local config = require("wtf.config")
-
-local M = {}
 
 local function get_content_between_lines(start_line, end_line)
   local lines = {}
@@ -16,7 +14,7 @@ local function get_content_between_lines(start_line, end_line)
   return table.concat(lines, "\n")
 end
 
-M.diagnose = function(line1, line2, instructions)
+local diagnose = function(line1, line2, instructions)
   -- Return the user to normal mode
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true)
 
@@ -83,11 +81,11 @@ M.diagnose = function(line1, line2, instructions)
 
     save_chat(response)
 
-    local _, err = display_popup(response)
+    local _, err = popup.show(response)
     if err then
       vim.notify(err, vim.log.levels.ERROR)
     end
   end)
 end
 
-return M
+return diagnose

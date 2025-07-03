@@ -11,13 +11,13 @@
 local M = {}
 
 -- Import all provider modules
-M.anthropic = require("wtf.providers.anthropic")
-M.copilot = require("wtf.providers.copilot")
-M.deepseek = require("wtf.providers.deepseek")
-M.gemini = require("wtf.providers.gemini")
-M.grok = require("wtf.providers.grok")
-M.ollama = require("wtf.providers.ollama")
-M.openai = require("wtf.providers.openai")
+M.anthropic = require("wtf.ai.providers.anthropic")
+M.copilot = require("wtf.ai.providers.copilot")
+M.deepseek = require("wtf.ai.providers.deepseek")
+M.gemini = require("wtf.ai.providers.gemini")
+M.grok = require("wtf.ai.providers.grok")
+M.ollama = require("wtf.ai.providers.ollama")
+M.openai = require("wtf.ai.providers.openai")
 
 -- Helper function to get just the names
 function M.get_names()
