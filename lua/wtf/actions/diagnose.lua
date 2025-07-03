@@ -74,7 +74,9 @@ local diagnose = function(line1, line2, instructions)
   When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting.
   Never show line numbers on solutions, so they are easily copy and pastable.]]
 
-  return request_provider(system, payload, function(response, err)
+  local co = coroutine.create(function()
+    local response, err = request_provider(system, payload)
+
     if err then
       vim.notify(err, vim.log.levels.ERROR)
       return nil
@@ -87,6 +89,8 @@ local diagnose = function(line1, line2, instructions)
       vim.notify(popup_err, vim.log.levels.ERROR)
     end
   end)
+
+  coroutine.resume(co)
 end
 
 return diagnose

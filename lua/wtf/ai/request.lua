@@ -44,15 +44,23 @@ local function process_response(response, provider_config)
   end
 end
 
-local function make_http_request(url, headers, request_data, callback)
+local function make_http_request(url, headers, request_data)
+  local co = coroutine.running()
+
   curl.post(url, {
     headers = headers,
     body = vim.json.encode(request_data),
-    callback = callback,
+    callback = function(response)
+      vim.schedule(function()
+        coroutine.resume(co, response)
+      end)
+    end,
   })
+
+  return coroutine.yield()
 end
 
-local function request_provider(system, messages, callback)
+local function request_provider(system, messages)
   hooks.run_started_hook()
 
   local selected_provider = config.options.provider
@@ -65,7 +73,7 @@ local function request_provider(system, messages, callback)
   local api_key = get_api_key(selected_provider, setup_api_key, provider_config.api_key)
 
   if not api_key then
-    return nil
+    return nil, "No API key found"
   end
 
   local request_data = provider_config.format_request({
@@ -76,18 +84,13 @@ local function request_provider(system, messages, callback)
   })
 
   local headers = build_headers(provider_config.headers, api_key)
+  local response = make_http_request(url, headers, request_data)
 
-  make_http_request(url, headers, request_data, function(response)
-    vim.schedule(function()
-      local text, err = process_response(response, provider_config)
-      if err then
-        callback(nil, err)
-      else
-        callback(text)
-      end
-      hooks.run_finished_hook()
-    end)
-  end)
+  local text, err = process_response(response, provider_config)
+
+  hooks.run_finished_hook()
+
+  return text, err
 end
 
 return request_provider
