@@ -1,18 +1,9 @@
-local hooks = require("wtf.hooks")
-local get_api_key = require("wtf.util.get_api_key")
 local config = require("wtf.config")
-local providers = require("wtf.ai.providers")
 local curl = require("plenary.curl")
+local get_api_key = require("wtf.util.get_api_key")
+local hooks = require("wtf.hooks")
 
 local DEFAULT_MAX_TOKENS = 4096
-
-local function get_provider_config(provider_name)
-  local provider_config = providers[provider_name]
-  if not provider_config then
-    error("Provider '" .. provider_name .. "' not found in available providers")
-  end
-  return provider_config
-end
 
 local function build_headers(headers, api_key)
   local processed_headers = {}
@@ -60,37 +51,35 @@ local function make_http_request(url, headers, request_data)
   return coroutine.yield()
 end
 
-local function client(system, messages)
+local function client(provider, system, messages)
   hooks.run_started_hook()
 
-  local selected_provider = config.options.provider
-  local provider_config = get_provider_config(selected_provider)
-  local model_id = config.options.providers[selected_provider].model_id
-  local setup_api_key = config.options.providers[selected_provider].api_key
+  local target_provider = config.options.provider
+  local model_id = config.options.providers[target_provider].model_id
+  local custom_api_key = config.options.providers[target_provider].api_key
 
-  local url = config.options.providers[selected_provider].url or provider_config.url
+  local url = config.options.providers[target_provider].url or provider.url
 
-  local api_key = get_api_key(selected_provider, setup_api_key, provider_config.api_key)
+  local api_key
 
-  if not api_key then
-    return nil, "No API key found"
+  if custom_api_key or provider.api_key then
+    api_key = get_api_key(custom_api_key or provider.api_key)
+    if not api_key then
+      return nil, "No API key found"
+    end
   end
 
-  local request_data = provider_config.format_request({
+  local request_data = provider.format_request({
     model = model_id,
     max_tokens = DEFAULT_MAX_TOKENS,
     system = system,
     messages = messages,
   })
 
-  local headers = build_headers(provider_config.headers, api_key)
+  local headers = build_headers(provider.headers, api_key)
   local response = make_http_request(url, headers, request_data)
 
-  local text, err = process_response(response, provider_config)
-
-  hooks.run_finished_hook()
-
-  return text, err
+  return process_response(response, provider)
 end
 
 return client

@@ -1,9 +1,10 @@
+local client = require("wtf.ai.client")
+local config = require("wtf.config")
 local get_diagnostics = require("wtf.util.diagnostics")
 local get_programming_language = require("wtf.util.get_programming_language")
-local client = require("wtf.ai.client")
+local get_provider = require("wtf.util.get_provider")
 local popup = require("wtf.ui.popup")
 local save_chat = require("wtf.util.save_chat")
-local config = require("wtf.config")
 
 local function get_content_between_lines(start_line, end_line)
   local lines = {}
@@ -67,15 +68,19 @@ local diagnose = function(line1, line2, instructions)
     payload = payload .. "\nRespond only in " .. language
   end
 
-  vim.notify("Generating explanation...", vim.log.levels.INFO)
+  local provider = get_provider(config.options.provider)
+  local model_id = config.options.providers[config.options.provider].model_id
 
-  local system =
-    [[You are an expert coder and helpful assistant who can help debug code diagnostics, such as warning and error messages.
-  When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier to enable syntax highlighting.
-  Never show line numbers on solutions, so they are easily copy and pastable.]]
+  vim.notify("Diagnosing with " .. provider.formatted_name .. ": " .. model_id)
+
+  local system = "You are an expert coder and helpful assistant who can help debug code diagnostics, "
+    .. "such as warning and error messages."
+    .. "When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier "
+    .. "to enable syntax highlighting."
+    .. "Never show line numbers on solutions, so they are easily copy and pastable."
 
   local co = coroutine.create(function()
-    local response, err = client(system, payload)
+    local response, err = client(provider, system, payload)
 
     if err then
       vim.notify(err, vim.log.levels.ERROR)
