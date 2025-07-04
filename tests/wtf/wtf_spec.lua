@@ -1,3 +1,5 @@
+---@module 'luassert'
+
 local plugin = require("wtf")
 
 describe("Setup", function()
@@ -22,4 +24,3 @@ describe("Get Status", function()
     assert.are.equal("string", type(result))
   end)
 end)
-

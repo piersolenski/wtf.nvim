@@ -1,3 +1,5 @@
+---@module 'luassert'
+
 local M = {}
 
 local namespace = nil
@@ -35,6 +37,7 @@ end
 
 M.disable_notifications = function()
   -- Mock vim.notify to ignore notifications in test output
+  ---@diagnostic disable-next-line: duplicate-set-field
   vim.notify = function() end
 end
 

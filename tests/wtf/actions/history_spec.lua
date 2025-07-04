@@ -1,3 +1,5 @@
+---@module 'luassert'
+
 local plugin = require("wtf")
 local save_chat = require("wtf.util.save_chat")
 

@@ -1,5 +1,7 @@
-local plugin = require("wtf")
+---@module 'luassert'
+
 local helpers = require("tests.wtf.helpers")
+local plugin = require("wtf")
 
 describe("Search", function()
   before_each(function()
@@ -25,6 +27,7 @@ describe("Search", function()
   it("works with the default search engine", function()
     -- Mock the vim.fn.system function
     local original_fn = vim.fn.system
+    ---@diagnostic disable-next-line: duplicate-set-field
     vim.fn.system = function(_)
       return "Test output"
     end
@@ -50,6 +53,7 @@ describe("Search", function()
 
     -- Mock vim.ui.select
     local original_select = vim.ui.select
+    ---@diagnostic disable-next-line: duplicate-set-field
     vim.ui.select = function(_, _, on_choice)
       -- Simulate selecting the second option
       on_choice(second_error)
@@ -57,6 +61,7 @@ describe("Search", function()
 
     -- Mock the vim.fn.system function
     local original_fn = vim.fn.system
+    ---@diagnostic disable-next-line: duplicate-set-field
     vim.fn.system = function(_)
       return second_error.message
     end
