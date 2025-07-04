@@ -25,20 +25,7 @@ function M.diagnose(opts)
 end
 
 function M.fix(opts)
-  if opts and opts.line1 and opts.line2 then
-    return fix(opts.line1, opts.line2, opts.instructions)
-  else
-    local mode = vim.api.nvim_get_mode().mode
-    local is_visual = mode:match("^[vV]")
-
-    if is_visual then
-      local start_line, end_line = vim.fn.getpos("v")[2], vim.fn.getcurpos()[2]
-      return fix(start_line, end_line, opts and opts.instructions)
-    else
-      local current_line = vim.fn.line(".")
-      return fix(current_line, current_line, opts and opts.instructions)
-    end
-  end
+  return fix(opts)
 end
 
 function M.search(opts)
