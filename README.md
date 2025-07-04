@@ -100,7 +100,19 @@ use({
 }
 ```
 
-In order to use the AI functionality, you will need to set the environment variables for your providers of choice. You can also set or override API keys in your config, but it is recommended to use environment variables. The search engine functionality will still work without it any AI setup.
+In order to use the AI functionality, you will need to set the environment variables for your providers of choice. 
+
+<details>
+<summary>Environment Variables</summary>
+
+```sh
+// OpenAI
+export OPENAI_API_KEY=your-api-key
+```
+
+</details>
+
+You can also set or override API keys in your config, but it is recommended to use environment variables. The search engine functionality will still work without it any AI setup.
 
 ## ⚙️ Configuration
 
