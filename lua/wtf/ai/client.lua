@@ -1,7 +1,6 @@
 local config = require("wtf.config")
 local curl = require("plenary.curl")
 local get_api_key = require("wtf.util.get_api_key")
-local hooks = require("wtf.hooks")
 
 local DEFAULT_MAX_TOKENS = 4096
 
@@ -52,8 +51,6 @@ local function make_http_request(url, headers, request_data)
 end
 
 local function client(provider, system, messages)
-  hooks.run_started_hook()
-
   local target_provider = config.options.provider
   local model_id = config.options.providers[target_provider].model_id
   local custom_api_key = config.options.providers[target_provider].api_key
@@ -61,12 +58,12 @@ local function client(provider, system, messages)
   local url = config.options.providers[target_provider].url or provider.url
 
   local api_key
-
   if custom_api_key or provider.api_key then
-    api_key = get_api_key(custom_api_key or provider.api_key)
-    if not api_key then
-      return nil, "No API key found"
+    local success, result = pcall(get_api_key, custom_api_key or provider.api_key)
+    if not success then
+      return nil, result
     end
+    api_key = result
   end
 
   local request_data = provider.format_request({

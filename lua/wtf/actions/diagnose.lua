@@ -3,6 +3,7 @@ local config = require("wtf.config")
 local get_diagnostics = require("wtf.util.diagnostics")
 local get_programming_language = require("wtf.util.get_programming_language")
 local get_provider = require("wtf.util.get_provider")
+local hooks = require("wtf.hooks")
 local popup = require("wtf.ui.popup")
 local save_chat = require("wtf.util.save_chat")
 
@@ -16,6 +17,8 @@ local function get_content_between_lines(start_line, end_line)
 end
 
 local diagnose = function(line1, line2, instructions)
+  hooks.run_started_hook()
+
   -- Return the user to normal mode
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "x", true)
 
@@ -83,6 +86,7 @@ local diagnose = function(line1, line2, instructions)
     local response, err = client(provider, system, payload)
 
     if err then
+      hooks.run_finished_hook()
       vim.notify(err, vim.log.levels.ERROR)
       return nil
     end
@@ -90,6 +94,9 @@ local diagnose = function(line1, line2, instructions)
     save_chat(response)
 
     local _, popup_err = popup.show(response)
+
+    hooks.run_finished_hook()
+
     if popup_err then
       vim.notify(popup_err, vim.log.levels.ERROR)
     end
