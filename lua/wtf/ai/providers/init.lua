@@ -12,7 +12,7 @@ local M = {}
 
 -- Import all provider modules
 M.anthropic = require("wtf.ai.providers.anthropic")
--- M.copilot = require("wtf.ai.providers.copilot")
+M.copilot = require("wtf.ai.providers.copilot")
 M.deepseek = require("wtf.ai.providers.deepseek")
 M.gemini = require("wtf.ai.providers.gemini")
 M.grok = require("wtf.ai.providers.grok")

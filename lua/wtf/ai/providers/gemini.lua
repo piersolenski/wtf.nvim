@@ -1,3 +1,5 @@
+local get_env_var = require("wtf.util.get_env_var")
+
 ---@type Wtf.Adapter
 return {
   name = "gemini",
@@ -7,7 +9,9 @@ return {
     ["Content-Type"] = "application/json",
     Authorization = "Bearer ${api_key}",
   },
-  api_key = "GEMINI_API_KEY",
+  api_key = function()
+    return get_env_var("GEMINI_API_KEY")
+  end,
   format_request = function(data)
     return {
       model = data.model,

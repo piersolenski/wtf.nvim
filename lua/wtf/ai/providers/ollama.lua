@@ -6,6 +6,7 @@ return {
   headers = {
     ["Content-Type"] = "application/json",
   },
+  api_key = nil,
   format_request = function(data)
     return {
       model = data.model,

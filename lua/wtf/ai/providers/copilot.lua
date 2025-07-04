@@ -59,11 +59,14 @@ return {
   formatted_name = "Copilot",
   url = "https://api.githubcopilot.com/chat/completions",
   headers = {
-    Authorization = "Bearer " .. get_copilot_token(),
+    Authorization = "Bearer ${api_key}",
     ["Content-Type"] = "application/json",
     ["Copilot-Integration-Id"] = "vscode-chat",
     ["Editor-Version"] = "Neovim/" .. vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch,
   },
+  api_key = function()
+    return get_copilot_token()
+  end,
   format_request = function(data)
     return {
       model = data.model,

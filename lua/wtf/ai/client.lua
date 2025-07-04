@@ -17,7 +17,7 @@ end
 local function build_headers(headers, api_key)
   local processed_headers = {}
   for key, value in pairs(headers) do
-    local processed_value = value:gsub("${api_key}", api_key)
+    local processed_value = value:gsub("${api_key}", api_key or "")
     processed_headers[key] = processed_value
   end
   return processed_headers
