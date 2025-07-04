@@ -1,9 +1,9 @@
 local config = require("wtf.config")
-local diagnose = require("wtf.actions.diagnose")
-local fix = require("wtf.actions.fix")
+local diagnose = require("wtf.commands.diagnose")
+local fix = require("wtf.commands.fix")
+local history = require("wtf.commands.history")
 local hooks = require("wtf.hooks")
-local history = require("wtf.actions.history")
-local search = require("wtf.actions.search")
+local search = require("wtf.commands.search")
 
 local M = {}
 
