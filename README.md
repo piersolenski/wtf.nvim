@@ -100,51 +100,59 @@ use({
 }
 ```
 
-In order to use the AI functionality, you will need to set the environment variables for your providers of choice. 
-
-<details>
-<summary>Environment Variables</summary>
+In order to use the AI functionality, you may need to set an environment variable for your provider of choice: 
 
 ```sh
+// Anthropic
+export ANTHROPIC_API_KEY=your-api-key
+
+// DeepSeek
+export DEEPSEEK_API_KEY=your-api-key
+
+// Gemini
+export GEMINI_API_KEY=your-api-key
+
+// Grok
+export GROQ_API_KEY=your-api-key
+
 // OpenAI
 export OPENAI_API_KEY=your-api-key
 ```
 
-</details>
-
-You can also set or override API keys in your config, but it is recommended to use environment variables. The search engine functionality will still work without it any AI setup.
+You can also set or override API keys in your config, but it is recommended to use environment variables.
 
 ## ⚙️ Configuration
 
 ```lua
 {
-   	-- Directory for storing chat files 
-    chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
-    -- Default AI popup type
-    popup_type = "popup" | "horizontal" | "vertical",
-    -- The default provider
-    provider = "anthropic" | "copilot" | "deepseek" | "gemini" | "grok" | "ollama" | "openai",
-    -- Configure providers
-  	providers = {
-        anthropic = {
-            -- An alternative way to set your API key
-	        api_key = "32lkj23sdjke223ksdlfk" | function() os.getenv("API_KEY") end,
-	        model_id = "claude-3-5-sonnet-20241022",
-	    },
+  -- Directory for storing chat files 
+  chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
+  -- Default AI popup type
+  popup_type = "popup" | "horizontal" | "vertical",
+  -- The default provider
+  provider = "anthropic" | "copilot" | "deepseek" | "gemini" | "grok" | "ollama" | "openai",
+  -- Configure providers
+  providers = {
+    anthropic = {
+      -- An alternative way to set your API key
+      api_key = "32lkj23sdjke223ksdlfk" | function() os.getenv("API_KEY") end,
+      -- Your preferred model
+      model_id = "claude-3-5-sonnet-20241022",
     },
-    -- Set your preferred language for the response
-    language = "english",
-    -- Any additional instructions
-    additional_instructions = "Start the reply with 'OH HAI THERE'",
-    -- Default search engine, can be overridden by passing an option to WtfSeatch
-    search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github" | "phind" | "perplexity",
-    -- Callbacks
-    hooks = {
-        request_started = nil,
-        request_finished = nil,
-    },
-    -- Add custom colours
-    winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+  },
+  -- Set your preferred language for the response
+  language = "english",
+  -- Any additional instructions
+  additional_instructions = "Start the reply with 'OH HAI THERE'",
+  -- Default search engine, can be overridden by passing an option to WtfSeatch
+  search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github" | "phind" | "perplexity",
+  -- Callbacks
+  hooks = {
+    request_started = nil,
+    request_finished = nil,
+  },
+  -- Add custom colours
+  winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
 }
 ```
 
