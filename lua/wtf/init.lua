@@ -12,7 +12,10 @@ end
 
 -- TODO: Remove this in a later version
 function M.ai(opts)
-  vim.notify("M.ai() is deprecated and will be removed soon. Use M.diagnose() instead.", vim.log.levels.WARN)
+  vim.notify(
+    "M.ai() is deprecated and will be removed soon. Use M.diagnose() instead.",
+    vim.log.levels.WARN
+  )
   return M.diagnose(opts)
 end
 
