@@ -5,6 +5,7 @@ return {
   name = "gemini",
   url = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
   formatted_name = "Gemini",
+  model_id = "gemini-1.5-flash",
   headers = {
     ["Content-Type"] = "application/json",
     Authorization = "Bearer ${api_key}",

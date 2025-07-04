@@ -58,6 +58,7 @@ return {
   name = "copilot",
   formatted_name = "Copilot",
   url = "https://api.githubcopilot.com/chat/completions",
+  model_id = "gpt-4o",
   headers = {
     Authorization = "Bearer ${api_key}",
     ["Content-Type"] = "application/json",

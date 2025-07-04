@@ -5,6 +5,7 @@ return {
   name = "deepseek",
   url = "https://api.deepseek.com/v1/chat/completions",
   formatted_name = "DeepSeek",
+  model_id = "deepseek-chat",
   headers = {
     ["Content-Type"] = "application/json",
     Authorization = "Bearer ${api_key}",

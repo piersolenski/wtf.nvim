@@ -5,12 +5,13 @@ return {
   name = "grok",
   url = "https://api.x.ai/v1/chat/completions",
   formatted_name = "Grok",
+  model_id = "gemma-7b-it",
   headers = {
     ["Content-Type"] = "application/json",
     Authorization = "Bearer ${api_key}",
   },
   api_key = function()
-    return get_env_var("XAI_API_KEY")
+    return get_env_var("GROQ_API_KEY")
   end,
   format_request = function(data)
     return {
