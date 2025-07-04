@@ -4,6 +4,10 @@ local get_api_key = require("wtf.util.get_api_key")
 
 local DEFAULT_MAX_TOKENS = 4096
 
+--- Processes headers by replacing ${api_key} placeholders with the actual API key
+---@param headers table<string, string>
+---@param api_key string?
+---@return table<string, string>
 local function build_headers(headers, api_key)
   local processed_headers = {}
   for key, value in pairs(headers) do
@@ -13,6 +17,11 @@ local function build_headers(headers, api_key)
   return processed_headers
 end
 
+--- Processes HTTP response from AI provider API
+---@param response table
+---@param provider_config table
+---@return string? text
+---@return string? error
 local function process_response(response, provider_config)
   local success, response_table = pcall(vim.json.decode, response.body)
 
@@ -34,6 +43,11 @@ local function process_response(response, provider_config)
   end
 end
 
+--- Makes asynchronous HTTP POST request using coroutines
+---@param url string
+---@param headers table<string, string>
+---@param request_data table
+---@return table HTTP
 local function make_http_request(url, headers, request_data)
   local co = coroutine.running()
 
@@ -50,6 +64,12 @@ local function make_http_request(url, headers, request_data)
   return coroutine.yield()
 end
 
+--- Main client function that sends messages to AI provider and returns response
+---@param provider table
+---@param system string
+---@param messages string
+---@return string? text
+---@return string? error
 local function client(provider, system, messages)
   local target_provider = config.options.provider
   local model_id = config.options.providers[target_provider].model_id
