@@ -8,10 +8,7 @@ local function handle_response(response, line1, line2)
   local fixed_code = response:gsub("```[%w]*\n", ""):gsub("\n```", "")
 
   -- Split the fixed code into lines
-  local fixed_lines = {}
-  for line in fixed_code:gmatch("[^\r\n]+") do
-    table.insert(fixed_lines, line)
-  end
+  local fixed_lines = vim.split(fixed_code, "\n")
 
   -- Replace the lines in the buffer
   vim.api.nvim_buf_set_lines(0, line1 - 1, line2, false, fixed_lines)
