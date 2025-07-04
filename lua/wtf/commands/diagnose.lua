@@ -6,16 +6,6 @@ local popup = require("wtf.ui.popup")
 local process_diagnostics = require("wtf.util.process_diagnostics")
 local save_chat = require("wtf.util.save_chat")
 
-local language = config.options.language
-
-local SYSTEM_PROMPT = "You are an expert coder and helpful assistant who can help debug code diagnostics, "
-  .. "such as warning and error messages. "
-  .. "When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier "
-  .. "to enable syntax highlighting. "
-  .. "Never show line numbers on solutions, so they are easily copy and pastable."
-  .. "Always explain in"
-  .. language
-
 --- @param response string
 --- @return boolean success
 local function handle_response(response)
@@ -32,6 +22,16 @@ end
 
 local function diagnose(opts)
   hooks.run_started_hook()
+
+  local language = config.options.language
+
+  local SYSTEM_PROMPT = "You are an expert coder and helpful assistant who can help debug code diagnostics, "
+    .. "such as warning and error messages. "
+    .. "When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier "
+    .. "to enable syntax highlighting. "
+    .. "Never show line numbers on solutions, so they are easily copy and pastable."
+    .. "Always explain in"
+    .. language
 
   local result = process_diagnostics(opts)
   if result.err then
