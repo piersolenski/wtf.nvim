@@ -10,11 +10,22 @@ if vim.g.loaded_wtf then
 end
 vim.g.loaded_wtf = true
 
-local wtf = require("wtf")
 local search_engines = require("wtf.sources.search_engines")
+local wtf = require("wtf")
 
 vim.api.nvim_create_user_command("Wtf", function(opts)
   wtf.diagnose({
+    line1 = opts.line1,
+    line2 = opts.line2,
+    instructions = opts.args,
+  })
+end, {
+  range = true,
+  nargs = "*",
+})
+
+vim.api.nvim_create_user_command("WtfFix", function(opts)
+  wtf.fix({
     line1 = opts.line1,
     line2 = opts.line2,
     instructions = opts.args,
