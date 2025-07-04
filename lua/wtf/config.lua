@@ -12,9 +12,9 @@ function M.setup(opts)
     language = "english",
     popup_type = "popup",
     provider = "openai",
+    -- TODO: Don't set model IDs here
     providers = {
       anthropic = {
-        api_key = nil,
         model_id = "claude-3-5-sonnet-20241022",
       },
       copilot = {
@@ -24,18 +24,15 @@ function M.setup(opts)
         model_id = "deepseek-chat",
       },
       gemini = {
-        api_key = nil,
         model_id = "gemini-2.5-flash",
       },
       grok = {
-        api_key = nil,
         model_id = "grok-3-latest",
       },
       ollama = {
         model_id = "deepseek-r1",
       },
       openai = {
-        api_key = nil,
         model_id = "gpt-4o",
       },
     },
