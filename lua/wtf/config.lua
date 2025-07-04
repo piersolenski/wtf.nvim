@@ -10,7 +10,7 @@ function M.setup(opts)
     additional_instructions = nil,
     chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
     language = "english",
-    popup_type = "popup",
+    popup_type = "horizontal",
     provider = "openai",
     -- TODO: Don't set model IDs here
     providers = {
