@@ -35,7 +35,7 @@ end
 
 M.disable_notifications = function()
   -- Mock vim.notify to ignore notifications in test output
-  vim.notify = function(msg, level) end
+  vim.notify = function() end
 end
 
 return M
