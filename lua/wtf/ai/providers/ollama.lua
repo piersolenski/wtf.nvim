@@ -17,7 +17,7 @@ return {
         },
         {
           role = "user",
-          content = data.messages,
+          content = data.message,
         },
       },
       max_tokens = data.max_tokens,

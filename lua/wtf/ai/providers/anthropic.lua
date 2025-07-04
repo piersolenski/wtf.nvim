@@ -21,7 +21,7 @@ return {
       messages = {
         {
           role = "user",
-          content = data.messages,
+          content = data.message,
         },
       },
     }

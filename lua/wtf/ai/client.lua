@@ -65,12 +65,12 @@ local function make_http_request(url, headers, request_data)
   return coroutine.yield()
 end
 
---- Main client function that sends messages to AI provider and returns response
+--- Main client function that sends message to AI provider and returns response
 ---@param system string
----@param messages string
+---@param message string
 ---@return string? text
 ---@return string? error
-local function client(system, messages)
+local function client(system, message)
   local target_provider = config.options.provider
   local provider = get_provider(target_provider)
   local model_id = config.options.providers[target_provider].model_id
@@ -91,7 +91,7 @@ local function client(system, messages)
     model = model_id,
     max_tokens = DEFAULT_MAX_TOKENS,
     system = system,
-    messages = messages,
+    message = message,
   })
 
   local headers = build_headers(provider.headers, api_key)
