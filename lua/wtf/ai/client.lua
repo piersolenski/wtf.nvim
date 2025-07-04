@@ -1,6 +1,7 @@
 local config = require("wtf.config")
 local curl = require("plenary.curl")
 local get_api_key = require("wtf.util.get_api_key")
+local get_provider = require("wtf.util.get_provider")
 
 local DEFAULT_MAX_TOKENS = 4096
 
@@ -65,13 +66,13 @@ local function make_http_request(url, headers, request_data)
 end
 
 --- Main client function that sends messages to AI provider and returns response
----@param provider table
 ---@param system string
 ---@param messages string
 ---@return string? text
 ---@return string? error
-local function client(provider, system, messages)
+local function client(system, messages)
   local target_provider = config.options.provider
+  local provider = get_provider(target_provider)
   local model_id = config.options.providers[target_provider].model_id
   local custom_api_key = config.options.providers[target_provider].api_key
 
