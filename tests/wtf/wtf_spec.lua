@@ -5,16 +5,16 @@ local plugin = require("wtf")
 describe("Setup", function()
   it("accepts valid config", function()
     plugin.setup({
-      context = false,
+      popup_type = "popup",
     })
   end)
 
   it("rejects a broken config", function()
     assert.error_matches(function()
       plugin.setup({
-        context = "bananas",
+        popup_type = "bananas",
       })
-    end, "expected boolean, got string")
+    end, "popup_type: expected supported popup type, got bananas")
   end)
 end)
 

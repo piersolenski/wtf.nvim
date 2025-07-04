@@ -108,8 +108,6 @@ use({
     openai_api_key = "sk-xxxxxxxxxxxxxx",
     -- ChatGPT Model
     openai_model_id = "gpt-3.5-turbo",
-    -- Send code as well as diagnostics
-    context = true,
     -- Set your preferred language for the response
     language = "english",
     -- Any additional instructions
@@ -134,7 +132,7 @@ To use it, whenever you have an hint, warning or error in an LSP enabled environ
 
 | Command | Modes | Description |
 | -- | -- | -- |
-| `:Wtf [additional_instructions]` | Normal, Visual | Sends the diagnostic messages for a line or visual range to ChatGPT, along with the code if the context has been set to `true`. Additional instructions can also be specified, which might be useful if you want to refine the response further.
+| `:Wtf [additional_instructions]` | Normal, Visual | Sends the code and diagnostic messages for a line or visual range to ChatGPT. Additional instructions can also be specified, which might be useful if you want to refine the response further.
 | `:WtfSearch [search_engine]` | Normal | Uses a search engine (defaults to the one in the setup or Google if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
 | `:WtfHistory` | Normal | Use the quickfix list to see your previous chats. 
 | `:WtfGrepHistory` | Normal | Grep your previous chats via [Telescope](https://github.com/nvim-telescope/telescope.nvim!). 

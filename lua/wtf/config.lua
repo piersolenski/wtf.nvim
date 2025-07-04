@@ -1,5 +1,5 @@
-local search_engines = require("wtf.sources.search_engines")
 local providers = require("wtf.ai.providers")
+local search_engines = require("wtf.sources.search_engines")
 
 local M = {}
 
@@ -9,7 +9,6 @@ function M.setup(opts)
   local default_opts = {
     additional_instructions = nil,
     chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
-    context = true,
     language = "english",
     popup_type = "popup",
     provider = "openai",
@@ -57,7 +56,10 @@ function M.setup(opts)
       opts.openai_api_key,
       function(val)
         if val ~= nil then
-          vim.notify("WTF openai_api_key should now be set via providers.openai.api_key", vim.log.levels.ERROR)
+          vim.notify(
+            "WTF openai_api_key should now be set via providers.openai.api_key",
+            vim.log.levels.ERROR
+          )
         end
         return true
       end,
@@ -67,7 +69,10 @@ function M.setup(opts)
       opts.openai_model_id,
       function(val)
         if val ~= nil then
-          vim.notify("WTF openai_model_id should now be set via providers.openai.model_id", vim.log.levels.ERROR)
+          vim.notify(
+            "WTF openai_model_id should now be set via providers.openai.model_id",
+            vim.log.levels.ERROR
+          )
         end
         return true
       end,
@@ -101,7 +106,19 @@ function M.setup(opts)
       end,
       "supported search engine",
     },
-    context = { opts.context, "boolean" },
+    -- TODO: Remove context in a future version
+    context = {
+      opts.context,
+      function(val)
+        if val ~= nil then
+          vim.notify(
+            "context is no longer supported, please remove it from your config",
+            vim.log.levels.ERROR
+          )
+        end
+        return true
+      end,
+    },
     additional_instructions = { opts.additional_instructions, { "string", "nil" } },
     popup_type = {
       opts.popup_type,
