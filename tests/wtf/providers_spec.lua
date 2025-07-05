@@ -8,6 +8,11 @@ local providers = require("wtf.ai.providers")
 -- 3. All providers that run locally should be running.
 
 describe("Providers", function()
+  if os.getenv("OPENAI_API_KEY") then
+    pending("skipped in GitHub CI")
+    return
+  end
+
   for provider_name, provider in pairs(providers) do
     describe(provider.formatted_name, function()
       it("handles success", function()
