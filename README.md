@@ -82,6 +82,14 @@ use({
     },
     {
       mode = { "n" },
+      "<leader>wp",
+      function()
+        require("wtf").pick_provider()
+      end,
+      desc = "Pick provider",
+    },
+    {
+      mode = { "n" },
       "<leader>wh",
       function()
         require("wtf").history()
@@ -166,6 +174,7 @@ To use it, whenever you have an hint, warning or error in an LSP enabled environ
 | -- | -- | -- |
 | `:Wtf [instructions]` | Normal, Visual | Sends the code and diagnostic messages for a line or visual range to the provider. Additional instructions can also be specified, which might be useful if you want to offer extra context, such as `Wtf I'm using Node.js`.
 | `:WtfFix [instructions]` | Normal, Visual | The same as `Wtf`, except instead of explaining the issue, it will attempt to fix it. Additional instructions can be specified, such as `WtfFix using camel casing`.
+| `:WtfPickProvider` | Normal | Allows you to pick a different provider other than the one initially set in your config without restarting Vim.
 | `:WtfSearch [search_engine]` | Normal | Uses a search engine (defaults to the one in the setup or Google if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
 | `:WtfHistory` | Normal | Use the quickfix list to see your previous chats. 
 | `:WtfGrepHistory` | Normal | Grep your previous chats via [Telescope](https://github.com/nvim-telescope/telescope.nvim!). 
