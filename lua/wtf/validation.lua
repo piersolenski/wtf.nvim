@@ -69,4 +69,3 @@ function M.get_validation_spec(opts)
 end
 
 return M
-

@@ -1,5 +1,5 @@
-local Split = require("nui.split")
 local Popup = require("nui.popup")
+local Split = require("nui.split")
 local config = require("wtf.config")
 
 local function split_string_by_line(text)

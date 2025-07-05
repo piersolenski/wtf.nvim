@@ -1,8 +1,8 @@
+local config = require("wtf.config")
 local get_diagnostics = require("wtf.util.diagnostics")
 local get_programming_language = require("wtf.util.get_programming_language")
-local search_engines = require("wtf.sources.search_engines")
 local remove_file_paths = require("wtf.util.remove_file_paths")
-local config = require("wtf.config")
+local search_engines = require("wtf.sources.search_engines")
 
 local function get_open_command()
   local open_command
@@ -81,7 +81,12 @@ local search = function(search_engine)
   else
     local diagnostic = diagnostics[1]
     local message = remove_file_paths(diagnostic.message)
-    return open_search_url(selected_search_engine, programming_language, diagnostic.severity, message)
+    return open_search_url(
+      selected_search_engine,
+      programming_language,
+      diagnostic.severity,
+      message
+    )
   end
 end
 

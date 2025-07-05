@@ -1,5 +1,5 @@
-local curl = require("plenary.curl")
 local Path = require("plenary.path")
+local curl = require("plenary.curl")
 
 local function get_oauth_token()
   local xdg_config = vim.fn.expand("$XDG_CONFIG_HOME")
@@ -63,7 +63,12 @@ return {
     Authorization = "Bearer ${api_key}",
     ["Content-Type"] = "application/json",
     ["Copilot-Integration-Id"] = "vscode-chat",
-    ["Editor-Version"] = "Neovim/" .. vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch,
+    ["Editor-Version"] = "Neovim/"
+      .. vim.version().major
+      .. "."
+      .. vim.version().minor
+      .. "."
+      .. vim.version().patch,
   },
   api_key = function()
     return get_copilot_token()
