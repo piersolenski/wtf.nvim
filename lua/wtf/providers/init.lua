@@ -16,6 +16,7 @@ M.anthropic = require("wtf.providers.anthropic")
 M.gemini = require("wtf.providers.gemini")
 M.grok = require("wtf.providers.grok")
 M.openai = require("wtf.providers.openai")
+M.ollama = require("wtf.providers.ollama")
 
 -- Helper function to get just the names
 function M.get_names()

@@ -64,10 +64,26 @@ local function request_provider(system, payload, callback)
   local setup_api_key = config.options.providers[selected_provider].api_key
   local base_url = config.options.providers[selected_provider].base_url
 
-  local api_key = get_api_key(selected_provider, setup_api_key, provider_config.env.api_key)
+  if type(provider_config.call) == "function" then
+    return provider_config:call({
+      model = model_id,
+      max_tokens = DEFAULT_MAX_TOKENS,
+      system = system,
+      payload = payload,
+    }, function(result)
+      hooks.run_finished_hook()
+      if result == nil then
+        vim.notify("No response received from provider", vim.log.levels.WARN)
+        return
+      end
+      callback(provider_config.format_response(result))
+    end)
+  end
 
-  if not api_key then
-    return nil
+  local api_key = ""
+  if provider_config.env and provider_config.env.api_key then
+    api_key = get_api_key(selected_provider, setup_api_key, provider_config.env.api_key)
+    if not api_key then return nil end
   end
 
   local request_data = provider_config.format_request({
@@ -85,9 +101,7 @@ local function request_provider(system, payload, callback)
     body = vim.json.encode(request_data),
     callback = function(response)
       process_response(response, provider_config, callback)
-      vim.schedule(function()
-        hooks.run_finished_hook()
-      end)
+      vim.schedule(hooks.run_finished_hook)
     end,
   })
 

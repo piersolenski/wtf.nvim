@@ -3,6 +3,10 @@ local function get_api_key(provider, setup_api_key, env_api_key)
     return setup_api_key
   end
 
+  if type(env_api_key) ~= "string" or env_api_key == "" then
+    return nil
+  end
+
   local key = os.getenv(env_api_key)
   if key ~= nil then
     return key

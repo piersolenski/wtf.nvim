@@ -103,6 +103,11 @@ use({
 	        model_id = "gpt-4o",
 	        base_url = nil,
 	    },
+        ollama = {
+            api_key = nil,
+            model_id = "tinyllama:latest",
+            base_url = "http://localhost:11434",
+        },
     },
     -- An alternative way to set your API key
     openai_api_key = "sk-xxxxxxxxxxxxxx",

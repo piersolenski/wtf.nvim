@@ -34,6 +34,11 @@ function M.setup(opts)
         model_id = "gpt-4o",
         base_url = nil,
       },
+      ollama = {
+        api_key = nil,
+        model_id = "tinyllama:latest",
+        base_url = "http://localhost:11434",
+      }
     },
     search_engine = "google",
     hooks = {
