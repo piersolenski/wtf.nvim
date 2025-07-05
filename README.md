@@ -113,7 +113,7 @@ export DEEPSEEK_API_KEY=your-api-key
 export GEMINI_API_KEY=your-api-key
 
 // Grok
-export GROQ_API_KEY=your-api-key
+export GROK_API_KEY=your-api-key
 
 // OpenAI
 export OPENAI_API_KEY=your-api-key

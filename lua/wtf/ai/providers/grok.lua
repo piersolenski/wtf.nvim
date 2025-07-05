@@ -11,7 +11,7 @@ return {
     Authorization = "Bearer ${api_key}",
   },
   api_key = function()
-    return get_env_var("GROQ_API_KEY")
+    return get_env_var("GROK_API_KEY")
   end,
   format_request = function(data)
     return {
