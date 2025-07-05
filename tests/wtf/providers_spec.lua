@@ -2,6 +2,11 @@ local client = require("wtf.ai.client")
 local config = require("wtf.config")
 local providers = require("wtf.ai.providers")
 
+-- NOTE: In order for this integration test to pass, the following must be true:
+-- 1. All environment variables are set correctly.
+-- 2. All providers that require a balance are funded.
+-- 3. All providers that run locally should be running.
+
 describe("Providers", function()
   for provider_name, provider in pairs(providers) do
     describe(provider.formatted_name, function()
