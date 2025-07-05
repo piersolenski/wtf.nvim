@@ -35,12 +35,16 @@ end, {
   nargs = "*",
 })
 
+vim.api.nvim_create_user_command("WtfGrepHistory", function()
+  wtf.grep_history()
+end, {})
+
 vim.api.nvim_create_user_command("WtfHistory", function()
   wtf.history()
 end, {})
 
-vim.api.nvim_create_user_command("WtfGrepHistory", function()
-  wtf.grep_history()
+vim.api.nvim_create_user_command("WtfPickProvider", function()
+  wtf.pick_provider()
 end, {})
 
 vim.api.nvim_create_user_command("WtfSearch", function(opts)
