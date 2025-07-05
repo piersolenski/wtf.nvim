@@ -19,9 +19,12 @@ end
 local function fix(opts)
   hooks.run_started_hook()
 
-  local SYSTEM_PROMPT = "You are an expert coder with the express mission of fixing bugs with the help of LSP diagnostic messages."
-    .. "Fix all the errors in the provided code and return only correct code without explanation, line numbers, or additional text."
-    .. "Preserve original formatting, including spacing in forms of tabs or spaces, and new lines where it makes sense."
+  local SYSTEM_PROMPT = "You are an expert coder with the express mission "
+    .. "of fixing bugs with the help of LSP diagnostic messages."
+    .. "Fix all the errors in the provided code and return only correct "
+    .. "code without explanation, line numbers, or additional text."
+    .. "Preserve original formatting, including spacing in forms of tabs "
+    .. "or spaces, and new lines where it makes sense."
 
   local result = process_diagnostics(opts)
   if result.err then
