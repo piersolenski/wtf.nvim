@@ -71,16 +71,14 @@ end
 ---@return string? text
 ---@return string? error
 local function client(system, message)
-  local target_provider = config.options.provider
-  local provider = get_provider(target_provider)
-  local model_id = config.options.providers[target_provider].model_id
-  local custom_api_key = config.options.providers[target_provider].api_key
+  local provider_id = config.options.provider
+  local provider = get_provider(provider_id)
 
-  local url = config.options.providers[target_provider].url or provider.url
+  local model_id = config.options.providers[provider_id].model_id
+  local api_key = config.options.providers[provider_id].api_key
 
-  local api_key
-  if custom_api_key or provider.api_key then
-    local success, result = pcall(get_api_key, custom_api_key or provider.api_key)
+  if api_key then
+    local success, result = pcall(get_api_key, api_key)
     if not success then
       return nil, result
     end
@@ -95,7 +93,7 @@ local function client(system, message)
   })
 
   local headers = build_headers(provider.headers, api_key)
-  local response = make_http_request(url, headers, request_data)
+  local response = make_http_request(provider.url, headers, request_data)
 
   return process_response(response, provider)
 end

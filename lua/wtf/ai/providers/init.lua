@@ -19,15 +19,4 @@ M.grok = require("wtf.ai.providers.grok")
 M.ollama = require("wtf.ai.providers.ollama")
 M.openai = require("wtf.ai.providers.openai")
 
--- Helper function to get just the names
-function M.get_names()
-  local names = {}
-  for _, provider in pairs(M) do
-    if type(provider) == "table" and provider.name then
-      table.insert(names, provider.name)
-    end
-  end
-  return names
-end
-
 return M
