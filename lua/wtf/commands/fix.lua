@@ -41,7 +41,7 @@ local function fix(opts)
       hooks.run_finished_hook()
       return nil
     elseif response then
-      handle_response(response, opts.line1, opts.line2)
+      handle_response(response, result.line1, result.line2)
       hooks.run_finished_hook()
     end
 
