@@ -1,7 +1,7 @@
 ---@class Wtf.Adapter
 ---@field name string The name of the adapter e.g. "openai"
 ---@field formatted_name string The formatted name of the adapter e.g. "OpenAI"
----@field burl string The base URL of the LLM API
+---@field url string The base URL of the LLM API
 ---@field headers table<string, string> The headers to pass to the request
 ---@field api_key string | nil | fun(): string | nil Retrieve API key
 ---@field format_request fun(data: table): table Function to format request data
