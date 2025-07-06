@@ -20,12 +20,14 @@ end
 local function fix(opts)
   hooks.run_started_hook()
 
-  local SYSTEM_PROMPT = "You are an expert coder with the express mission "
-    .. "of fixing bugs with the help of LSP diagnostic messages."
-    .. "Fix all the errors in the provided code and return only correct "
-    .. "code without explanation, line numbers, or additional text."
-    .. "Preserve original formatting, including spacing in forms of tabs "
-    .. "or spaces, and new lines where it makes sense."
+  local SYSTEM_PROMPT = "You are an expert coder fixing LSP "
+    .. "diagnostic messages in code snippets as part of a Neovim "
+    .. "plugin. The code you return should seamlessly replace "
+    .. "the original code in the file, thus it should not "
+    .. "contain line numbers, explanations or additional text. "
+    .. "The snippet may be partial - do not add missing code "
+    .. "the user didn't provide. Preserve all original "
+    .. "formatting including tabs, spaces, and line breaks."
 
   local result = process_diagnostics(opts)
   if result.err then
