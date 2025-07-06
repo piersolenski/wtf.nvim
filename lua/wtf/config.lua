@@ -1,20 +1,32 @@
-local search_engines = require("wtf.search_engines")
+local providers = require("wtf.ai.providers")
+local validation = require("wtf.validation")
+
+local function create_provider_defaults()
+  local defaults = {}
+  for name, provider in pairs(providers) do
+    defaults[name] = {
+      model_id = provider.model_id,
+      api_key = provider.api_key,
+    }
+  end
+  return defaults
+end
 
 local M = {}
 
 M.options = {}
 
 function M.setup(opts)
+  opts = opts or {}
+
   local default_opts = {
     additional_instructions = nil,
     chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
-    context = true,
     language = "english",
-    openai_api_key = nil,
-    openai_model_id = "gpt-3.5-turbo",
-    openai_base_url = "https://api.openai.com",
-    popup_type = "popup",
+    popup_type = "horizontal",
+    provider = "openai",
     search_engine = "google",
+    providers = create_provider_defaults(),
     hooks = {
       request_started = nil,
       request_finished = nil,
@@ -22,55 +34,15 @@ function M.setup(opts)
     winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
   }
 
-  -- Merge default_opts with opts
-  opts = vim.tbl_deep_extend("force", default_opts, opts or {})
+  -- Merge user providers with defaults
+  local merged_opts = vim.tbl_deep_extend("force", default_opts, opts)
+  if opts.providers then
+    merged_opts.providers = vim.tbl_deep_extend("force", default_opts.providers, opts.providers)
+  end
 
-  vim.validate({
-    winhighlight = { opts.winhighlight, "string" },
-    openai_api_key = { opts.openai_api_key, { "string", "nil" } },
-    openai_model_id = { opts.openai_model_id, "string" },
-    openai_base_url = { opts.openai_base_url, { "string", "nil" } },
-    language = { opts.language, "string" },
-    search_engine = {
-      opts.search_engine,
-      function(search_engine)
-        local selected_engine = search_engines.sources[search_engine]
+  vim.validate(validation.get_validation_spec(merged_opts))
 
-        if not selected_engine then
-          return false
-        else
-          return true
-        end
-      end,
-      "supported search engine",
-    },
-    context = { opts.context, "boolean" },
-    additional_instructions = { opts.additional_instructions, { "string", "nil" } },
-    popup_type = {
-      opts.popup_type,
-      function(popup_type)
-        local popup_types = { "horizontal", "vertical", "popup" }
-
-        for _, valid_type in ipairs(popup_types) do
-          if popup_type == valid_type then
-            return true
-          end
-        end
-        return false
-      end,
-      "supported popup type",
-    },
-    request_started = {
-      opts.hooks.request_started,
-      { "function", "nil" },
-    },
-    request_finished = {
-      opts.hooks.request_finished,
-      { "function", "nil" },
-    },
-  })
-
-  M.options = vim.tbl_extend("force", M.options, opts)
+  M.options = vim.tbl_extend("force", M.options, merged_opts)
 end
 
 return M

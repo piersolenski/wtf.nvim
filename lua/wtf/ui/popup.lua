@@ -1,5 +1,5 @@
-local Split = require("nui.split")
 local Popup = require("nui.popup")
+local Split = require("nui.split")
 local config = require("wtf.config")
 
 local function split_string_by_line(text)
@@ -10,10 +10,9 @@ local function split_string_by_line(text)
   return lines
 end
 
-local function display_popup(message)
-  -- Clear last command
-  print(" ")
+local M = {}
 
+M.show = function(message)
   local formatted_message = split_string_by_line(message)
 
   local event = require("nui.utils.autocmd").event
@@ -65,7 +64,7 @@ local function display_popup(message)
       popup:unmount()
     end)
   else
-    return vim.notify("Invalid popup type", vim.log.levels.ERROR)
+    return nil, "Invalid popup type"
   end
 
   vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, formatted_message)
@@ -78,6 +77,8 @@ local function display_popup(message)
       popup:update_layout()
     end,
   })
+
+  return popup
 end
 
-return display_popup
+return M

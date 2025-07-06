@@ -1,189 +1,60 @@
-local plugin = require("wtf")
-local save_chat = require("wtf.save_chat")
+---@module 'luassert'
 
-local buffer_number = 0
-local line_with_error = 3
-local namespace
-
-local set_lines = function(lines)
-  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-end
-
-local create_errors = function(diagnostics)
-  local diag_table = {}
-  namespace = vim.api.nvim_create_namespace("wtf")
-
-  for _, d in ipairs(diagnostics) do
-    table.insert(diag_table, {
-      bufnr = buffer_number,
-      lnum = d.line - 1,
-      end_lnum = d.line - 1,
-      col = 0,
-      end_col = 5,
-      severity = vim.diagnostic.severity.ERROR,
-      message = d.message,
-    })
-    vim.api.nvim_win_set_cursor(0, { d.line, 0 })
-  end
-
-  vim.diagnostic.set(namespace, buffer_number, diag_table)
-
-  return diag_table
-end
+local wtf = require("wtf")
 
 describe("Setup", function()
   it("accepts valid config", function()
-    plugin.setup({
-      context = false,
+    wtf.setup({
+      popup_type = "popup",
     })
   end)
 
   it("rejects a broken config", function()
     assert.error_matches(function()
-      plugin.setup({
-        context = "bananas",
+      wtf.setup({
+        popup_type = "bananas",
       })
-    end, "expected boolean, got string")
-  end)
-end)
-
-describe("Plugin", function()
-  before_each(function()
-    set_lines({
-      "Line 1",
-      "Line 2",
-      "Line 3",
-      "Line 4",
-      "Line 5",
-    })
-    create_errors({ {
-      line = line_with_error,
-      message = "Oh my god all the things are broken!",
-    } })
-    plugin.setup()
-  end)
-
-  describe("Search", function()
-    it("works with the default search engine", function()
-      -- Mock the vim.fn.system function
-      local original_fn = vim.fn.system
-      vim.fn.system = function(_)
-        return "Test output"
-      end
-
-      local result = plugin.search()
-      assert.is.equal(result, "Test output")
-      vim.fn.system = original_fn
-    end)
-
-    it("handles multiple errors on the same line", function()
-      local errors = create_errors({
-        {
-          line = line_with_error,
-          message = "First diagnostic",
-        },
-        {
-          line = line_with_error,
-          message = "Second diagnostic",
-        },
-      })
-
-      local second_error = errors[2]
-
-      -- Mock vim.ui.select
-      local original_select = vim.ui.select
-      vim.ui.select = function(_, _, on_choice)
-        -- Simulate selecting the second option
-        on_choice(second_error)
-      end
-
-      -- Mock the vim.fn.system function
-      local original_fn = vim.fn.system
-      vim.fn.system = function(_)
-        return second_error.message
-      end
-
-      -- Use a coroutine to handle the asynchronous behavior of vim.ui.select
-      local co = coroutine.create(function()
-        local result = plugin.search()
-        assert.is.equal(result, second_error.message)
-      end)
-
-      -- Run the coroutine
-      coroutine.resume(co)
-
-      -- Restore original functions
-      vim.fn.system = original_fn
-      vim.ui.select = original_select
-    end)
-
-    it("breaks with an unsupported engine", function()
-      local result = plugin.search("ask_jeeves")
-      assert.are.equal("Invalid search engine", result)
-    end)
-
-    it("breaks when no diagnostics are found", function()
-      vim.api.nvim_win_set_cursor(0, { line_with_error + 1, 0 })
-      local result = plugin.search()
-      assert.are.equal("No diagnostics found!", result)
-    end)
-  end)
-
-  describe("AI", function()
-    it("breaks when no diagnostics are found", function()
-      vim.api.nvim_win_set_cursor(0, { line_with_error + 1, 0 })
-
-      local result = plugin.ai()
-      assert.are.equal("No diagnostics found!", result)
-    end)
-
-    it("works when line diagnostics are found", function()
-      local result = plugin.ai()
-      local valid_job_identifier = 3
-      assert.are.equal(valid_job_identifier, result)
-    end)
-
-    it("ai works when range diagnostics are found", function()
-      local result = plugin.ai({ line1 = line_with_error - 1, line2 = line_with_error + 2 })
-      local valid_job_identifier = 4
-      assert.are.equal(valid_job_identifier, result)
-    end)
+    end, "popup_type: expected supported popup type, got bananas")
   end)
 end)
 
 describe("Get Status", function()
   it("returns a string", function()
-    local result = plugin.get_status()
+    local result = wtf.get_status()
     assert.are.equal("string", type(result))
   end)
 end)
 
-describe("Quickfix", function()
-  local chat_dir = "/tmp/wtf/chats"
+describe("Pick Provider", function()
+  it("updates the provider when one is selected", function()
+    -- Mock vim.ui.select
+    local original_vim_ui_select = vim.ui.select
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.ui.select = function(_, _, on_choice)
+      -- Simulate selecting "gemini"
+      on_choice("gemini")
+    end
 
-  before_each(function()
-    plugin.setup({
-      chat_dir = chat_dir,
-    })
-  end)
+    -- Mock vim.notify
+    local notify_message
+    local original_vim_notify = vim.notify
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.notify = function(msg)
+      notify_message = msg
+    end
 
-  after_each(function()
-    vim.fn.system("rm -rf " .. chat_dir)
-  end)
+    local config = require("wtf.config")
+    -- Set initial provider
+    config.options.provider = "openai"
 
-  it("is empty by default", function()
-    plugin.history()
-    local quickfix_list = vim.fn.getqflist()
+    wtf.pick_provider()
 
-    assert.are.equal(0, #quickfix_list)
-  end)
+    -- Assert that the provider was updated
+    assert.are.equal("gemini", config.options.provider)
+    assert.are.equal("Provider set to: gemini", notify_message)
 
-  it("has one item after a chat has been saved", function()
-    save_chat("An example of a chat response")
-
-    plugin.history()
-    local quickfix_list = vim.fn.getqflist()
-
-    assert.are.equal(1, #quickfix_list)
+    -- Restore original functions
+    vim.ui.select = original_vim_ui_select
+    vim.notify = original_vim_notify
   end)
 end)

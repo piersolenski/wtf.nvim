@@ -1,8 +1,8 @@
-local get_diagnostics = require("wtf.get_diagnostics")
-local get_programming_language = require("wtf.utils.get_programming_language")
-local search_engines = require("wtf.search_engines")
-local remove_file_paths = require("wtf.utils.remove_file_paths")
 local config = require("wtf.config")
+local get_diagnostics = require("wtf.util.diagnostics")
+local get_programming_language = require("wtf.util.get_programming_language")
+local remove_file_paths = require("wtf.util.remove_file_paths")
+local search_engines = require("wtf.sources.search_engines")
 
 local function get_open_command()
   local open_command
@@ -47,9 +47,9 @@ local search = function(search_engine)
   local selected_search_engine = get_search_engine(search_engine)
 
   if selected_search_engine == nil then
-    local message = "Invalid search engine"
-    vim.notify(message, vim.log.levels.WARN)
-    return message
+    local error_message = "Invalid search engine"
+    vim.notify(error_message, vim.log.levels.ERROR)
+    return nil, error_message
   end
 
   if next(diagnostics) == nil then
@@ -81,7 +81,12 @@ local search = function(search_engine)
   else
     local diagnostic = diagnostics[1]
     local message = remove_file_paths(diagnostic.message)
-    return open_search_url(selected_search_engine, programming_language, diagnostic.severity, message)
+    return open_search_url(
+      selected_search_engine,
+      programming_language,
+      diagnostic.severity,
+      message
+    )
   end
 end
 

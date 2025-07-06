@@ -1,6 +1,6 @@
+local builtin = require("telescope.builtin")
 local config = require("wtf.config")
 local telescope = require("telescope")
-local builtin = require("telescope.builtin")
 
 local grep_history = function()
   local opts = {

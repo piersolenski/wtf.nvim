@@ -1,7 +1,8 @@
 local config = require("wtf.config")
-local create_summary = require("wtf.utils.create_summary")
+local create_summary = require("wtf.util.create_summary")
 
-local function populate_quickfix_with_history()
+-- Populate quickfix with history
+local function history()
   local directory = config.options.chat_dir
   local files = {}
   local handle = vim.loop.fs_scandir(directory)
@@ -35,6 +36,11 @@ local function populate_quickfix_with_history()
     end
   end
 
+  -- Sort by filename (descending) to show newest first
+  table.sort(files, function(a, b)
+    return a.filename > b.filename
+  end)
+
   -- Add files to quickfix list
   vim.fn.setqflist({}, " ", {
     title = "WTF History",
@@ -45,4 +51,4 @@ local function populate_quickfix_with_history()
   vim.cmd("copen")
 end
 
-return populate_quickfix_with_history
+return history

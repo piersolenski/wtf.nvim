@@ -2,16 +2,21 @@
 
 A Neovim plugin to help you work out *what the fudge* that diagnostic means **and** how to fix it!
 
-`wtf.nvim` provides faster and more efficient ways of working with the buffer line's diagnostic messages by redirecting them to your favourite resources straight from Neovim. 
-Works with any language that has [LSP](https://microsoft.github.io/language-server-protocol/) support in Neovim.
+`wtf.nvim` provides faster and more efficient ways of working with the buffer line's diagnostic messages using AI and web search. Works with any language that has [LSP](https://microsoft.github.io/language-server-protocol/) support in Neovim.
 
 ## ✨ Features
 
-### AI powered diagnostic debugging
+### Debugging diagnostics
 
-Use the power of [ChatGPT](https://openai.com/blog/chatgpt) to provide you with explanations *and* solutions for how to fix diagnostics, custom tailored to the code responsible for them.
+Use the power of AI to provide you with explanations *and* solutions for how to fix diagnostics, custom tailored to the code responsible for them.
 
 https://github.com/piersolenski/wtf.nvim/assets/1285419/7572b101-664c-4069-aa45-84adc2678e25
+
+### Automagic fixing
+
+Don't have time for reading or understanding because you're too busy vibe coding? Let AI solve your issues so you can get back to saving for that lambo.
+
+https://github.com/user-attachments/assets/e34a4f9f-3fbc-4f9e-b455-026abea65677
 
 ### Search the web for answers 
 
@@ -19,9 +24,11 @@ Why spend time copying and pasting, or worse yet, typing out diagnostic messages
 
 https://github.com/piersolenski/wtf.nvim/assets/1285419/6697d9a5-c81c-4e54-b375-bbe900724077
 
-## 🔩 Installation
+### Providers
 
-In order to use the AI functionality, set the environment variable `OPENAI_API_KEY` to your [openai api key](https://platform.openai.com/account/api-keys) (the search functionality will still work without it).
+Support for [Anthropic](https://www.anthropic.com), [Copilot](https://github.com/copilot), [DeepSeek](https://www.deepseek.com), [Gemini](https://gemini.google.com), [Grok](https://x.ai), [Ollama](https://ollama.com) and [OpenAI](https://openai.com).
+
+## 🔩 Installation
 
 Install the plugin with your preferred package manager:
 
@@ -33,83 +40,127 @@ use({
       require("wtf").setup()
     end,
     requires = {
+      "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
+      "nvim-telescope/telescope.nvim", -- Optional: For WtfGrepHistory
     }
 })
 
 -- Lazy
 {
-	"piersolenski/wtf.nvim",
-	dependencies = {
-		"MunifTanjim/nui.nvim",
-	},
-  	opts = {},
-	keys = {
-		{
-			"<leader>wa",
-			mode = { "n", "x" },
-			function()
-				require("wtf").ai()
-			end,
-			desc = "Debug diagnostic with AI",
-		},
-		{
-			mode = { "n" },
-			"<leader>ws",
-			function()
-				require("wtf").search()
-			end,
-			desc = "Search diagnostic with Google",
-		},
-		{
-			mode = { "n" },
-			"<leader>wh",
-			function()
-				require("wtf").history()
-			end,
-			desc = "Populate the quickfix list with previous chat history",
-		},
-		{
-			mode = { "n" },
-			"<leader>wg",
-			function()
-				require("wtf").grep_history()
-			end,
-			desc = "Grep previous chat history with Telescope",
-		},
-	},
+  "piersolenski/wtf.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    "nvim-telescope/telescope.nvim", -- Optional: For WtfGrepHistory
+  },
+  opts = {},
+  keys = {
+    {
+      "<leader>wd",
+      mode = { "n", "x" },
+      function()
+        require("wtf").diagnose()
+      end,
+      desc = "Debug diagnostic with AI",
+    },
+    {
+      "<leader>wf",
+      mode = { "n", "x" },
+      function()
+        require("wtf").fix()
+      end,
+      desc = "Fix diagnostic with AI",
+    },
+    {
+      mode = { "n" },
+      "<leader>ws",
+      function()
+        require("wtf").search()
+      end,
+      desc = "Search diagnostic with Google",
+    },
+    {
+      mode = { "n" },
+      "<leader>wp",
+      function()
+        require("wtf").pick_provider()
+      end,
+      desc = "Pick provider",
+    },
+    {
+      mode = { "n" },
+      "<leader>wh",
+      function()
+        require("wtf").history()
+      end,
+      desc = "Populate the quickfix list with previous chat history",
+    },
+    {
+      mode = { "n" },
+      "<leader>wg",
+      function()
+        require("wtf").grep_history()
+      end,
+      desc = "Grep previous chat history with Telescope",
+    },
+  },
 }
 ```
+
+In order to use the AI functionality, you may need to set an environment variable for your provider of choice: 
+
+```sh
+// Anthropic
+export ANTHROPIC_API_KEY=your-api-key
+
+// DeepSeek
+export DEEPSEEK_API_KEY=your-api-key
+
+// Gemini
+export GEMINI_API_KEY=your-api-key
+
+// Grok
+export GROK_API_KEY=your-api-key
+
+// OpenAI
+export OPENAI_API_KEY=your-api-key
+```
+
+You can also set or override API keys in your config, but it is recommended to use environment variables.
 
 ## ⚙️ Configuration
 
 ```lua
 {
-   	-- Directory for storing chat files 
-    chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
-    -- Default AI popup type
-    popup_type = "popup" | "horizontal" | "vertical",
-    -- An alternative way to set your API key
-    openai_api_key = "sk-xxxxxxxxxxxxxx",
-    -- ChatGPT Model
-    openai_model_id = "gpt-3.5-turbo",
-    -- Configure base url to work over proxy or with other api-compatable services
-    openai_base_url = "https://api.openai.com",
-    -- Send code as well as diagnostics
-    context = true,
-    -- Set your preferred language for the response
-    language = "english",
-    -- Any additional instructions
-    additional_instructions = "Start the reply with 'OH HAI THERE'",
-    -- Default search engine, can be overridden by passing an option to WtfSeatch
-    search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github" | "phind" | "perplexity",
-    -- Callbacks
-    hooks = {
-        request_started = nil,
-        request_finished = nil,
+  -- Directory for storing chat files 
+  chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
+  -- Default AI popup type
+  popup_type = "popup" | "horizontal" | "vertical",
+  -- The default provider
+  provider = "anthropic" | "copilot" | "deepseek" | "gemini" | "grok" | "ollama" | "openai",
+  -- Configure providers
+  providers = {
+    anthropic = {
+      -- An alternative way to set your API key
+      api_key = "32lkj23sdjke223ksdlfk" | function() os.getenv("API_KEY") end,
+      -- Your preferred model
+      model_id = "claude-3-5-sonnet-20241022",
     },
-    -- Add custom colours
-    winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+  },
+  -- Set your preferred language for the response
+  language = "english",
+  -- Any additional instructions
+  additional_instructions = "Start the reply with 'OH HAI THERE'",
+  -- Default search engine, can be overridden by passing an option to WtfSeatch
+  search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github" | "phind" | "perplexity",
+  -- Callbacks
+  hooks = {
+    request_started = nil,
+    request_finished = nil,
+  },
+  -- Add custom colours
+  winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
 }
 ```
 
@@ -121,7 +172,9 @@ To use it, whenever you have an hint, warning or error in an LSP enabled environ
 
 | Command | Modes | Description |
 | -- | -- | -- |
-| `:Wtf [additional_instructions]` | Normal, Visual | Sends the diagnostic messages for a line or visual range to ChatGPT, along with the code if the context has been set to `true`. Additional instructions can also be specified, which might be useful if you want to refine the response further.
+| `:Wtf [instructions]` | Normal, Visual | Sends the code and diagnostic messages for a line or visual range to the provider. Additional instructions can also be specified, which might be useful if you want to offer extra context, such as `Wtf I'm using Node.js`.
+| `:WtfFix [instructions]` | Normal, Visual | The same as `Wtf`, except instead of explaining the issue, it will attempt to fix it. Additional instructions can be specified, such as `WtfFix using camel casing`.
+| `:WtfPickProvider` | Normal | Allows you to pick a different provider other than the one initially set in your config without restarting Vim.
 | `:WtfSearch [search_engine]` | Normal | Uses a search engine (defaults to the one in the setup or Google if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
 | `:WtfHistory` | Normal | Use the quickfix list to see your previous chats. 
 | `:WtfGrepHistory` | Normal | Grep your previous chats via [Telescope](https://github.com/nvim-telescope/telescope.nvim!). 
@@ -136,9 +189,9 @@ hooks = {
     request_started = function()
         vim.cmd("hi StatusLine ctermbg=NONE ctermfg=yellow")
     end,
-    request_finished = vim.schedule_wrap(function()
+    request_finished = function()
         vim.cmd("hi StatusLine ctermbg=NONE ctermfg=NONE")
-    end),
+    end,
 },
 ```
 
@@ -156,22 +209,3 @@ require('lualine').setup({
 })
 ```
 
-## 💡 Inspiration
-
-- [Pretty TypeScript Errors](https://github.com/yoavbls/pretty-ts-errors)
-- [backseat.nvim](https://github.com/james1236/backseat.nvim/) 
-- [CodeGPT.nvim](https://github.com/dpayne/CodeGPT.nvim) 
-
-## 🤓 About the author
-
-As well as Vim enthusiast, I am a Front-End Developer and Technical Lead from London, UK.
-
-Whether it's to discuss a project, talk shop or just say hi, I'd love to hear from you!
-
-- [Website](https://www.piersolenski.com/)
-- [CodePen](https://codepen.io/piers)
-- [LinkedIn](https://www.linkedin.com/in/piersolenski/)
-
-<a href='https://ko-fi.com/piersolenski' target='_blank'>
-    <img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi1.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' />
-</a>

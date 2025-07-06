@@ -1,11 +1,10 @@
-local to_title_case = require("wtf.utils.to_title_case")
+local to_title_case = require("wtf.util.to_title_case")
 
 local function get_diagnostics(range_start, range_end)
   if range_end == nil then
     range_end = range_start
   end
 
-  -- local bufnr = vim.api.nvim_win_get_buf(0)
   local bufnr = vim.api.nvim_get_current_buf()
 
   local diagnostics = {}

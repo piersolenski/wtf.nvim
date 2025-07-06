@@ -10,13 +10,11 @@ if vim.g.loaded_wtf then
 end
 vim.g.loaded_wtf = true
 
+local search_engines = require("wtf.sources.search_engines")
 local wtf = require("wtf")
-local search_engines = require("wtf.search_engines")
-
-wtf.setup()
 
 vim.api.nvim_create_user_command("Wtf", function(opts)
-  wtf.ai({
+  wtf.diagnose({
     line1 = opts.line1,
     line2 = opts.line2,
     instructions = opts.args,
@@ -26,12 +24,27 @@ end, {
   nargs = "*",
 })
 
+vim.api.nvim_create_user_command("WtfFix", function(opts)
+  wtf.fix({
+    line1 = opts.line1,
+    line2 = opts.line2,
+    instructions = opts.args,
+  })
+end, {
+  range = true,
+  nargs = "*",
+})
+
+vim.api.nvim_create_user_command("WtfGrepHistory", function()
+  wtf.grep_history()
+end, {})
+
 vim.api.nvim_create_user_command("WtfHistory", function()
   wtf.history()
 end, {})
 
-vim.api.nvim_create_user_command("WtfGrepHistory", function()
-  wtf.grep_history()
+vim.api.nvim_create_user_command("WtfPickProvider", function()
+  wtf.pick_provider()
 end, {})
 
 vim.api.nvim_create_user_command("WtfSearch", function(opts)
