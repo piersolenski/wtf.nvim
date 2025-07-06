@@ -16,7 +16,7 @@ https://github.com/piersolenski/wtf.nvim/assets/1285419/7572b101-664c-4069-aa45-
 
 Don't have time for reading or understanding because you're too busy vibe coding? Let AI solve your issues so you can get back to saving for that lambo.
 
-https://github.com/piersolenski/wtf.nvim/assets/1285419/7572b101-664c-4069-aa45-84adc2678e25
+https://github.com/user-attachments/assets/e34a4f9f-3fbc-4f9e-b455-026abea65677
 
 ### Search the web for answers 
 
