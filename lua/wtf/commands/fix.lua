@@ -7,8 +7,9 @@ local function handle_response(response, line1, line2)
   -- Clean the response by removing markdown code blocks if present
   local fixed_code = response:gsub("```[%w]*\n", ""):gsub("\n```", "")
 
-  -- Split the fixed code into lines
-  local fixed_lines = vim.split(fixed_code, "\n")
+  -- Remove carriage returns and then split the fixed code into lines
+  local sanitized_code = fixed_code:gsub("\r", "")
+  local fixed_lines = vim.split(sanitized_code, "\n")
 
   -- Replace the lines in the buffer
   vim.api.nvim_buf_set_lines(0, line1 - 1, line2, false, fixed_lines)
