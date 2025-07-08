@@ -6,19 +6,19 @@ on:
     paths:
       - README.md
       - .github/workflows/doc.yml
-  workflow_dispatch: {} # allows manual execution
+  workflow_dispatch: {}
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   docs:
     runs-on: ubuntu-latest
     name: README.md to vimdoc
     steps:
-      - uses: actions/checkout@v4
-      - run: git pull # fix failure when multiple commits are pushed in succession
-      - run: mkdir -p doc
+      - name: Checkout  repo
+        uses: actions/checkout@v4
 
       - name: panvimdoc
         uses: kdheepak/panvimdoc@main
@@ -28,9 +28,12 @@ jobs:
           demojify: true
           treesitter: true
 
-      - run: git pull
-      - name: push changes
-        uses: stefanzweifel/git-auto-commit-action@v6
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
         with:
-          commit_message: "chore: auto-generate vimdocs"
-          branch: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: auto-generate vimdocs"
+          title: "Auto-generate vimdocs"
+          body: "Automatically generated vimdocs from README.md"
+          branch: auto-docs
+          delete-branch: true
