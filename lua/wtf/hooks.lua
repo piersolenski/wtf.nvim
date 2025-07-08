@@ -28,10 +28,7 @@ end
 
 M.get_status = function()
   if callback_counter > 0 then
-    status_index = status_index + 1
-    if status_index > #progress_bar_dots then
-      status_index = 1
-    end
+    status_index = (status_index % #progress_bar_dots) + 1
     return progress_bar_dots[status_index]
   else
     return ""
