@@ -10,6 +10,8 @@ local function get_open_command()
     open_command = 'cmd /c start ""'
   elseif vim.fn.has("macunix") == 1 then
     open_command = "open"
+  elseif vim.fn.has("wsl") == 1 then
+    open_command = "wslview"
   else
     open_command = "xdg-open"
   end
