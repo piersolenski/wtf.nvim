@@ -1,4 +1,3 @@
-local config = require("wtf.config")
 if vim.fn.has("nvim-0.7.0") == 0 then
   vim.api.nvim_err_writeln("wtf requires at least nvim-0.7.0.1")
   return
