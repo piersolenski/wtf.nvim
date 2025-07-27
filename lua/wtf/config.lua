@@ -1,13 +1,18 @@
 local providers = require("wtf.ai.providers")
 local validation = require("wtf.validation")
 
+function table.shallow_copy(t)
+  local t2 = {}
+  for k, v in pairs(t) do
+    t2[k] = v
+  end
+  return t2
+end
+
 local function create_provider_defaults()
   local defaults = {}
   for name, provider in pairs(providers) do
-    defaults[name] = {
-      model_id = provider.model_id,
-      api_key = provider.api_key,
-    }
+    defaults[name] = table.shallow_copy(provider)
   end
   return defaults
 end
