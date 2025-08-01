@@ -12,7 +12,7 @@ end
 local function create_provider_defaults()
   local defaults = {}
   for name, provider in pairs(providers) do
-    defaults[name] = table.shallow_copy(provider)
+    defaults[name] = shallow_copy(provider)
   end
   return defaults
 end
