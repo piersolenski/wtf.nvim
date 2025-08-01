@@ -1,7 +1,7 @@
 local providers = require("wtf.ai.providers")
 local validation = require("wtf.validation")
 
-function table.shallow_copy(t)
+local function shallow_copy(t)
   local t2 = {}
   for k, v in pairs(t) do
     t2[k] = v
