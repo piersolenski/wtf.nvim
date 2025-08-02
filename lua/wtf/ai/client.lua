@@ -73,7 +73,7 @@ end
 local function client(system, message)
   local provider_id = config.options.provider
   local provider = config.options.providers[provider_id]
-  
+
   if not provider then
     return nil, string.format("Provider '%s' not found in configuration", provider_id or "nil")
   end
