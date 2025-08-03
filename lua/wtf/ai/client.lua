@@ -72,10 +72,14 @@ end
 ---@return string? error
 local function client(system, message)
   local provider_id = config.options.provider
-  local provider = get_provider(provider_id)
+  local provider = config.options.providers[provider_id]
 
-  local model_id = config.options.providers[provider_id].model_id
-  local api_key = config.options.providers[provider_id].api_key
+  if not provider then
+    return nil, string.format("Provider '%s' not found in configuration", provider_id or "nil")
+  end
+
+  local model_id = provider.model_id
+  local api_key = provider.api_key
 
   if api_key then
     local success, result = pcall(get_api_key, api_key)
