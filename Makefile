@@ -3,6 +3,9 @@ TESTS_DIR=tests
 
 .PHONY: test lint
 
+format:
+	stylua .
+
 lint:
 	@luacheck lua
 
