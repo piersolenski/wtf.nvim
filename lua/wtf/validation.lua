@@ -34,9 +34,17 @@ end
 
 function M.validate_opts(opts)
   -- TODO: Remove in future version
-  vim.validate("openai_api_key", opts.openai_api_key, create_deprecation_validator("openai_api_key", "providers.openai.api_key"))
-  -- TODO: Remove in future version  
-  vim.validate("openai_model_id", opts.openai_model_id, create_deprecation_validator("openai_model_id", "providers.openai.model_id"))
+  vim.validate(
+    "openai_api_key",
+    opts.openai_api_key,
+    create_deprecation_validator("openai_api_key", "providers.openai.api_key")
+  )
+  -- TODO: Remove in future version
+  vim.validate(
+    "openai_model_id",
+    opts.openai_model_id,
+    create_deprecation_validator("openai_model_id", "providers.openai.model_id")
+  )
   vim.validate("context", opts.context, function(val)
     if val ~= nil then
       vim.notify(
@@ -50,7 +58,12 @@ function M.validate_opts(opts)
   vim.validate("provider", opts.provider, validate_provider, "supported provider")
   vim.validate("providers", opts.providers, { "table", "nil" })
   vim.validate("language", opts.language, "string")
-  vim.validate("search_engine", opts.search_engine, validate_search_engine, "supported search engine")
+  vim.validate(
+    "search_engine",
+    opts.search_engine,
+    validate_search_engine,
+    "supported search engine"
+  )
   vim.validate("additional_instructions", opts.additional_instructions, { "string", "nil" })
   vim.validate("popup_type", opts.popup_type, validate_popup_type, "supported popup type")
   vim.validate("request_started", opts.hooks.request_started, { "function", "nil" })
