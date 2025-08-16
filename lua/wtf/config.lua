@@ -45,7 +45,7 @@ function M.setup(opts)
     merged_opts.providers = vim.tbl_deep_extend("force", default_opts.providers, opts.providers)
   end
 
-  vim.validate(validation.get_validation_spec(merged_opts))
+  validation.validate_opts(merged_opts)
 
   M.options = vim.tbl_extend("force", M.options, merged_opts)
 end

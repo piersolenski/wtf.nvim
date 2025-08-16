@@ -32,40 +32,42 @@ local function create_deprecation_validator(old_key, new_key)
   end
 end
 
-function M.get_validation_spec(opts)
-  return {
-    -- TODO: Remove in future version
-    openai_api_key = {
-      opts.openai_api_key,
-      create_deprecation_validator("openai_api_key", "providers.openai.api_key"),
-    },
-    -- TODO: Remove in future version
-    openai_model_id = {
-      opts.openai_model_id,
-      create_deprecation_validator("openai_model_id", "providers.openai.model_id"),
-    },
-    context = {
-      opts.context,
-      function(val)
-        if val ~= nil then
-          vim.notify(
-            "context is no longer supported, please remove it from your config",
-            vim.log.levels.ERROR
-          )
-        end
-        return true
-      end,
-    },
-    winhighlight = { opts.winhighlight, "string" },
-    provider = { opts.provider, validate_provider, "supported provider" },
-    providers = { opts.providers, { "table", "nil" } },
-    language = { opts.language, "string" },
-    search_engine = { opts.search_engine, validate_search_engine, "supported search engine" },
-    additional_instructions = { opts.additional_instructions, { "string", "nil" } },
-    popup_type = { opts.popup_type, validate_popup_type, "supported popup type" },
-    request_started = { opts.hooks.request_started, { "function", "nil" } },
-    request_finished = { opts.hooks.request_finished, { "function", "nil" } },
-  }
+function M.validate_opts(opts)
+  -- TODO: Remove in future version
+  vim.validate(
+    "openai_api_key",
+    opts.openai_api_key,
+    create_deprecation_validator("openai_api_key", "providers.openai.api_key")
+  )
+  -- TODO: Remove in future version
+  vim.validate(
+    "openai_model_id",
+    opts.openai_model_id,
+    create_deprecation_validator("openai_model_id", "providers.openai.model_id")
+  )
+  vim.validate("context", opts.context, function(val)
+    if val ~= nil then
+      vim.notify(
+        "context is no longer supported, please remove it from your config",
+        vim.log.levels.ERROR
+      )
+    end
+    return true
+  end)
+  vim.validate("winhighlight", opts.winhighlight, "string")
+  vim.validate("provider", opts.provider, validate_provider, "supported provider")
+  vim.validate("providers", opts.providers, { "table", "nil" })
+  vim.validate("language", opts.language, "string")
+  vim.validate(
+    "search_engine",
+    opts.search_engine,
+    validate_search_engine,
+    "supported search engine"
+  )
+  vim.validate("additional_instructions", opts.additional_instructions, { "string", "nil" })
+  vim.validate("popup_type", opts.popup_type, validate_popup_type, "supported popup type")
+  vim.validate("request_started", opts.hooks.request_started, { "function", "nil" })
+  vim.validate("request_finished", opts.hooks.request_finished, { "function", "nil" })
 end
 
 return M
