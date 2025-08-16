@@ -215,7 +215,7 @@ require('lualine').setup({
 
 ## 🤓 About the author
 
-As well as a passionate Vim enthusiast, I am a Full Stack Developer and Technical Lead from London, UK.
+As well as Vim enthusiast, I am a Full Stack Developer and Technical Lead from London, UK.
 
 Whether it's to discuss a project, talk shop or just say hi, I'd love to hear from you!
 
