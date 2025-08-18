@@ -32,21 +32,8 @@ Support for [Anthropic](https://www.anthropic.com), [Copilot](https://github.com
 
 Install the plugin with your preferred package manager:
 
+### lazy.nvim
 ```lua
--- Packer
-use({
-  "piersolenski/wtf.nvim",
-    config = function()
-      require("wtf").setup()
-    end,
-    requires = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-telescope/telescope.nvim", -- Optional: For WtfGrepHistory
-    }
-})
-
--- Lazy
 {
   "piersolenski/wtf.nvim",
   dependencies = {
@@ -106,6 +93,22 @@ use({
     },
   },
 }
+```
+
+### packer.nvim
+
+```lua
+use({
+  "piersolenski/wtf.nvim",
+    config = function()
+      require("wtf").setup()
+    end,
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-telescope/telescope.nvim", -- Optional: For WtfGrepHistory
+    }
+})
 ```
 
 In order to use the AI functionality, you may need to set an environment variable for your provider of choice: 
