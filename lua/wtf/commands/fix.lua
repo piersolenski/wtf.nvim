@@ -17,7 +17,15 @@ local function parse_response(response)
   -- Second try: Use Tree-sitter to extract code from markdown
   local parser = vim.treesitter.get_string_parser(response, "markdown")
   local syntax_tree = parser:parse()
+
+  if not syntax_tree or not syntax_tree[1] then
+    return nil
+  end
+
   local root = syntax_tree[1]:root()
+  if not root then
+    return nil
+  end
 
   local query = vim.treesitter.query.parse("markdown", [[(code_fence_content) @code]])
 
@@ -43,7 +51,7 @@ end
 
 local function handle_response(response, line1, line2)
   local parsed = parse_response(response)
-  
+
   if not parsed then
     vim.notify("Failed to parse AI response. Expected JSON format.", vim.log.levels.ERROR)
     return
@@ -77,14 +85,16 @@ local function fix(opts)
     .. "}\n\n"
     .. "CRITICAL RULES:\n"
     .. "1. Output ONLY valid JSON - no other text before or after\n"
-    .. "2. The 'code' field contains ONLY the fixed code\n"
-    .. "3. NEVER add markdown, code fences, or explanations\n"
-    .. "4. NEVER add functionality beyond fixing the diagnostic issue\n"
-    .. "5. Preserve EXACT formatting: indentation, spacing, line breaks, tabs vs spaces\n"
-    .. "6. Fix ONLY the diagnostic issue - do not refactor or improve other code\n"
-    .. "7. If code is partial, work with what's provided - do not complete missing parts\n\n"
+    .. "2. The 'code' field contains ONLY the fixed code WITHOUT line numbers\n"
+    .. "3. NEVER include line numbers (like '1:', '2:' etc.) in the output\n"
+    .. "4. NEVER add markdown, code fences, or explanations\n"
+    .. "5. NEVER add functionality beyond fixing the diagnostic issue\n"
+    .. "6. Preserve EXACT formatting: indentation, spacing, line breaks, tabs vs spaces\n"
+    .. "7. Fix ONLY the diagnostic issue - do not refactor or improve other code\n"
+    .. "8. If code is partial, work with what's provided - do not complete missing parts\n\n"
+    .. "NOTE: The input code may have line numbers for context, but you must NOT include them in your output.\n\n"
     .. "If you cannot fix the code, respond with:\n"
-    .. '{\n'
+    .. "{\n"
     .. '  "error": "reason why the code cannot be fixed"\n'
     .. "}"
 
@@ -99,7 +109,7 @@ local function fix(opts)
 
   -- Use coroutine since client function is async
   local co = coroutine.create(function()
-    local response, client_err = client(SYSTEM_PROMPT, result.payload, 0)
+    local response, client_err = client(SYSTEM_PROMPT, result.payload, 0.7)
 
     if client_err then
       vim.notify(client_err, vim.log.levels.ERROR)
