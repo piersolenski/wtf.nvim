@@ -20,7 +20,7 @@ describe("Providers", function()
           provider = provider_name,
         })
 
-        local res, err = client("You are a testing helper.", "Say 'this is a test'")
+        local res, err = client("You are a testing helper.", "Say 'this is a test'", 0.5)
         assert.is_nil(err)
         assert.is_string(res)
         assert.not_nil(res)
@@ -37,7 +37,7 @@ describe("Providers", function()
             },
           })
 
-          local res, err = client("You are a testing helper.", "Say 'this is a test'")
+          local res, err = client("You are a testing helper.", "Say 'this is a test'", 0.5)
           assert.is_nil(res)
           assert.is_string(err)
           assert.not_nil(err)
@@ -54,7 +54,7 @@ describe("Providers", function()
           },
         })
 
-        local _, err = client("You are a testing helper.", "Say 'this is a test'")
+        local _, err = client("You are a testing helper.", "Say 'this is a test'", 0.5)
         assert.is_true(err == nil or type(err) == "string")
       end)
     end)

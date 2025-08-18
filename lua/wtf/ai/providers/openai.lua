@@ -16,6 +16,7 @@ return {
   format_request = function(data)
     return {
       model = data.model,
+      temperature = data.temperature,
       messages = {
         {
           role = "system",

@@ -1,7 +1,6 @@
 local config = require("wtf.config")
 local curl = require("plenary.curl")
 local get_api_key = require("wtf.util.get_api_key")
-local get_provider = require("wtf.util.get_provider")
 
 local DEFAULT_MAX_TOKENS = 4096
 
@@ -68,9 +67,10 @@ end
 --- Main client function that sends message to AI provider and returns response
 ---@param system string
 ---@param message string
+---@param temperature number Temperature setting (0.0 to 1.0)
 ---@return string? text
 ---@return string? error
-local function client(system, message)
+local function client(system, message, temperature)
   local provider_id = config.options.provider
   local provider = config.options.providers[provider_id]
 
@@ -94,6 +94,7 @@ local function client(system, message)
     max_tokens = DEFAULT_MAX_TOKENS,
     system = system,
     message = message,
+    temperature = temperature,
   })
 
   local headers = build_headers(provider.headers, api_key)

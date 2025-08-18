@@ -28,7 +28,7 @@ return {
       },
       max_tokens = data.max_tokens,
       stream = false,
-      temperature = 0.7,
+      temperature = data.temperature,
     }
   end,
   format_response = function(response)
