@@ -33,6 +33,7 @@ Support for [Anthropic](https://www.anthropic.com), [Copilot](https://github.com
 Install the plugin with your preferred package manager:
 
 ### lazy.nvim
+
 ```lua
 {
   "piersolenski/wtf.nvim",
