@@ -3,7 +3,7 @@ return {
   name = "ollama",
   url = "http://localhost:11434/v1/chat/completions",
   formatted_name = "Ollama",
-  model_id = "gemma:latest",
+  model_id = "tinyllama",
   headers = {
     ["Content-Type"] = "application/json",
   },
