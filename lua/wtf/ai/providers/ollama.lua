@@ -34,7 +34,10 @@ return {
       if response.error and response.error.message then
         return response.error.message
       -- Ollama installed but API/model error
-      elseif response[1] and response[1].error and response[1].error.message then
+      if response.error and response.error.message then
+        return response.error.message
+      end
+      if response[1] and response[1].error and response[1].error.message then
         return response[1].error.message
       end
     end
