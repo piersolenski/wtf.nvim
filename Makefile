@@ -13,18 +13,16 @@ lint:
 test:
 	@if ! which ollama >/dev/null 2>&1; then \
 		echo "Ollama not found. Installing Ollama..."; \
-		if [ "$$(uname)" = "Darwin" ]; then \
+		echo "Detected OS: $$(uname -s)"; \
+		if [ "$$(uname -s)" = "Darwin" ]; then \
 			if command -v brew >/dev/null 2>&1; then \
 				brew install ollama; \
 			else \
 				echo "Please install Ollama manually from https://ollama.ai"; \
 				exit 1; \
 			fi; \
-		elif [ "$$(uname)" = "Linux" ]; then \
-			curl -fsSL https://ollama.ai/install.sh | sh; \
 		else \
-			echo "Unsupported OS. Please install Ollama manually from https://ollama.ai"; \
-			exit 1; \
+			curl -fsSL https://ollama.ai/install.sh | sh; \
 		fi; \
 	fi; \
 	echo "Starting Ollama server..." && \
