@@ -10,6 +10,8 @@ format:
 lint:
 	@luacheck lua
 
+# Will run tests using Ollama on systems that support installation in a Unix
+# environment as well as cloud based models if their API key is available
 test:
 	@chmod +x scripts/setup-ollama.sh scripts/cleanup-ollama.sh
 	@if ./scripts/setup-ollama.sh; then \
