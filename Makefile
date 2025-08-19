@@ -21,6 +21,13 @@ test:
 				echo "Please install Ollama manually from https://ollama.ai"; \
 				exit 1; \
 			fi; \
+		elif echo "$$(uname -s)" | grep -q "MINGW\|MSYS\|CYGWIN"; then \
+			echo "Windows detected. Installing Ollama via winget..."; \
+			winget install --id=Ollama.Ollama -e --silent || { \
+				echo "Winget install failed. Trying direct download..."; \
+				curl -L -o ollama-windows-amd64.exe https://github.com/ollama/ollama/releases/latest/download/ollama-windows-amd64.exe && \
+				./ollama-windows-amd64.exe install --silent; \
+			}; \
 		else \
 			curl -fsSL https://ollama.ai/install.sh | sh; \
 		fi; \
