@@ -19,6 +19,7 @@ return {
       model = data.model,
       max_tokens = data.max_tokens,
       system = data.system,
+      temperature = data.temperature,
       messages = {
         {
           role = "user",
