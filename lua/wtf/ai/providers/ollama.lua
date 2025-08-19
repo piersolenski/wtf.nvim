@@ -33,6 +33,7 @@ return {
       -- Ollama not installed or binary path issue
       if response.error and response.error.message then
         return response.error.message
+      end
       -- Ollama installed but API/model error
       if response.error and response.error.message then
         return response.error.message
