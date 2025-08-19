@@ -24,5 +24,5 @@ test:
 		-u ${TESTS_INIT} \
 		-c "PlenaryBustedDirectory ${TESTS_DIR} { minimal_init = '${TESTS_INIT}' }" && \
 	echo "Tests completed successfully") || TEST_FAILED=1
-	@./scripts/cleanup-ollama.sh
+	@./scripts/cleanup-ollama.sh || true
 	@if [ "$$TEST_FAILED" = "1" ]; then exit 1; fi
