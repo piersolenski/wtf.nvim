@@ -109,7 +109,7 @@ local function fix(opts)
 
   -- Use coroutine since client function is async
   local co = coroutine.create(function()
-    local response, client_err = client(SYSTEM_PROMPT, result.payload, 0)
+    local response, client_err = client(SYSTEM_PROMPT, result.payload, 0.1)
 
     if client_err then
       vim.notify(client_err, vim.log.levels.ERROR)
