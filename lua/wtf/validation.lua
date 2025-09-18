@@ -20,6 +20,10 @@ local function validate_popup_type(popup_type)
   return vim.tbl_contains({ "horizontal", "vertical", "popup" }, popup_type)
 end
 
+local function validate_picker(picker)
+  return vim.tbl_contains({ "telescope", "snacks", "fzf-lua" }, picker)
+end
+
 local function create_deprecation_validator(old_key, new_key)
   return function(val)
     if val ~= nil then
@@ -65,6 +69,7 @@ function M.validate_opts(opts)
     "supported search engine"
   )
   vim.validate("additional_instructions", opts.additional_instructions, { "string", "nil" })
+  vim.validate("picker", opts.picker, validate_picker, "supported picker")
   vim.validate("popup_type", opts.popup_type, validate_popup_type, "supported popup type")
   vim.validate("request_started", opts.hooks.request_started, { "function", "nil" })
   vim.validate("request_finished", opts.hooks.request_finished, { "function", "nil" })

@@ -1,13 +1,8 @@
-local builtin = require("telescope.builtin")
-local config = require("wtf.config")
 local telescope = require("telescope")
+local telescope_picker = require("wtf.pickers.telescope")
 
 local grep_history = function()
-  local opts = {
-    cwd = config.options.chat_dir,
-    prompt_title = "WTF: Grep History",
-  }
-  builtin.live_grep(opts)
+  telescope_picker.grep_history()
 end
 
 return telescope.register_extension({ exports = { grep_history = grep_history } })

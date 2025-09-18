@@ -28,6 +28,7 @@ function M.setup(opts)
     additional_instructions = nil,
     chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
     language = "english",
+    picker = "telescope",
     popup_type = "horizontal",
     provider = "openai",
     search_engine = "google",

@@ -10,23 +10,29 @@ A Neovim plugin to help you work out *what the fudge* that diagnostic means **an
 
 Use the power of AI to provide you with explanations *and* solutions for how to fix diagnostics, custom tailored to the code responsible for them.
 
-https://github.com/piersolenski/wtf.nvim/assets/1285419/7572b101-664c-4069-aa45-84adc2678e25
+<https://github.com/piersolenski/wtf.nvim/assets/1285419/7572b101-664c-4069-aa45-84adc2678e25>
 
 ### Automagic fixing
 
 Don't have time for reading or understanding because you're too busy vibe coding? Let AI solve your issues so you can get back to saving for that lambo.
 
-https://github.com/user-attachments/assets/e34a4f9f-3fbc-4f9e-b455-026abea65677
+<https://github.com/user-attachments/assets/e34a4f9f-3fbc-4f9e-b455-026abea65677>
 
-### Search the web for answers 
+### Search the web for answers
 
 Why spend time copying and pasting, or worse yet, typing out diagnostic messages, when you can open a search for them in Google, Stack Overflow and more, directly from Neovim?
 
-https://github.com/piersolenski/wtf.nvim/assets/1285419/6697d9a5-c81c-4e54-b375-bbe900724077
+<https://github.com/piersolenski/wtf.nvim/assets/1285419/6697d9a5-c81c-4e54-b375-bbe900724077>
 
 ### Providers
 
 Support for [Anthropic](https://www.anthropic.com), [Copilot](https://github.com/copilot), [DeepSeek](https://www.deepseek.com), [Gemini](https://gemini.google.com), [Grok](https://x.ai), [Ollama](https://ollama.com) and [OpenAI](https://openai.com).
+
+### Multiple picker support
+
+- [Telescope](https://github.com/nvim-telescope/telescope.nvim)
+- [Snacks.nvim](https://github.com/folke/snacks.nvim)
+- [FZF-lua](https://github.com/ibhagwan/fzf-lua)
 
 ## 🔩 Installation
 
@@ -40,7 +46,10 @@ Install the plugin with your preferred package manager:
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
-    "nvim-telescope/telescope.nvim", -- Optional: For WtfGrepHistory
+    -- Optional: For WtfGrepHistory (pick one)
+    "nvim-telescope/telescope.nvim",
+    -- "folke/snacks.nvim",
+    -- "ibhagwan/fzf-lua",
   },
   opts = {},
   keys = {
@@ -101,18 +110,21 @@ Install the plugin with your preferred package manager:
 ```lua
 use({
   "piersolenski/wtf.nvim",
-    config = function()
-      require("wtf").setup()
-    end,
-    requires = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-telescope/telescope.nvim", -- Optional: For WtfGrepHistory
-    }
+  config = function()
+    require("wtf").setup()
+  end,
+  requires = {
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    -- Optional: For WtfGrepHistory (pick one)
+    "nvim-telescope/telescope.nvim",
+    -- "folke/snacks.nvim",
+    -- "ibhagwan/fzf-lua",
+  },
 })
 ```
 
-In order to use the AI functionality, you may need to set an environment variable for your provider of choice: 
+In order to use the AI functionality, you may need to set an environment variable for your provider of choice:
 
 ```sh
 // Anthropic
@@ -137,7 +149,7 @@ You can also set or override API keys in your config, but it is recommended to u
 
 ```lua
 {
-  -- Directory for storing chat files 
+  -- Directory for storing chat files
   chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
   -- Default AI popup type
   popup_type = "popup" | "horizontal" | "vertical",
@@ -158,6 +170,8 @@ You can also set or override API keys in your config, but it is recommended to u
   additional_instructions = "Start the reply with 'OH HAI THERE'",
   -- Default search engine, can be overridden by passing an option to WtfSeatch
   search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github" | "phind" | "perplexity",
+  -- Picker for history search (telescope, snacks, or fzf-lua)
+  picker = "telescope" | "snacks" | "fzf-lua",
   -- Callbacks
   hooks = {
     request_started = nil,
@@ -179,10 +193,9 @@ To use it, whenever you have an hint, warning or error in an LSP enabled environ
 | `:Wtf [instructions]` | Normal, Visual | Sends the code and diagnostic messages for a line or visual range to the provider. Additional instructions can also be specified, which might be useful if you want to offer extra context, such as `Wtf I'm using Node.js`.
 | `:WtfFix [instructions]` | Normal, Visual | The same as `Wtf`, except instead of explaining the issue, it will attempt to fix it. Additional instructions can be specified, such as `WtfFix using camel casing`.
 | `:WtfPickProvider` | Normal | Allows you to pick a different provider other than the one initially set in your config without restarting Vim.
-| `:WtfSearch [search_engine]` | Normal | Uses a search engine (defaults to the one in the setup or Google if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. 
-| `:WtfHistory` | Normal | Use the quickfix list to see your previous chats. 
-| `:WtfGrepHistory` | Normal | Grep your previous chats via [Telescope](https://github.com/nvim-telescope/telescope.nvim!). 
-
+| `:WtfSearch [search_engine]` | Normal | Uses a search engine (defaults to the one in the setup or Google if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results.
+| `:WtfHistory` | Normal | Use the quickfix list to see your previous chats.
+| `:WtfGrepHistory` | Normal | Grep your previous chats via your configured picker (Telescope, Snacks, or FZF-lua).
 
 ### Custom status hooks
 
@@ -206,10 +219,10 @@ There is a helper function `get_status` so that you can add a status component t
 ```lua
 local wtf = require("wtf")
 
-require('lualine').setup({
-    sections = {
-        lualine_x = { wtf.get_status },
-    }
+require("lualine").setup({
+  sections = {
+    lualine_x = { wtf.get_status },
+  },
 })
 ```
 
