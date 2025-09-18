@@ -29,13 +29,8 @@ function M.get_status()
 end
 
 function M.grep_history()
-  local has_telescope, telescope = pcall(require, "telescope")
-
-  if not has_telescope then
-    error("This feature requires nvim-telescope/telescope.nvim")
-  end
-  telescope.load_extension("wtf")
-  return telescope.extensions.wtf.grep_history()
+  local pickers = require("wtf.pickers")
+  return pickers.grep_history()
 end
 
 function M.history()
