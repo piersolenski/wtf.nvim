@@ -1,4 +1,4 @@
-*wtf.nvim.txt*              For Neovim             Last change: 2025 August 18
+*wtf.nvim.txt*            For Neovim            Last change: 2025 September 18
 
 ==============================================================================
 Table of Contents                                 *wtf.nvim-table-of-contents*
@@ -31,7 +31,7 @@ Use the power of AI to provide you with explanations _and_ solutions for how to
 fix diagnostics, custom tailored to the code responsible for them.
 
 
-https://github.com/piersolenski/wtf.nvim/assets/1285419/7572b101-664c-4069-aa45-84adc2678e25
+<https://github.com/piersolenski/wtf.nvim/assets/1285419/7572b101-664c-4069-aa45-84adc2678e25>
 
 
 AUTOMAGIC FIXING ~
@@ -40,7 +40,7 @@ Don’t have time for reading or understanding because you’re too busy vibe
 coding? Let AI solve your issues so you can get back to saving for that lambo.
 
 
-https://github.com/user-attachments/assets/e34a4f9f-3fbc-4f9e-b455-026abea65677
+<https://github.com/user-attachments/assets/e34a4f9f-3fbc-4f9e-b455-026abea65677>
 
 
 SEARCH THE WEB FOR ANSWERS ~
@@ -50,7 +50,7 @@ messages, when you can open a search for them in Google, Stack Overflow and
 more, directly from Neovim?
 
 
-https://github.com/piersolenski/wtf.nvim/assets/1285419/6697d9a5-c81c-4e54-b375-bbe900724077
+<https://github.com/piersolenski/wtf.nvim/assets/1285419/6697d9a5-c81c-4e54-b375-bbe900724077>
 
 
 PROVIDERS ~
@@ -59,6 +59,13 @@ Support for Anthropic <https://www.anthropic.com>, Copilot
 <https://github.com/copilot>, DeepSeek <https://www.deepseek.com>, Gemini
 <https://gemini.google.com>, Grok <https://x.ai>, Ollama <https://ollama.com>
 and OpenAI <https://openai.com>.
+
+
+MULTIPLE PICKER SUPPORT ~
+
+- Telescope <https://github.com/nvim-telescope/telescope.nvim>
+- Snacks.nvim <https://github.com/folke/snacks.nvim>
+- FZF-lua <https://github.com/ibhagwan/fzf-lua>
 
 
 INSTALLATION                                  *wtf.nvim-wtf.nvim-installation*
@@ -74,7 +81,10 @@ LAZY.NVIM ~
       dependencies = {
         "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim",
-        "nvim-telescope/telescope.nvim", -- Optional: For WtfGrepHistory
+        -- Optional: For WtfGrepHistory (pick one)
+        "nvim-telescope/telescope.nvim",
+        -- "folke/snacks.nvim",
+        -- "ibhagwan/fzf-lua",
       },
       opts = {},
       keys = {
@@ -136,14 +146,17 @@ PACKER.NVIM ~
 >lua
     use({
       "piersolenski/wtf.nvim",
-        config = function()
-          require("wtf").setup()
-        end,
-        requires = {
-          "nvim-lua/plenary.nvim",
-          "MunifTanjim/nui.nvim",
-          "nvim-telescope/telescope.nvim", -- Optional: For WtfGrepHistory
-        }
+      config = function()
+        require("wtf").setup()
+      end,
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "MunifTanjim/nui.nvim",
+        -- Optional: For WtfGrepHistory (pick one)
+        "nvim-telescope/telescope.nvim",
+        -- "folke/snacks.nvim",
+        -- "ibhagwan/fzf-lua",
+      },
     })
 <
 
@@ -175,7 +188,7 @@ CONFIGURATION                                *wtf.nvim-wtf.nvim-configuration*
 
 >lua
     {
-      -- Directory for storing chat files 
+      -- Directory for storing chat files
       chat_dir = vim.fn.stdpath("data"):gsub("/$", "") .. "/wtf/chats",
       -- Default AI popup type
       popup_type = "popup" | "horizontal" | "vertical",
@@ -196,6 +209,8 @@ CONFIGURATION                                *wtf.nvim-wtf.nvim-configuration*
       additional_instructions = "Start the reply with 'OH HAI THERE'",
       -- Default search engine, can be overridden by passing an option to WtfSeatch
       search_engine = "google" | "duck_duck_go" | "stack_overflow" | "github" | "phind" | "perplexity",
+      -- Picker for history search (telescope, snacks, or fzf-lua)
+      picker = "telescope" | "snacks" | "fzf-lua",
       -- Callbacks
       hooks = {
         request_started = nil,
@@ -258,7 +273,9 @@ environment, invoke one of the commands:
                                                        your previous chats.
 
   :WtfGrepHistory              Normal                  Grep your previous chats via
-                                                       Telescope.
+                                                       your configured picker
+                                                       (Telescope, Snacks, or
+                                                       FZF-lua).
   ---------------------------------------------------------------------------------
 
 CUSTOM STATUS HOOKS ~
@@ -287,10 +304,10 @@ to lualine <https://github.com/nvim-lualine/lualine.nvim>.
 >lua
     local wtf = require("wtf")
     
-    require('lualine').setup({
-        sections = {
-            lualine_x = { wtf.get_status },
-        }
+    require("lualine").setup({
+      sections = {
+        lualine_x = { wtf.get_status },
+      },
     })
 <
 
