@@ -1,3 +1,5 @@
+---@module 'luassert'
+
 local wtf = require("wtf")
 
 describe("Picker functionality", function()
