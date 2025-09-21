@@ -1,5 +1,7 @@
 # 🤯 wtf.nvim
 
+<img width="1920" height="1080" style="max-width: 100%; height: auto" alt="wtf.nvim Logo" src="https://github.com/user-attachments/assets/f8a09ab8-1d95-4ff8-a507-88828c2ed7dc" />
+
 A Neovim plugin to help you work out *what the fudge* that diagnostic means **and** how to fix it!
 
 `wtf.nvim` provides faster and more efficient ways of working with the buffer line's diagnostic messages using AI and web search. Works with any language that has [LSP](https://microsoft.github.io/language-server-protocol/) support in Neovim.
