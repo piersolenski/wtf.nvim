@@ -103,8 +103,8 @@ local function process_diagnostics(opts)
   local instructions = opts and opts.instructions
 
   local diagnostics = get_diagnostics(line1, line2)
-  if not diagnostics then
-    diagnostics = {}
+  if not diagnostics or next(diagnostics) == nil then
+    return { err = "No diagnostics found!" }
   end
 
   local programming_language = get_programming_language()
