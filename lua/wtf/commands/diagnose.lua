@@ -30,7 +30,7 @@ local function diagnose(opts)
     .. "When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier "
     .. "to enable syntax highlighting. "
     .. "Never show line numbers on solutions, so they are easily copy and pastable."
-    .. "Always explain in"
+    .. "Always explain in "
     .. language
 
   local result = process_diagnostics(opts)
