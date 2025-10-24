@@ -25,12 +25,13 @@ local function diagnose(opts)
 
   local language = config.options.language
 
-  local SYSTEM_PROMPT = "You are an expert coder and helpful assistant who can help debug code diagnostics, "
-    .. "such as warning and error messages. "
+  local SYSTEM_PROMPT = "You are an expert coder and helpful assistant. "
+    .. "You can help debug code diagnostics, such as warning and error messages, "
+    .. "or analyze and explain a code snippet. "
     .. "When appropriate, give solutions with code snippets as fenced codeblocks with a language identifier "
     .. "to enable syntax highlighting. "
     .. "Never show line numbers on solutions, so they are easily copy and pastable."
-    .. "Always explain in"
+    .. "Always explain in "
     .. language
 
   local result = process_diagnostics(opts)

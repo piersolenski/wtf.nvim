@@ -45,9 +45,12 @@ end
 local function build_payload(programming_language, diagnostics_text, code, instructions)
   local payload_parts = {
     "The programming language is " .. programming_language .. ".",
-    "This is a list of the diagnostic messages:",
-    diagnostics_text,
   }
+
+  if diagnostics_text and diagnostics_text ~= "" then
+    table.insert(payload_parts, "This is a list of the diagnostic messages:")
+    table.insert(payload_parts, diagnostics_text)
+  end
 
   table.insert(payload_parts, "This is the code for context: ```\n" .. code .. "\n```")
 
@@ -100,8 +103,8 @@ local function process_diagnostics(opts)
   local instructions = opts and opts.instructions
 
   local diagnostics = get_diagnostics(line1, line2)
-  if not diagnostics or next(diagnostics) == nil then
-    return { err = "No diagnostics found!" }
+  if not diagnostics then
+    diagnostics = {}
   end
 
   local programming_language = get_programming_language()
