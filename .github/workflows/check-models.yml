@@ -3,9 +3,6 @@ on:
   schedule:
     - cron: '0 0 1 * *'
   workflow_dispatch:
-  push:
-    branches:
-      - automated-model-updates  # Testing only - remove before merging
 
 permissions:
   contents: write
