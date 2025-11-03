@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 0 1 * *'  # Monthly on the 1st at midnight UTC
   workflow_dispatch:  # Allow manual triggering
+  push:
+    branches:
+      - automated-model-updates  # Testing only - remove before merging
 
 permissions:
   contents: write
