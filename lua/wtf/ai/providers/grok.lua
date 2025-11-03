@@ -5,7 +5,7 @@ return {
   name = "grok",
   url = "https://api.x.ai/v1/chat/completions",
   formatted_name = "Grok",
-  model_id = "grok-3-mini",
+  model_id = "grok-4-0709",
   headers = {
     ["Content-Type"] = "application/json",
     Authorization = "Bearer ${api_key}",
