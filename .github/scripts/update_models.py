@@ -82,6 +82,7 @@ def update_model(file_path, old, new):
 def create_pr(provider, old, new):
     """Create PR for model update."""
     branch = f"update-{provider}-model"
+    subprocess.run(["git", "checkout", "main"], check=True)
     subprocess.run(["git", "checkout", "-b", branch], check=True)
     subprocess.run(["git", "add", PROVIDERS[provider]["file"]], check=True)
     subprocess.run(["git", "commit", "-m", f"chore: update {provider} model to {new}"], check=True)
@@ -91,6 +92,7 @@ def create_pr(provider, old, new):
         "--title", f"chore: update {provider.title()} model to latest version",
         "--body", f"Updates {provider} model from `{old}` to `{new}`\n\n🤖 Auto-generated"
     ], check=True)
+    subprocess.run(["git", "checkout", "main"], check=True)
 
 
 def main():
