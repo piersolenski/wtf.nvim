@@ -1,0 +1,56 @@
+name: Test Provider Update
+
+on:
+  pull_request:
+    paths:
+      - 'lua/wtf/ai/providers/*.lua'
+
+permissions:
+  contents: read
+
+jobs:
+  test-provider:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect changed provider
+        id: provider
+        run: |
+          # Get the changed provider file
+          CHANGED_FILE=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep 'lua/wtf/ai/providers/' | head -n 1)
+
+          if [ -z "$CHANGED_FILE" ]; then
+            echo "No provider file changed"
+            exit 0
+          fi
+
+          # Extract provider name (e.g., lua/wtf/ai/providers/openai.lua -> openai)
+          PROVIDER=$(basename "$CHANGED_FILE" .lua)
+          echo "provider=$PROVIDER" >> $GITHUB_OUTPUT
+          echo "Testing provider: $PROVIDER"
+
+      - name: Install Neovim
+        if: steps.provider.outputs.provider != ''
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+
+      - name: Install dependencies
+        if: steps.provider.outputs.provider != ''
+        run: |
+          # Install plenary.nvim for testing
+          git clone --depth 1 https://github.com/nvim-lua/plenary.nvim ~/.local/share/nvim/site/pack/vendor/start/plenary.nvim
+
+      - name: Run provider tests
+        if: steps.provider.outputs.provider != ''
+        env:
+          TEST_PROVIDER: ${{ steps.provider.outputs.provider }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
+        run: |
+          nvim --headless -u tests/minimal_init.lua -c "PlenaryBustedDirectory tests/wtf/ { minimal_init = './tests/minimal_init.lua' }"
