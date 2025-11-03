@@ -228,38 +228,6 @@ require("lualine").setup({
 })
 ```
 
-## 🔄 Automated Model Updates
-
-This repository uses Claude Code to automatically check for AI model updates. A GitHub Action runs monthly to check each provider independently and creates a separate PR for each provider that needs updating.
-
-### For Users
-
-Model updates are handled automatically. When a PR is created:
-
-1. Review the changes in the PR description
-2. Each provider gets its own PR for easy independent review
-3. Merge when ready
-
-If you encounter a "model not found" error, you can temporarily override the model in your config while waiting for an update:
-
-```lua
-require("wtf").setup({
-  providers = {
-    gemini = {
-      model_id = "gemini-2.5-flash", -- Override with newer model
-    }
-  }
-})
-```
-
-### For Contributors
-
-To manually trigger a model check:
-
-- Go to Actions → "Check AI Model Updates" → "Run workflow"
-
-The workflow requires API keys stored as GitHub Secrets (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, etc.). These are only accessible to workflows running on the main branch and cannot be accessed by pull requests from forks.
-
 ## 🤓 About the author
 
 As well as a passionate Vim enthusiast, I am a Full Stack Developer and Technical Lead from London, UK.
