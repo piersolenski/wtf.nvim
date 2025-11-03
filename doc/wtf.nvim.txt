@@ -1,4 +1,4 @@
-*wtf.nvim.txt*            For Neovim            Last change: 2025 September 21
+*wtf.nvim.txt*             For Neovim            Last change: 2025 November 03
 
 ==============================================================================
 Table of Contents                                 *wtf.nvim-table-of-contents*
@@ -8,6 +8,7 @@ Table of Contents                                 *wtf.nvim-table-of-contents*
   - Installation                              |wtf.nvim-wtf.nvim-installation|
   - Configuration                            |wtf.nvim-wtf.nvim-configuration|
   - Usage                                            |wtf.nvim-wtf.nvim-usage|
+  - Development                                |wtf.nvim-wtf.nvim-development|
   - About the author                      |wtf.nvim-wtf.nvim-about-the-author|
 
 ==============================================================================
@@ -311,6 +312,59 @@ to lualine <https://github.com/nvim-lualine/lualine.nvim>.
         lualine_x = { wtf.get_status },
       },
     })
+<
+
+
+DEVELOPMENT                                    *wtf.nvim-wtf.nvim-development*
+
+
+RUNNING TESTS ~
+
+This plugin uses plenary.nvim <https://github.com/nvim-lua/plenary.nvim> for
+testing. Tests are located in the `tests/` directory.
+
+
+RUN ALL PROVIDER TESTS
+
+>bash
+    make test
+<
+
+This will run tests for all AI providers. Note that tests require API keys to
+be set as environment variables:
+
+>bash
+    export OPENAI_API_KEY=your-api-key
+    export ANTHROPIC_API_KEY=your-api-key
+    export GEMINI_API_KEY=your-api-key
+    export DEEPSEEK_API_KEY=your-api-key
+    export GROK_API_KEY=your-api-key
+<
+
+Providers without API keys will be skipped during testing.
+
+
+RUN TESTS FOR A SPECIFIC PROVIDER
+
+You can test a single provider by setting the `TEST_PROVIDER` environment
+variable:
+
+>bash
+    TEST_PROVIDER=openai make test
+<
+
+This is useful when you only want to validate changes for a specific provider
+without testing all of them.
+
+
+OTHER TESTING COMMANDS
+
+>bash
+    # Run linting
+    make lint
+    
+    # Format code with stylua
+    make format
 <
 
 
