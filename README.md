@@ -228,6 +228,50 @@ require("lualine").setup({
 })
 ```
 
+## 🛠️ Development
+
+### Running Tests
+
+This plugin uses [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) for testing. Tests are located in the `tests/` directory.
+
+#### Run all provider tests
+
+```bash
+make test
+```
+
+This will run tests for all AI providers. Note that tests require API keys to be set as environment variables:
+
+```bash
+export OPENAI_API_KEY=your-api-key
+export ANTHROPIC_API_KEY=your-api-key
+export GEMINI_API_KEY=your-api-key
+export DEEPSEEK_API_KEY=your-api-key
+export GROK_API_KEY=your-api-key
+```
+
+Providers without API keys will be skipped during testing.
+
+#### Run tests for a specific provider
+
+You can test a single provider by setting the `TEST_PROVIDER` environment variable:
+
+```bash
+TEST_PROVIDER=openai make test
+```
+
+This is useful when you only want to validate changes for a specific provider without testing all of them.
+
+#### Other testing commands
+
+```bash
+# Run linting
+make lint
+
+# Format code with stylua
+make format
+```
+
 ## 🤓 About the author
 
 As well as a passionate Vim enthusiast, I am a Full Stack Developer and Technical Lead from London, UK.

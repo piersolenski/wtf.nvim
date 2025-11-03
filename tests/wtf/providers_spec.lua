@@ -12,8 +12,14 @@ describe("Providers", function()
     describe(provider.formatted_name, function()
       local skip_reason = nil
 
+      -- Skip if TEST_PROVIDER is set and doesn't match this provider
+      local test_provider = os.getenv("TEST_PROVIDER")
+      if test_provider and test_provider ~= provider_name then
+        skip_reason = string.format("Only testing %s provider", test_provider)
+      end
+
       -- For providers with API keys
-      if provider.api_key then
+      if provider.api_key and not skip_reason then
         local success, result = pcall(provider.api_key)
         if not success then
           local env_var = result:match("Missing environment variable: (.+)")
@@ -24,7 +30,7 @@ describe("Providers", function()
       end
 
       -- Special case for Ollama which requires a model ID set in the Makefile
-      if provider_name == "ollama" then
+      if provider_name == "ollama" and not skip_reason then
         if not os.getenv("OLLAMA_MODEL_ID") then
           skip_reason = "Requires OLLAMA_MODEL_ID environment variable to be set"
         end
