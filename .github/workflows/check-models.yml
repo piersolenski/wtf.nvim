@@ -1,9 +1,8 @@
-name: Check AI Model Updates
-
+name: Update models
 on:
   schedule:
-    - cron: '0 0 1 * *'  # Monthly on the 1st at midnight UTC
-  workflow_dispatch:  # Allow manual triggering
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
   push:
     branches:
       - automated-model-updates  # Testing only - remove before merging
@@ -13,77 +12,29 @@ permissions:
   pull-requests: write
 
 jobs:
-  check-models:
+  update-models:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Claude Code
-        run: |
-          curl -fsSL https://claude.ai/install.sh | bash
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-        shell: bash
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Check all provider models
-        timeout-minutes: 30
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Check and update models
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          ANTHROPIC_LOG: debug
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           GROK_API_KEY: ${{ secrets.GROK_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Define providers as JSON array
-          providers='[
-            {
-              "name": "openai",
-              "display": "OpenAI",
-              "model": "GPT-4",
-              "api": "OpenAI'\''s API"
-            },
-            {
-              "name": "anthropic",
-              "display": "Anthropic",
-              "model": "Claude",
-              "api": "Anthropic'\''s API"
-            },
-            {
-              "name": "gemini",
-              "display": "Gemini",
-              "model": "Gemini",
-              "api": "Google'\''s API"
-            },
-            {
-              "name": "deepseek",
-              "display": "DeepSeek",
-              "model": "DeepSeek",
-              "api": "DeepSeek'\''s API"
-            },
-            {
-              "name": "grok",
-              "display": "Grok",
-              "model": "Grok",
-              "api": "xAI'\''s API"
-            }
-          ]'
-
-          echo "$providers" | jq -c '.[]' | while read -r provider; do
-            name=$(echo "$provider" | jq -r '.name')
-            display=$(echo "$provider" | jq -r '.display')
-            model=$(echo "$provider" | jq -r '.model')
-            api=$(echo "$provider" | jq -r '.api')
-
-            echo "Checking $display model..."
-            timeout 5m $HOME/.local/bin/claude --dangerously-skip-permissions --max-turns 10 \
-              "Check if the model_id in lua/wtf/ai/providers/${name}.lua is the latest stable ${model} model available from ${api}. If it's outdated, update it and create a PR titled 'chore: update ${display} model to latest version' with a description of what changed." || {
-              echo "⚠️  $display check timed out or failed, continuing to next provider..."
-              continue
-            }
-          done
+        run: python .github/scripts/update_models.py
