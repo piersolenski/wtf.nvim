@@ -30,6 +30,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Check all provider models
+        timeout-minutes: 30
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -79,6 +80,9 @@ jobs:
             api=$(echo "$provider" | jq -r '.api')
 
             echo "Checking $display model..."
-            $HOME/.local/bin/claude --dangerously-skip-permissions \
-              "Check if the model_id in lua/wtf/ai/providers/${name}.lua is the latest stable ${model} model available from ${api}. If it's outdated, update it and create a PR titled 'chore: update ${display} model to latest version' with a description of what changed."
+            timeout 5m $HOME/.local/bin/claude --dangerously-skip-permissions --max-turns 10 \
+              "Check if the model_id in lua/wtf/ai/providers/${name}.lua is the latest stable ${model} model available from ${api}. If it's outdated, update it and create a PR titled 'chore: update ${display} model to latest version' with a description of what changed." || {
+              echo "⚠️  $display check timed out or failed, continuing to next provider..."
+              continue
+            }
           done
