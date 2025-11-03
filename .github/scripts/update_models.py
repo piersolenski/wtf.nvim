@@ -79,6 +79,30 @@ def update_model(file_path, old, new):
         f.write(re.sub(f'model_id = "{re.escape(old)}"', f'model_id = "{new}"', content))
 
 
+def run_tests(provider):
+    """Run tests for a specific provider."""
+    print(f"Running tests for {provider}...")
+    env = os.environ.copy()
+    env["TEST_PROVIDER"] = provider
+
+    result = subprocess.run(
+        ["nvim", "--headless", "-u", "tests/minimal_init.lua",
+         "-c", "PlenaryBustedDirectory tests/wtf/ { minimal_init = './tests/minimal_init.lua' }"],
+        env=env,
+        capture_output=True,
+        text=True
+    )
+
+    if result.returncode == 0:
+        print(f"✓ Tests passed for {provider}")
+        return True
+    else:
+        print(f"✗ Tests failed for {provider}")
+        print(result.stdout)
+        print(result.stderr)
+        return False
+
+
 def create_pr(provider, old, new):
     """Create PR for model update."""
     branch = f"update-{provider}-model"
@@ -116,7 +140,14 @@ def main():
             if recommended and recommended != current:
                 print(f"✓ {provider}: {current} → {recommended}")
                 update_model(config["file"], current, recommended)
-                create_pr(provider, current, recommended)
+
+                # Run tests before creating PR
+                if run_tests(provider):
+                    create_pr(provider, current, recommended)
+                else:
+                    print(f"✗ Skipping PR creation for {provider} due to test failures")
+                    # Restore original model
+                    update_model(config["file"], recommended, current)
             else:
                 print(f"✓ {provider}: {current} (up to date)")
         except Exception as e:
