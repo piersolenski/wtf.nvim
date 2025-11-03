@@ -15,7 +15,7 @@ jobs:
       providers: ${{ steps.set-providers.outputs.providers }}
       has-changes: ${{ steps.set-providers.outputs.has-changes }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -54,7 +54,7 @@ jobs:
       matrix:
         provider: ${{ fromJson(needs.detect-providers.outputs.providers) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Install Neovim
         uses: rhysd/action-setup-vim@v1
