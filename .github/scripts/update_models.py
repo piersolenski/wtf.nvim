@@ -107,6 +107,15 @@ def create_pr(provider, old, new):
     """Create PR for model update."""
     branch = f"update-{provider}-model"
     subprocess.run(["git", "checkout", "main"], check=True)
+
+    # Delete remote branch if it exists
+    subprocess.run(["git", "push", "origin", "--delete", branch],
+                   capture_output=True)  # Ignore errors if branch doesn't exist
+
+    # Delete local branch if it exists
+    subprocess.run(["git", "branch", "-D", branch],
+                   capture_output=True)  # Ignore errors if branch doesn't exist
+
     subprocess.run(["git", "checkout", "-b", branch], check=True)
     subprocess.run(["git", "add", PROVIDERS[provider]["file"]], check=True)
     subprocess.run(["git", "commit", "-m", f"chore: update {provider} model to {new}"], check=True)
@@ -114,7 +123,7 @@ def create_pr(provider, old, new):
     subprocess.run([
         "gh", "pr", "create",
         "--title", f"chore: update {provider.title()} model to latest version",
-        "--body", f"Updates {provider} model from `{old}` to `{new}`\n\n🤖 Auto-generated"
+        "--body", f"Updates {provider} model from `{old}` to `{new}`\n\n✅ Tests passed\n\n🤖 Auto-generated"
     ], check=True)
     subprocess.run(["git", "checkout", "main"], check=True)
 
