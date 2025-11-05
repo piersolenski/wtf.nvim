@@ -1,5 +1,3 @@
-local process_diagnostics = require("wtf.util.process_diagnostics")
-
 local function copy_diagnostic(opts)
   -- If you wanted to copy the full formatted output:
   local result = process_diagnostics(opts)
