@@ -1,14 +1,22 @@
-local function copy_diagnostic(opts)
-  -- If you wanted to copy the full formatted output:
-  local result = process_diagnostics(opts)
+--- Copy the diagnostic message at cursor to clipboard
+--- @return string|nil error
+local function copy_diagnostic()
+  -- Get diagnostics at current cursor position
+  local diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line(".") - 1 })
   
-  if result.err then
-    vim.notify(result.err, vim.log.levels.WARN)
-    return result.err
+  if #diagnostics == 0 then
+    vim.notify("No diagnostic at cursor line", vim.log.levels.WARN)
+    return "No diagnostic found"
   end
   
-  vim.fn.setreg('+', result.payload)
-  vim.notify("Diagnostics copied to clipboard", vim.log.levels.INFO)
+  -- Get the first diagnostic message
+  local message = diagnostics[1].message
+  
+  -- Copy to clipboard
+  vim.fn.setreg('+', message)
+  vim.fn.setreg('"', message)
+  
+  vim.notify("Diagnostic copied: " .. message, vim.log.levels.INFO)
   
   return nil
 end
