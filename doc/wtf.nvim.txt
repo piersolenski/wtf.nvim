@@ -138,6 +138,14 @@ LAZY.NVIM ~
           end,
           desc = "Grep previous chat history with Telescope",
         },
+	{
+	  mode = {"n, x, v"}
+          "<leader>wc",
+          function()
+            require("wtf").copy()
+          end,
+          desc = "Copy the diagnostic",
+        },
       },
     }
 <
