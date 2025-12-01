@@ -5,7 +5,7 @@ return {
   name = "anthropic",
   formatted_name = "Anthropic",
   url = "https://api.anthropic.com/v1/messages",
-  model_id = "claude-sonnet-4-5-20250929",
+  model_id = "claude-opus-4-5-20251101",
   headers = {
     ["content-type"] = "application/json",
     ["x-api-key"] = "${api_key}",
