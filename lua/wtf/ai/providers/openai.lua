@@ -5,7 +5,7 @@ return {
   name = "openai",
   formatted_name = "OpenAI",
   url = "https://api.openai.com/v1/chat/completions",
-  model_id = "gpt-4o",
+  model_id = "gpt-5.1-2025-11-13",
   headers = {
     ["Content-Type"] = "application/json",
     Authorization = "Bearer ${api_key}",
