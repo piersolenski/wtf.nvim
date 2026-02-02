@@ -103,6 +103,14 @@ Install the plugin with your preferred package manager:
       end,
       desc = "Grep previous chat history with Telescope",
     },
+    {
+      mode = { "n" },
+      "<leader>wc",
+      function()
+        require("wtf").copy()
+      end,
+      desc = "Copy the diagnostic",
+    },
   },
 }
 ```
