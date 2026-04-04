@@ -139,13 +139,13 @@ LAZY.NVIM ~
           end,
           desc = "Grep previous chat history with Telescope",
         },
-	{
-	  mode = {"n, x, v"}
-          "<leader>wc",
+        {
+          mode = { "n" },
+          "<leader>wy",
           function()
-            require("wtf").copy()
+            require("wtf").yank()
           end,
-          desc = "Copy the diagnostic",
+          desc = "Yank diagnostic to clipboard",
         },
       },
     }
@@ -282,6 +282,10 @@ environment, invoke one of the commands:
 
   :WtfHistory                  Normal                  Use the quickfix list to see
                                                        your previous chats.
+
+  :WtfYank                     Normal                  Yank the diagnostic message
+                                                       on the current line to the
+                                                       clipboard.
 
   :WtfGrepHistory              Normal                  Grep your previous chats via
                                                        your configured picker
