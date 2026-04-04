@@ -19,6 +19,9 @@ local function get_diagnostics(range_start, range_end)
       for _, diagnostic in ipairs(line_diagnostics) do
         table.insert(diagnostics, {
           line_number = line_num,
+          col = diagnostic.col + 1,
+          end_line_number = (diagnostic.end_lnum or (line_num - 1)) + 1,
+          end_col = (diagnostic.end_col or diagnostic.col) + 1,
           message = diagnostic.message,
           severity = to_title_case(vim.diagnostic.severity[diagnostic.severity]),
         })
