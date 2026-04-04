@@ -46,6 +46,10 @@ vim.api.nvim_create_user_command("WtfPickProvider", function()
   wtf.pick_provider()
 end, {})
 
+vim.api.nvim_create_user_command("WtfYank", function()
+  wtf.yank()
+end, {})
+
 vim.api.nvim_create_user_command("WtfSearch", function(opts)
   wtf.search(opts.args)
 end, {

@@ -2,7 +2,7 @@
 
 <img width="1920" height="1080" style="max-width: 100%; height: auto" alt="wtf.nvim Logo" src="https://github.com/user-attachments/assets/f8a09ab8-1d95-4ff8-a507-88828c2ed7dc" />
 
-A Neovim plugin to help you work out *what the fudge* that diagnostic means **and** how to fix it!
+A Neovim plugin to help you work out _what the fudge_ that diagnostic means **and** how to fix it!
 
 `wtf.nvim` provides faster and more efficient ways of working with the buffer line's diagnostic messages using AI and web search. Works with any language that has [LSP](https://microsoft.github.io/language-server-protocol/) support in Neovim.
 
@@ -10,7 +10,7 @@ A Neovim plugin to help you work out *what the fudge* that diagnostic means **an
 
 ### Debugging diagnostics
 
-Use the power of AI to provide you with explanations *and* solutions for how to fix diagnostics, custom tailored to the code responsible for them.
+Use the power of AI to provide you with explanations _and_ solutions for how to fix diagnostics, custom tailored to the code responsible for them.
 
 <https://github.com/piersolenski/wtf.nvim/assets/1285419/7572b101-664c-4069-aa45-84adc2678e25>
 
@@ -105,11 +105,11 @@ Install the plugin with your preferred package manager:
     },
     {
       mode = { "n" },
-      "<leader>wc",
+      "<leader>wy",
       function()
-        require("wtf").copy()
+        require("wtf").yank()
       end,
-      desc = "Copy the diagnostic",
+      desc = "Yank diagnostic to clipboard",
     },
   },
 }
@@ -198,14 +198,15 @@ You can also set or override API keys in your config, but it is recommended to u
 
 To use it, whenever you have an hint, warning or error in an LSP enabled environment, invoke one of the commands:
 
-| Command | Modes | Description |
-| -- | -- | -- |
-| `:Wtf [instructions]` | Normal, Visual | Sends the code and diagnostic messages for a line or visual range to the provider. Additional instructions can also be specified, which might be useful if you want to offer extra context, such as `Wtf I'm using Node.js`.
-| `:WtfFix [instructions]` | Normal, Visual | The same as `Wtf`, except instead of explaining the issue, it will attempt to fix it. Additional instructions can be specified, such as `WtfFix using camel casing`.
-| `:WtfPickProvider` | Normal | Allows you to pick a different provider other than the one initially set in your config without restarting Vim.
-| `:WtfSearch [search_engine]` | Normal | Uses a search engine (defaults to the one in the setup or Google if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results.
-| `:WtfHistory` | Normal | Use the quickfix list to see your previous chats.
-| `:WtfGrepHistory` | Normal | Grep your previous chats via your configured picker (Telescope, Snacks, or FZF-lua).
+| Command                      | Modes          | Description                                                                                                                                                                                                                                            |
+| ---------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `:Wtf [instructions]`        | Normal, Visual | Sends the code and diagnostic messages for a line or visual range to the provider. Additional instructions can also be specified, which might be useful if you want to offer extra context, such as `Wtf I'm using Node.js`.                           |
+| `:WtfFix [instructions]`     | Normal, Visual | The same as `Wtf`, except instead of explaining the issue, it will attempt to fix it. Additional instructions can be specified, such as `WtfFix using camel casing`.                                                                                   |
+| `:WtfPickProvider`           | Normal         | Allows you to pick a different provider other than the one initially set in your config without restarting Vim.                                                                                                                                        |
+| `:WtfSearch [search_engine]` | Normal         | Uses a search engine (defaults to the one in the setup or Google if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. |
+| `:WtfHistory`                | Normal         | Use the quickfix list to see your previous chats.                                                                                                                                                                                                      |
+| `:WtfYank`                   | Normal         | Yank the diagnostic message on the current line to the clipboard.                                                                                                                                                                                      |
+| `:WtfGrepHistory`            | Normal         | Grep your previous chats via your configured picker (Telescope, Snacks, or FZF-lua).                                                                                                                                                                   |
 
 ### Custom status hooks
 
