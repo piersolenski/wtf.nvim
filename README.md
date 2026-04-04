@@ -104,8 +104,8 @@ Install the plugin with your preferred package manager:
       desc = "Grep previous chat history with Telescope",
     },
     {
-      mode = { "n" },
       "<leader>wy",
+      mode = { "n", "x" },
       function()
         require("wtf").yank()
       end,
@@ -205,7 +205,7 @@ To use it, whenever you have an hint, warning or error in an LSP enabled environ
 | `:WtfPickProvider`           | Normal         | Allows you to pick a different provider other than the one initially set in your config without restarting Vim.                                                                                                                                        |
 | `:WtfSearch [search_engine]` | Normal         | Uses a search engine (defaults to the one in the setup or Google if not provided) to search for the **first** diagnostic. It will attempt to filter out unrelated strings specific to your local environment, such as file paths, for broader results. |
 | `:WtfHistory`                | Normal         | Use the quickfix list to see your previous chats.                                                                                                                                                                                                      |
-| `:WtfYank`                   | Normal         | Yank the diagnostic message on the current line to the clipboard.                                                                                                                                                                                      |
+| `:WtfYank`                   | Normal, Visual | Yank the diagnostic message on the current line or visual range to the clipboard.                                                                                                                                                                      |
 | `:WtfGrepHistory`            | Normal         | Grep your previous chats via your configured picker (Telescope, Snacks, or FZF-lua).                                                                                                                                                                   |
 
 ### Custom status hooks

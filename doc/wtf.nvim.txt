@@ -140,8 +140,8 @@ LAZY.NVIM ~
           desc = "Grep previous chat history with Telescope",
         },
         {
-          mode = { "n" },
           "<leader>wy",
+          mode = { "n", "x" },
           function()
             require("wtf").yank()
           end,
@@ -283,8 +283,9 @@ environment, invoke one of the commands:
   :WtfHistory                  Normal                  Use the quickfix list to see
                                                        your previous chats.
 
-  :WtfYank                     Normal                  Yank the diagnostic message
-                                                       on the current line to the
+  :WtfYank                     Normal, Visual          Yank the diagnostic message
+                                                       on the current line or
+                                                       visual range to the
                                                        clipboard.
 
   :WtfGrepHistory              Normal                  Grep your previous chats via

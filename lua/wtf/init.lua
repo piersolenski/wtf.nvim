@@ -45,8 +45,8 @@ function M.search(opts)
   return search(opts)
 end
 
-function M.yank()
-  return yank()
+function M.yank(opts)
+  return yank(opts)
 end
 
 function M.setup(opts)
