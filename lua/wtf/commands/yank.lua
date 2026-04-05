@@ -37,7 +37,7 @@ local function yank_diagnostic(opts)
 
   vim.fn.setreg("+", text)
   vim.fn.setreg('"', text)
-  vim.notify("Diagnostics yanked", vim.log.levels.INFO)
+  vim.notify(#diagnostics == 1 and "Diagnostic yanked" or "Diagnostics yanked", vim.log.levels.INFO)
 
   return nil
 end
