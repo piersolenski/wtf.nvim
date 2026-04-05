@@ -1,4 +1,4 @@
-*wtf.nvim.txt*             For Neovim            Last change: 2025 November 03
+*wtf.nvim.txt*              For Neovim              Last change: 2026 April 05
 
 ==============================================================================
 Table of Contents                                 *wtf.nvim-table-of-contents*
@@ -242,57 +242,35 @@ level) to various sources you can configure.
 To use it, whenever you have an hint, warning or error in an LSP enabled
 environment, invoke one of the commands:
 
-  ---------------------------------------------------------------------------------
-  Command                      Modes                   Description
-  ---------------------------- ----------------------- ----------------------------
-  :Wtf [instructions]          Normal, Visual          Sends the code and
-                                                       diagnostic messages for a
-                                                       line or visual range to the
-                                                       provider. Additional
-                                                       instructions can also be
-                                                       specified, which might be
-                                                       useful if you want to offer
-                                                       extra context, such as
-                                                       Wtf I'm using Node.js.
+  ---------------------------------------------------------------------------------------------------
+  Command                      Modes     Description
+  ---------------------------- --------- ------------------------------------------------------------
+  :Wtf [instructions]          Normal,   Sends the code and diagnostic messages for a line or visual
+                               Visual    range to the provider. Additional instructions can also be
+                                         specified, which might be useful if you want to offer extra
+                                         context, such as Wtf I'm using Node.js.
 
-  :WtfFix [instructions]       Normal, Visual          The same as Wtf, except
-                                                       instead of explaining the
-                                                       issue, it will attempt to
-                                                       fix it. Additional
-                                                       instructions can be
-                                                       specified, such as
-                                                       WtfFix using camel casing.
+  :WtfFix [instructions]       Normal,   The same as Wtf, except instead of explaining the issue, it
+                               Visual    will attempt to fix it. Additional instructions can be
+                                         specified, such as WtfFix using camel casing.
 
-  :WtfPickProvider             Normal                  Allows you to pick a
-                                                       different provider other
-                                                       than the one initially set
-                                                       in your config without
-                                                       restarting Vim.
+  :WtfPickProvider             Normal    Allows you to pick a different provider other than the one
+                                         initially set in your config without restarting Vim.
 
-  :WtfSearch [search_engine]   Normal                  Uses a search engine
-                                                       (defaults to the one in the
-                                                       setup or Google if not
-                                                       provided) to search for the
-                                                       first diagnostic. It will
-                                                       attempt to filter out
-                                                       unrelated strings specific
-                                                       to your local environment,
-                                                       such as file paths, for
-                                                       broader results.
+  :WtfSearch [search_engine]   Normal    Uses a search engine (defaults to the one in the setup or
+                                         Google if not provided) to search for the first diagnostic.
+                                         It will attempt to filter out unrelated strings specific to
+                                         your local environment, such as file paths, for broader
+                                         results.
 
-  :WtfHistory                  Normal                  Use the quickfix list to see
-                                                       your previous chats.
+  :WtfHistory                  Normal    Use the quickfix list to see your previous chats.
 
-  :WtfYank                     Normal, Visual          Yank the diagnostic message
-                                                       on the current line or
-                                                       visual range to the
-                                                       clipboard.
+  :WtfYank                     Normal,   Yank the diagnostic message on the current line or visual
+                               Visual    range to the clipboard.
 
-  :WtfGrepHistory              Normal                  Grep your previous chats via
-                                                       your configured picker
-                                                       (Telescope, Snacks, or
-                                                       FZF-lua).
-  ---------------------------------------------------------------------------------
+  :WtfGrepHistory              Normal    Grep your previous chats via your configured picker
+                                         (Telescope, Snacks, or FZF-lua).
+  ---------------------------------------------------------------------------------------------------
 
 CUSTOM STATUS HOOKS ~
 
