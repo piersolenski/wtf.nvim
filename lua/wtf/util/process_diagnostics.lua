@@ -23,11 +23,29 @@ local function format_diagnostics(diagnostics)
   local formatted_parts = {}
 
   for i, diagnostic in ipairs(diagnostics) do
+    local location
+    if diagnostic.end_line_number and diagnostic.end_line_number ~= diagnostic.line_number then
+      location = string.format(
+        "Lines %d-%d, Columns %d-%d",
+        diagnostic.line_number,
+        diagnostic.end_line_number,
+        diagnostic.col,
+        diagnostic.end_col
+      )
+    else
+      location = string.format(
+        "Line %d, Columns %d-%d",
+        diagnostic.line_number,
+        diagnostic.col,
+        diagnostic.end_col
+      )
+    end
+
     local diagnostic_text = string.format(
-      "%d. Issue %d\n\t- Location: Line %d\n\t- Severity: %s\n\t- Message: %s",
+      "%d. Issue %d\n\t- Location: %s\n\t- Severity: %s\n\t- Message: %s",
       i,
       i,
-      diagnostic.line_number,
+      location,
       diagnostic.severity,
       diagnostic.message
     )
