@@ -35,6 +35,6 @@ return {
     return response.choices[1].message.content
   end,
   format_error = function(response)
-    return response[1].error.message
+    return response.error.message
   end,
 }
