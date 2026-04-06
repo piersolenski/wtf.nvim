@@ -1,6 +1,6 @@
 -- Remove data that is either sensitive or irrelevant to the search
 local function remove_user_data(inputString)
-  local username = vim.fn.system("whoami"):gsub("%s+", "")
+  local username = vim.env.USER or vim.loop.os_get_passwd().username
 
   -- Replace the username in the input string with '<user>'
   local path_pattern = "[/\\]Users[/\\]" .. username

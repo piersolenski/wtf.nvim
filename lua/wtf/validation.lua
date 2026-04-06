@@ -24,40 +24,7 @@ local function validate_picker(picker)
   return vim.tbl_contains({ "telescope", "snacks", "fzf-lua" }, picker)
 end
 
-local function create_deprecation_validator(old_key, new_key)
-  return function(val)
-    if val ~= nil then
-      vim.notify(
-        string.format("WTF %s should now be set via %s", old_key, new_key),
-        vim.log.levels.ERROR
-      )
-    end
-    return true
-  end
-end
-
 function M.validate_opts(opts)
-  -- TODO: Remove in future version
-  vim.validate(
-    "openai_api_key",
-    opts.openai_api_key,
-    create_deprecation_validator("openai_api_key", "providers.openai.api_key")
-  )
-  -- TODO: Remove in future version
-  vim.validate(
-    "openai_model_id",
-    opts.openai_model_id,
-    create_deprecation_validator("openai_model_id", "providers.openai.model_id")
-  )
-  vim.validate("context", opts.context, function(val)
-    if val ~= nil then
-      vim.notify(
-        "context is no longer supported, please remove it from your config",
-        vim.log.levels.ERROR
-      )
-    end
-    return true
-  end)
   vim.validate("winhighlight", opts.winhighlight, "string")
   vim.validate("provider", opts.provider, validate_provider, "supported provider")
   vim.validate("providers", opts.providers, { "table", "nil" })
