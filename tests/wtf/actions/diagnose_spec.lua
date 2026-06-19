@@ -1,6 +1,7 @@
 local helpers = require("tests.wtf.helpers")
 local mock = require("luassert.mock")
 local spy = require("luassert.spy")
+local stub = require("luassert.stub")
 local wtf = require("wtf")
 
 describe("Diagnose", function()
@@ -28,7 +29,7 @@ describe("Diagnose", function()
     vim.api.nvim_win_set_cursor(0, { helpers.line_with_error, 0 })
 
     -- Mock dependencies
-    client_mock = mock(require("wtf.ai.client"), true)
+    client_mock = stub(package.loaded, "wtf.ai.client")
     client_mock.returns("This is a test response")
     popup_mock = mock(require("wtf.ui.popup"), true)
 
@@ -36,7 +37,7 @@ describe("Diagnose", function()
   end)
 
   after_each(function()
-    mock.revert(client_mock)
+    client_mock:revert()
     mock.revert(popup_mock)
   end)
 
@@ -61,7 +62,7 @@ describe("Diagnose", function()
     wtf.diagnose({ line1 = helpers.line_with_error - 1, line2 = helpers.line_with_error + 1 })
     vim.defer_fn(function()
       assert.spy(client_mock).was.called()
-      local payload = client_mock.calls[1].args[2]
+      local payload = client_mock.calls[1].vals[2]
       assert.truthy(string.find(payload, "Line 2"))
       assert.truthy(string.find(payload, "Line 3"))
       assert.truthy(string.find(payload, "Line 4"))

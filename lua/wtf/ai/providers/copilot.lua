@@ -1,6 +1,3 @@
-local Path = require("plenary.path")
-local curl = require("plenary.curl")
-
 local function get_oauth_token()
   local xdg_config = vim.fn.expand("$XDG_CONFIG_HOME")
   local config_dir
@@ -17,9 +14,10 @@ local function get_oauth_token()
   local config_files = { "hosts.json", "apps.json" }
 
   for _, filename in ipairs(config_files) do
-    local config_path = Path:new(config_dir):joinpath("github-copilot", filename)
-    if config_path:exists() then
-      local config_data = vim.json.decode(config_path:read())
+    local config_path = vim.fs.joinpath(config_dir, "github-copilot", filename)
+    if vim.fn.filereadable(config_path) == 1 then
+      local lines = vim.fn.readfile(config_path)
+      local config_data = vim.json.decode(table.concat(lines, "\n"))
 
       -- Find GitHub entry and extract OAuth token
       for key, value in pairs(config_data) do
@@ -37,20 +35,34 @@ local function get_copilot_token()
   local oauth_token = get_oauth_token()
 
   -- Request GitHub API token using OAuth token
-  local response = curl.get("https://api.github.com/copilot_internal/v2/token", {
+  local done = false
+  local result, request_err
+
+  vim.net.request("https://api.github.com/copilot_internal/v2/token", {
+    method = "GET",
     headers = {
       ["Authorization"] = "token " .. oauth_token,
       ["Accept"] = "application/json",
     },
-    timeout = 30000,
-  })
+  }, function(err, res)
+    if err then
+      request_err = err
+    else
+      local token_data = vim.json.decode(res.body)
+      result = token_data.token
+    end
+    done = true
+  end)
 
-  if response.status == 200 then
-    local token_data = vim.json.decode(response.body)
-    return token_data.token
-  else
-    error("Failed to get Copilot token: " .. (response.body or "Unknown error"))
+  vim.wait(30000, function()
+    return done
+  end)
+
+  if request_err then
+    error("Failed to get Copilot token: " .. request_err)
   end
+
+  return result
 end
 
 ---@type Wtf.Adapter

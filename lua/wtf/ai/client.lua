@@ -1,5 +1,4 @@
 local config = require("wtf.config")
-local curl = require("plenary.curl")
 local get_api_key = require("wtf.util.get_api_key")
 
 local DEFAULT_MAX_TOKENS = 4096
@@ -43,7 +42,8 @@ local function process_response(response, provider_config)
   end
 end
 
---- Makes asynchronous HTTP POST request using coroutines
+--- Makes an HTTP POST request, using coroutines when called inside one and
+--- falling back to a synchronous wait otherwise.
 ---@param url string
 ---@param headers table<string, string>
 ---@param request_data table
@@ -51,17 +51,48 @@ end
 local function make_http_request(url, headers, request_data)
   local co = coroutine.running()
 
-  curl.post(url, {
+  if co then
+    vim.net.request(url, {
+      method = "POST",
+      headers = headers,
+      body = vim.json.encode(request_data),
+    }, function(err, res)
+      vim.schedule(function()
+        if err then
+          -- vim.net.request gives us only a curl error string on 4xx/5xx.
+          -- Preserve the existing response shape so process_response keeps working.
+          coroutine.resume(co, { status = 400, body = err })
+        else
+          coroutine.resume(co, { status = 200, body = res.body })
+        end
+      end)
+    end)
+
+    return coroutine.yield()
+  end
+
+  -- Synchronous fallback for callers outside of a coroutine (e.g. tests).
+  local done = false
+  local result
+
+  vim.net.request(url, {
+    method = "POST",
     headers = headers,
     body = vim.json.encode(request_data),
-    callback = function(response)
-      vim.schedule(function()
-        coroutine.resume(co, response)
-      end)
-    end,
-  })
+  }, function(err, res)
+    if err then
+      result = { status = 400, body = err }
+    else
+      result = { status = 200, body = res.body }
+    end
+    done = true
+  end)
 
-  return coroutine.yield()
+  vim.wait(30000, function()
+    return done
+  end)
+
+  return result
 end
 
 --- Main client function that sends message to AI provider and returns response

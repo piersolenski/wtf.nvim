@@ -1,5 +1,6 @@
 local helpers = require("tests.wtf.helpers")
 local mock = require("luassert.mock")
+local stub = require("luassert.stub")
 local wtf = require("wtf")
 
 describe("Fix", function()
@@ -26,10 +27,14 @@ describe("Fix", function()
     vim.api.nvim_win_set_cursor(0, { helpers.line_with_error, 0 })
 
     -- Mock dependencies
-    client_mock = mock(require("wtf.ai.client"), true)
-    client_mock.returns("This is a test response")
+    client_mock = stub(package.loaded, "wtf.ai.client")
+    client_mock.returns('{"code":"print(vim.version())"}')
 
     wtf.setup()
+  end)
+
+  after_each(function()
+    client_mock:revert()
   end)
 
   it("fixes when there are diagnostics", function(done)
@@ -38,10 +43,13 @@ describe("Fix", function()
     -- Then
     vim.defer_fn(function()
       local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-      assert.are.same({ "print(vim.version())" }, lines)
-
-      -- Cleanup
-      mock.revert(client_mock)
+      assert.are.same({
+        "Line 1",
+        "Line 2",
+        "print(vim.version())",
+        "Line 4",
+        "Line 5",
+      }, lines)
       done()
     end, 100)
   end)

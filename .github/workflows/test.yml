@@ -13,11 +13,22 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        nvim-versions: ["stable", "nightly"]
+        nvim-versions: ["v0.12.0", "nightly"]
     name: Tests
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1"
+
+      - name: Setup LuaRocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Install luassert
+        run: luarocks --lua-version 5.1 install luassert
 
       - name: Setup Neovim
         uses: rhysd/action-setup-vim@v1

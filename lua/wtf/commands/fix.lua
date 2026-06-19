@@ -1,4 +1,3 @@
-local client = require("wtf.ai.client")
 local hooks = require("wtf.hooks")
 local notify = require("wtf.util.notify")
 local process_diagnostics = require("wtf.util.process_diagnostics")
@@ -109,6 +108,7 @@ local function fix(opts)
 
   -- Use coroutine since client function is async
   local co = coroutine.create(function()
+    local client = require("wtf.ai.client")
     local response, client_err = client(SYSTEM_PROMPT, result.payload, 0.1)
 
     if client_err then
