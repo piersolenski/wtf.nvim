@@ -14,9 +14,8 @@ return {
     return get_env_var("OPENCODE_API_KEY")
   end,
   format_request = function(data)
-    return {
+    local body = {
       model = data.model,
-      temperature = data.temperature,
       messages = {
         {
           role = "system",
@@ -28,6 +27,12 @@ return {
         },
       },
     }
+
+    if data.temperature ~= nil and data.temperature ~= false then
+      body.temperature = data.temperature
+    end
+
+    return body
   end,
   format_response = function(response)
     return response.choices[1].message.content

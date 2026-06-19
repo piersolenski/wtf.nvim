@@ -15,11 +15,10 @@ return {
     return get_env_var("ANTHROPIC_API_KEY")
   end,
   format_request = function(data)
-    return {
+    local body = {
       model = data.model,
       max_tokens = data.max_tokens,
       system = data.system,
-      temperature = data.temperature,
       messages = {
         {
           role = "user",
@@ -27,6 +26,12 @@ return {
         },
       },
     }
+
+    if data.temperature ~= nil and data.temperature ~= false then
+      body.temperature = data.temperature
+    end
+
+    return body
   end,
   format_response = function(response)
     return response.content[1].text

@@ -2,6 +2,64 @@ local client = require("wtf.ai.client")
 local config = require("wtf.config")
 local providers = require("wtf.ai.providers")
 
+local function get_temperature(body)
+  return body.temperature
+end
+
+describe("Provider request formatting", function()
+  for provider_name, provider in pairs(providers) do
+    describe(provider.formatted_name, function()
+      it("includes temperature when a numeric value is passed", function()
+        local request = provider.format_request({
+          model = "test-model",
+          system = "sys",
+          message = "msg",
+          max_tokens = 4096,
+          temperature = 0.7,
+        })
+
+        assert.are.equal(0.7, get_temperature(request))
+      end)
+
+      it("omits temperature when temperature is false", function()
+        local request = provider.format_request({
+          model = "test-model",
+          system = "sys",
+          message = "msg",
+          max_tokens = 4096,
+          temperature = false,
+        })
+
+        assert.is_nil(get_temperature(request))
+      end)
+
+      it("omits temperature when temperature is nil", function()
+        local request = provider.format_request({
+          model = "test-model",
+          system = "sys",
+          message = "msg",
+          max_tokens = 4096,
+          temperature = nil,
+        })
+
+        assert.is_nil(get_temperature(request))
+      end)
+
+      it("uses a custom temperature value instead of the default", function()
+        local request = provider.format_request({
+          model = "test-model",
+          system = "sys",
+          message = "msg",
+          max_tokens = 4096,
+          temperature = 0.3,
+        })
+
+        assert.are.equal(0.3, get_temperature(request))
+      end)
+    end)
+  end
+end)
+
 -- NOTE: In order for this integration test to pass, the following must be true:
 -- 1. All environment variables are set correctly.
 -- 2. All providers that require a balance are funded.

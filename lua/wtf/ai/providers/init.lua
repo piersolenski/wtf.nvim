@@ -4,6 +4,7 @@
 ---@field url string The base URL of the LLM API
 ---@field headers table<string, string> The headers to pass to the request
 ---@field api_key string | nil | fun(): string | nil Retrieve API key
+---@field temperature number | false | nil Optional override; false omits temperature from requests
 ---@field format_request fun(data: table): table Function to format request data
 ---@field format_response fun(response: table): string Function to format API response
 ---@field format_error fun(response: table): string Function to format error response

@@ -215,6 +215,10 @@ CONFIGURATION                                *wtf.nvim-wtf.nvim-configuration*
           api_key = "32lkj23sdjke223ksdlfk" | function() os.getenv("API_KEY") end,
           -- Your preferred model
           model_id = "claude-3-5-sonnet-20241022",
+          -- Use a custom temperature (default is 0.5 for diagnose, 0.1 for fix)
+          temperature = 0.7,
+          -- Set to false to omit temperature entirely for models that don't support it
+          -- temperature = false,
         },
       },
       -- Set your preferred language for the response

@@ -17,6 +17,22 @@ local function build_headers(headers, api_key)
   return processed_headers
 end
 
+--- Resolves the effective temperature for a provider
+---@param provider table
+---@param default_temperature number
+---@return number | nil
+local function resolve_temperature(provider, default_temperature)
+  if provider.temperature == false then
+    return nil
+  end
+
+  if type(provider.temperature) == "number" then
+    return provider.temperature
+  end
+
+  return default_temperature
+end
+
 --- Processes HTTP response from AI provider API
 ---@param response table
 ---@param provider_config table
@@ -89,12 +105,14 @@ local function client(system, message, temperature)
     api_key = result
   end
 
+  local effective_temperature = resolve_temperature(provider, temperature)
+
   local request_data = provider.format_request({
     model = model_id,
     max_tokens = DEFAULT_MAX_TOKENS,
     system = system,
     message = message,
-    temperature = temperature,
+    temperature = effective_temperature,
   })
 
   local headers = build_headers(provider.headers, api_key)

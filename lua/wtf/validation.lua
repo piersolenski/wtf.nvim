@@ -20,6 +20,10 @@ local function validate_popup_type(popup_type)
   return vim.tbl_contains({ "horizontal", "vertical", "popup" }, popup_type)
 end
 
+local function validate_temperature(temperature)
+  return temperature == nil or temperature == false or type(temperature) == "number"
+end
+
 local function validate_picker(picker)
   return vim.tbl_contains({ "telescope", "snacks", "fzf-lua" }, picker)
 end
@@ -40,6 +44,17 @@ function M.validate_opts(opts)
   vim.validate("popup_type", opts.popup_type, validate_popup_type, "supported popup type")
   vim.validate("request_started", opts.hooks.request_started, { "function", "nil" })
   vim.validate("request_finished", opts.hooks.request_finished, { "function", "nil" })
+
+  if opts.providers then
+    for provider_name, provider_opts in pairs(opts.providers) do
+      vim.validate(
+        string.format("providers.%s.temperature", provider_name),
+        provider_opts.temperature,
+        validate_temperature,
+        "number, false, or nil"
+      )
+    end
+  end
 end
 
 return M

@@ -9,7 +9,7 @@ return {
   },
   api_key = nil,
   format_request = function(data)
-    return {
+    local body = {
       model = data.model,
       messages = {
         {
@@ -22,8 +22,13 @@ return {
         },
       },
       max_tokens = data.max_tokens,
-      temperature = data.temperature,
     }
+
+    if data.temperature ~= nil and data.temperature ~= false then
+      body.temperature = data.temperature
+    end
+
+    return body
   end,
   format_response = function(response)
     return response.choices[1].message.content
